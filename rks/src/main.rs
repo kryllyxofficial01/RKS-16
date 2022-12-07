@@ -1,5 +1,6 @@
 use std::fs::File;
 use std::io::{BufReader, BufRead};
+mod compiler;
 
 fn main() {
     let file = File::open("src/test.rks").expect("Could not find the file");
@@ -10,5 +11,7 @@ fn main() {
         lines.push(line.unwrap());
     }
 
-    println!("{:?}", lines);
+    for line in lines {
+        compiler::Compiler::compile(line);
+    }
 }
