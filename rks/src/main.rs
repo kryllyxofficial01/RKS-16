@@ -10,5 +10,5 @@ fn main() {
         lines.push(line.unwrap());
     }
 
-    println!("{:?}", lines)
+    println!("{:?}", lines);
 }
