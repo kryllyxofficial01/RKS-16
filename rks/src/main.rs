@@ -1,9 +1,11 @@
 use std::fs::File;
 use std::io::{BufReader, BufRead};
-mod compiler;
+use crate::utils::compiler::Compiler;
+
+pub mod utils;
 
 fn main() {
-    let file = File::open("src/test.rks").expect("Could not find the file");
+    let file = File::open("src/tests/test.rks").expect("Could not find the file");
     let reader = BufReader::new(file);
 
     let mut lines: Vec<String> = Vec::new();
@@ -12,6 +14,6 @@ fn main() {
     }
 
     for line in lines {
-        compiler::Compiler::compile(line);
+        Compiler::compile(line);
     }
 }
