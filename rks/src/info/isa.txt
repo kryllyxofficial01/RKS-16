@@ -9,7 +9,7 @@ Registers:
 2 - C (16 bit)
 3 - D (16 bit)
 4 - AO #ALU Output (16 bit)
-5 - F #Flags (4 bit)
+5 - F #Flags (3 bit)
 6 - PC #Program Counter (16 bit)
 7 - SP #Stack Pointer (16 bit)
 
@@ -20,34 +20,40 @@ Overflow
 
 =====================================================================================================================
 
-0 - NOP
-1 - LDA <val> #Load <val> into register A
-2 - LDB <val> #Load <val> into register B
-3 - LDC <val> #Load <val> into register C
-4 - LDD <val> #Load <val> into register D
-5 - SWP <reg1> <reg2> #Swaps the value in <reg1> and <reg2>
-6 - MOV <reg1> <reg2> #Move the value in <reg1> to <reg2> (overwrites the contents of <reg2> and sets <reg1> to 0)
-7 - STA <reg> #Store register A's contents at the RAM address stored in <reg>
-8 - STB <reg> #Store register B's contents at the RAM address stored in <reg>
-9 - STC <reg> #Store register C's contents at the RAM address stored in <reg>
-10 - STD <reg> #Store register D's contents at the RAM address stored in <reg>
-11 - STAO <reg> #Store register AO's contents at the RAM address stored in <reg>
-12 - LRA <reg> #Loads the contents of the RAM address stored in <reg> into register A
-13 - LRB <reg> #Loads the contents of the RAM address stored in <reg> into register B
-14 - LRC <reg> #Loads the contents of the RAM address stored in <reg> into register C
-15 - LRD <reg> #Loads the contents of the RAM address stored in <reg> into register D
-16 - PSH <reg> #Pushes the contents of <reg> onto the stack
-17 - PUL <reg> #Loads the value at the stack pointer into <reg>
-18 - ADD #Adds register A and B together and stores the result in register AO
-19 - SUB #Subtracts register B from A and stores the result in register AO
-20 - MUL #Multiplies register A and B together and stores the result in register AO
-21 - DIV #Divides register A by B and stores the result in register AO
-22 - AND #ANDs register A and B and stores the result in register AO
-23 - OR #ORs register A and B and stores the result in register AO
-24 - NOR #NORs register A and B and stores the result in register AO
-25 - XOR #XORs register A and B and stores the result in register AO
-26 - NOT #Runs register A through a NOT gate and stores the result in register AO
-27 - CMP <reg1> <reg2> #Subtracts the contents of <reg2> from <reg1>; updates flags accordingly
-28 - JZ <label> #Jump to <label> if the Zero flag is 1
-29 - JN <label> #Jump to <label> if the Negative flag is 1
-30 - JO <label> #Jump to <label> if the Overflow flag is 1
+0 -> NOP #No operation
+1 -> LDA <val> #Load <val> into register A
+2 -> LDB <val> #Load <val> into register B
+3 -> LDC <val> #Load <val> into register C
+4 -> LDD <val> #Load <val> into register D
+5 -> SWP <reg1> <reg2> #Swaps the value in <reg1> and <reg2>
+6 -> MOV <reg1> <reg2> #Move the value in <reg1> to <reg2> (overwrites the contents of <reg2> and sets <reg1> to 0)
+7 -> STA <reg> #Store register A's contents at the RAM address stored in <reg>
+8 -> STB <reg> #Store register B's contents at the RAM address stored in <reg>
+9 -> STC <reg> #Store register C's contents at the RAM address stored in <reg>
+10 -> STD <reg> #Store register D's contents at the RAM address stored in <reg>
+11 -> STAO <reg> #Store register AO's contents at the RAM address stored in <reg>
+12 -> LRA <reg> #Loads the contents of the RAM address stored in <reg> into register A
+13 -> LRB <reg> #Loads the contents of the RAM address stored in <reg> into register B
+14 -> LRC <reg> #Loads the contents of the RAM address stored in <reg> into register C
+15 -> LRD <reg> #Loads the contents of the RAM address stored in <reg> into register D
+16 -> PSH <reg> #Pushes the contents of <reg> onto the stack
+17 -> PUL <reg> #Loads the value at the stack pointer into <reg>
+18 -> ISP #Increments the SP register
+19 -> DSP #Decrements the SP register
+20 -> ADD <reg1> <reg2> #Adds <reg1> to <reg2> and stores the result in register AO
+21 -> SUB <reg1> <reg2> #Subtracts <reg1> from <reg2> and stores the result in register AO
+22 -> MUL <reg1> <reg2> #Multiplies <reg1> by <reg2> and stores the result in register AO
+23 -> DIV <reg1> <reg2> #Divides <reg1> by <reg2> and stores the result in register AO
+24 -> AND <reg1> <reg2> #ANDs <reg1> and <reg2> and stores the result in register AO
+25 -> OR <reg1> <reg2> #ORs <reg1> and <reg2> and stores the result in register AO
+26 -> NOR <reg1> <reg2> #NORs <reg1> and <reg2> and stores the result in register AO
+27 -> XOR <reg1> <reg2> #XORs <reg1> and <reg2> and stores the result in register AO
+28 -> NOT <reg> #Runs <reg> through a NOT gate and stores the result in register AO
+29 -> INC <reg> #Increments <reg> by 1
+30 -> DEC <reg> #Decrements <reg> by 1
+31 -> JMP <label> #Jumps to <label> unconditionally
+32 -> CMP <reg1> <reg2> #Subtracts the contents of <reg2> from <reg1>; updates flags accordingly
+33 -> JZ <label> #Jump to <label> if the Zero flag is 1
+34 -> JN <label> #Jump to <label> if the Negative flag is 1
+35 -> JO <label> #Jump to <label> if the Overflow flag is 1
+36 -> HLT #Stops the program
