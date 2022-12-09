@@ -1,7 +1,5 @@
 #![allow(non_snake_case)]
 
-use substring::Substring;
-
 pub mod compiler {
     use std::collections::HashMap;
 
