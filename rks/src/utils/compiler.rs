@@ -24,7 +24,7 @@ pub mod compiler {
 		pub fn compile(&self, line: String) -> Vec<String> {
 			let instruction: Vec<&str> = line.split(" ").collect();
 			let cmd = instruction.get(0);
-			let args = &instruction[1..instruction.len()];
+			let args = &instruction[1..];
 	
 			let mut binary: Vec<String> = Vec::new();
 			binary.push(self.instructions.get(&cmd.unwrap() as &str).unwrap().to_string());
