@@ -8,8 +8,8 @@ fn main() {
     let file = File::open("src/tests/test.rks").expect("Could not find the file");
     let reader = BufReader::new(file);
 
-    let assembler = Compiler::default();
+    let compiler = Compiler::default();
     for line in reader.lines() {
-        println!("{:?}", assembler.compile(line.unwrap()));
+        println!("{:?}", compiler.compile(line.unwrap()));
     }
 }
