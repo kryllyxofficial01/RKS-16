@@ -10,6 +10,7 @@ fn main() {
 
     let compiler = Compiler::default();
     for line in reader.lines() {
-        println!("{:?}", compiler.compile(line.unwrap()));
+        let compiled = compiler.compile(line.unwrap());
+		println!("{:?}", compiled);
     }
 }
