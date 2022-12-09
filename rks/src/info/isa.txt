@@ -18,6 +18,13 @@ Zero
 Negative
 Overflow
 
+Prefixes:
+! = Immediate Value
+@ = Register ID
+0b = Binary
+0x = Hexadecimal
+# = Label
+
 =====================================================================================================================
 
 0 -> NOP #No operation

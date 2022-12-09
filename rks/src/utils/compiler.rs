@@ -4,7 +4,7 @@ pub mod compiler {
     use std::collections::HashMap;
 
     pub struct Compiler<'a> {
-		instructions: HashMap<&'a str, &'a str>
+		instructions: HashMap<&'a str, (&'a str, u8)>
 	}
 
 	impl Default for Compiler<'_> {
@@ -12,43 +12,43 @@ pub mod compiler {
 			Self { 
 				instructions: HashMap::from(
 					[
-						("NOP", "000000"),
-						("LDA", "000001"),
-						("LDB", "000010"),
-						("LDC", "000011"),
-						("LDD", "000100"),
-						("SWP", "000101"),
-						("MOV", "000110"),
-						("STA", "000111"),
-						("STB", "001000"),
-						("STC", "001001"),
-						("STD", "001010"),
-						("STAO", "001011"),
-						("LRA", "001100"),
-						("LRB", "001101"),
-						("LRC", "001110"),
-						("LRD", "001111"),
-						("PSH", "010000"),
-						("PUL", "010001"),
-						("ISP", "010010"),
-						("DSP", "010011"),
-						("ADD", "010100"),
-						("SUB", "010101"),
-						("MUL", "010110"),
-						("DIV", "010111"),
-						("AND", "011000"),
-						("OR", "011001"),
-						("NOR", "011010"),
-						("XOR", "011011"),
-						("NOT", "011100"),
-						("INC", "011101"),
-						("DEC", "011110"),
-						("JMP", "011111"),
-						("CMP", "100000"),
-						("JZ", "100001"),
-						("JN", "100010"),
-						("JO", "100011"),
-						("HLT", "100100")
+						("NOP", ("000000", 0)),
+						("LDA", ("000001", 1)),
+						("LDB", ("000010", 1)),
+						("LDC", ("000011", 1)),
+						("LDD", ("000100", 1)),
+						("SWP", ("000101", 2)),
+						("MOV", ("000110", 2)),
+						("STA", ("000111", 1)),
+						("STB", ("001000", 1)),
+						("STC", ("001001", 1)),
+						("STD", ("001010", 1)),
+						("STAO", ("001011", 1)),
+						("LRA", ("001100", 1)),
+						("LRB", ("001101", 1)),
+						("LRC", ("001110", 1)),
+						("LRD", ("001111", 1)),
+						("PSH", ("010000", 1)),
+						("PUL", ("010001", 1)),
+						("ISP", ("010010", 0)),
+						("DSP", ("010011", 0)),
+						("ADD", ("010100", 2)),
+						("SUB", ("010101", 2)),
+						("MUL", ("010110", 2)),
+						("DIV", ("010111", 2)),
+						("AND", ("011000", 2)),
+						("OR", ("011001", 2)),
+						("NOR", ("011010", 2)),
+						("XOR", ("011011", 2)),
+						("NOT", ("011100", 1)),
+						("INC", ("011101", 1)),
+						("DEC", ("011110", 1)),
+						("JMP", ("011111", 1)),
+						("CMP", ("100000", 2)),
+						("JZ", ("100001", 1)),
+						("JN", ("100010", 1)),
+						("JO", ("100011", 1)),
+						("HLT", ("100100", 0))
 					]
 				) 
 			}
@@ -62,7 +62,7 @@ pub mod compiler {
 			let args = &instruction[1..];
 	
 			let mut binary: Vec<String> = Vec::new();
-			binary.push(self.instructions.get(&cmd.unwrap().to_uppercase() as &str).unwrap().to_string());
+			binary.push(self.instructions.get(&cmd.unwrap().to_uppercase() as &str).unwrap().0.to_string());
 	
 			for arg in args {
 				let prefix = arg.chars().next().unwrap();
@@ -73,6 +73,11 @@ pub mod compiler {
 				}
 
 				binary.push(bin.to_string());
+			}
+
+			if &binary[1..].len() > &(self.instructions.get(&cmd.unwrap().to_uppercase() as &str).unwrap().1 as usize) {
+				println!("Error: Too many arguments passed");
+				std::process::exit(0);
 			}
 
 			return binary;
