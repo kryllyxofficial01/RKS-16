@@ -7,6 +7,7 @@ pub mod compiler {
 
     pub struct Compiler<'a> {
 		instructions: HashMap<&'a str, (&'a str, u8)>,
+		registers: HashMap<&'a str, i8>,
 		line: String,
 		error: Error
 	}
@@ -55,6 +56,18 @@ pub mod compiler {
 						("HLT", ("100100", 0))
 					]
 				),
+				registers: HashMap::from(
+					[
+						("A", 0),
+						("B", 1),
+						("C", 2),
+						("D", 3),
+						("AO", 4),
+						("F", 5),
+						("PC", 6),
+						("SP", 7)
+					]
+				),
 				line: line.to_string(),
 				error: error
 			}
@@ -75,8 +88,16 @@ pub mod compiler {
 				if prefix == '!' {
 					bin = self.bin(&arg[1..]);
 				}
+				else if prefix == '@' {
+					if &(*self.registers.get(&arg[1..].to_uppercase() as &str).unwrap() as usize) <= &3 {
+						bin = self.bin(&self.registers.get(&arg[1..].to_uppercase() as &str).unwrap().to_string());
+					}
+					else {
+						self.error.print_stacktrace("RegisterIDError".to_string(), format!("Illegal use of register '{}'", &arg[1..]))
+					}
+				}
 
-				binary.push(bin.to_string());
+				binary.push(format!("{}", "0".repeat(16 - (cmd.unwrap().len() + bin.len()))) + &bin.to_string());
 			}
 
 			if &binary[1..].len() > &(self.instructions.get(&cmd.unwrap().to_uppercase() as &str).unwrap().1 as usize) {

@@ -21,6 +21,7 @@ fn main() {
         let compiler = Compiler::new(&instruction, error);
 
         let compiled = compiler.compile();
+        println!("{:?}", compiled);
 
         lineno += 1;
     }
