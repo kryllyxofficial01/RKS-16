@@ -80,8 +80,7 @@ pub mod compiler {
 			}
 
 			if &binary[1..].len() > &(self.instructions.get(&cmd.unwrap().to_uppercase() as &str).unwrap().1 as usize) {
-				println!("Error: Too many arguments passed");
-				std::process::exit(0);
+				self.error.print_stacktrace("ArgError".to_string(), format!("Too many arguments; instruction only takes {} argument(s)", self.instructions.get(&cmd.unwrap().to_uppercase() as &str).unwrap().1));
 			}
 
 			return binary;
