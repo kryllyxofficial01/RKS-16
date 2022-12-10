@@ -3,12 +3,16 @@
 pub mod compiler {
     use std::collections::HashMap;
 
+    use crate::utils::error::error::Error;
+
     pub struct Compiler<'a> {
-		instructions: HashMap<&'a str, (&'a str, u8)>
+		instructions: HashMap<&'a str, (&'a str, u8)>,
+		line: String,
+		error: Error
 	}
 
-	impl Default for Compiler<'_> {
-		fn default() -> Self {
+	impl Compiler<'_> {
+		pub fn new(line: &String, error: Error) -> Self {
 			Self { 
 				instructions: HashMap::from(
 					[
@@ -50,14 +54,14 @@ pub mod compiler {
 						("JO", ("100011", 1)),
 						("HLT", ("100100", 0))
 					]
-				) 
+				),
+				line: line.to_string(),
+				error: error
 			}
 		}
-	}
 
-	impl Compiler<'_> {
-		pub fn compile(&self, line: String) -> Vec<String> {
-			let instruction: Vec<&str> = line.split(" ").collect();
+		pub fn compile(&self) -> Vec<String> {
+			let instruction: Vec<&str> = self.line.split(" ").collect();
 			let cmd = instruction.get(0);
 			let args = &instruction[1..];
 	
