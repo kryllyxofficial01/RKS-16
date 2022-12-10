@@ -13,15 +13,15 @@ fn main() {
     let file = fs::File::open(filename).expect("Could not find the file");
     let reader = BufReader::new(file);
 
-    let mut i = 1;
+    let mut lineno = 1;
     for line in reader.lines() {
         let instruction = line.unwrap();
         
-        let error = Error::new(&instruction, i, location.to_str().unwrap().to_string());
+        let error = Error::new(&instruction, lineno, location.to_str().unwrap().to_string());
         let compiler = Compiler::new(&instruction, error);
 
-        compiler.compile();
+        let compiled = compiler.compile();
 
-        i += 1;
+        lineno += 1;
     }
 }
