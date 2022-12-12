@@ -2,6 +2,7 @@
 
 pub mod compiler {
     use std::collections::HashMap;
+	use to_binary::BinaryString;
 
     use crate::utils::error::error::Error;
 
@@ -85,6 +86,7 @@ pub mod compiler {
 				let mut i = arg.chars().into_iter();
 				let prefix = i.next().unwrap();
 				let mut bin = String::new();
+				let mut start = 1;
 				
 				if prefix == '!' {
 					bin = self.bin(&arg[1..]);
@@ -103,21 +105,26 @@ pub mod compiler {
 				}
 				else if prefix == '0' {
 					let base = prefix.to_string() + &i.next().unwrap().to_string();
+					start = 2;
 					
 					if base == "0b" {
 						bin = arg[2..].to_string();
 					}
 					else if base == "0x" {
-
+						bin = BinaryString::from_hex(format!("{}", "0".repeat(4 - &arg[2..].len())) + &arg[2..]).unwrap().to_string();
 					}
 					else {
 						self.error.print_stacktrace("BaseError".to_string(), format!("Unknown base '{}'", base));
 					}
 				}
+				else {
+					self.error.print_stacktrace("ArgError".to_string(), format!("Unknown prefix '{}'", prefix));
+				}
 
+				bin = bin.trim_start_matches("0").to_string();
 				let repeat = cmd.len() + bin.len();
 				if repeat > 16 {
-					self.error.print_stacktrace("OverflowError".to_string(), format!("Immediate value '{}' goes over 10-bit limit", &arg[1..]))
+					self.error.print_stacktrace("OverflowError".to_string(), format!("Value '{}' goes over 10-bit limit", &arg[start..]))
 				}
 
 				binary.push(format!("{}", "0".repeat(16 - repeat)) + &bin.to_string());
