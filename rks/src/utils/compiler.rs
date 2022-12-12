@@ -75,11 +75,11 @@ pub mod compiler {
 
 		pub fn compile(&self) -> Vec<String> {
 			let instruction: Vec<&str> = self.line.split(" ").collect();
-			let cmd = instruction.get(0);
+			let cmd = &self.instructions.get(&instruction.get(0).unwrap().to_uppercase() as &str).unwrap().0.to_string();
 			let args = &instruction[1..];
 	
 			let mut binary: Vec<String> = Vec::new();
-			binary.push(self.instructions.get(&cmd.unwrap().to_uppercase() as &str).unwrap().0.to_string());
+			binary.push(cmd.to_string());
 	
 			for arg in args {
 				let prefix = arg.chars().next().unwrap();
@@ -89,7 +89,11 @@ pub mod compiler {
 					bin = self.bin(&arg[1..]);
 				}
 				else if prefix == '@' {
-					if &(*self.registers.get(&arg[1..].to_uppercase() as &str).unwrap() as usize) <= &3 {
+					if !self.registers.contains_key(&arg[1..]) {
+						self.error.print_stacktrace("RegisterIDError".to_string(), format!("Unknown register ID '{}'", &arg[1..]));
+					}
+
+					if &(*self.registers.get(&arg[1..].to_uppercase() as &str).unwrap() as usize) <= &4 {
 						bin = self.bin(&self.registers.get(&arg[1..].to_uppercase() as &str).unwrap().to_string());
 					}
 					else {
@@ -97,18 +101,23 @@ pub mod compiler {
 					}
 				}
 
-				binary.push(format!("{}", "0".repeat(16 - (cmd.unwrap().len() + bin.len()))) + &bin.to_string());
+				let repeat = cmd.len() + bin.len();
+				if repeat > 16 {
+					self.error.print_stacktrace("OverflowError".to_string(), format!("Immediate value '{}' goes over 10-bit limit", &arg[1..]))
+				}
+
+				binary.push(format!("{}", "0".repeat(16 - repeat)) + &bin.to_string());
 			}
 
-			if &binary[1..].len() > &(self.instructions.get(&cmd.unwrap().to_uppercase() as &str).unwrap().1 as usize) {
-				self.error.print_stacktrace("ArgError".to_string(), format!("Too many arguments; instruction only takes {} argument(s)", self.instructions.get(&cmd.unwrap().to_uppercase() as &str).unwrap().1));
+			if &binary[1..].len() > &(self.instructions.get(&instruction.get(0).unwrap().to_uppercase() as &str).unwrap().1 as usize) {
+				self.error.print_stacktrace("ArgError".to_string(), format!("Too many arguments; instruction only takes {} argument(s)", self.instructions.get(&cmd.to_uppercase() as &str).unwrap().1));
 			}
 
 			return binary;
 		}
 
 		fn bin(&self, immediate: &str) -> String {
-			return format!("{:b}", immediate.parse::<i16>().unwrap());
+			return format!("{:b}", immediate.parse::<u16>().unwrap());
 		}
 	}
 }
