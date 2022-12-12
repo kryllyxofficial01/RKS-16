@@ -1,3 +1,1 @@
-lda !19
-ldb !1023
-sta @AO
+lda 0b0110

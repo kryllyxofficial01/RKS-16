@@ -82,7 +82,8 @@ pub mod compiler {
 			binary.push(cmd.to_string());
 	
 			for arg in args {
-				let prefix = arg.chars().next().unwrap();
+				let mut i = arg.chars().into_iter();
+				let prefix = i.next().unwrap();
 				let mut bin = String::new();
 				
 				if prefix == '!' {
@@ -98,6 +99,19 @@ pub mod compiler {
 					}
 					else {
 						self.error.print_stacktrace("RegisterIDError".to_string(), format!("Illegal use of register '{}'", &arg[1..]))
+					}
+				}
+				else if prefix == '0' {
+					let base = prefix.to_string() + &i.next().unwrap().to_string();
+					
+					if base == "0b" {
+						bin = arg[2..].to_string();
+					}
+					else if base == "0x" {
+
+					}
+					else {
+						self.error.print_stacktrace("BaseError".to_string(), format!("Unknown base '{}'", base));
 					}
 				}
 
