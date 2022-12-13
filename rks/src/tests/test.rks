@@ -1,1 +1,5 @@
-lda 0x3FF
+; Store the immediate value 1023 into register A
+lda !1023
+
+; Store the immediate value 25 into register B
+ldb !25

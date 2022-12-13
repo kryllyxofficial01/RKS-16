@@ -15,13 +15,15 @@ fn main() {
 
     let mut lineno = 1;
     for line in reader.lines() {
-        let instruction = line.unwrap();
+        let instruction = &line.unwrap();
         
-        let error = Error::new(&instruction, lineno, location.to_str().unwrap().to_string());
-        let compiler = Compiler::new(&instruction, error);
+        if instruction != "" && &instruction[..1] != ";" {
+            let error = Error::new(instruction, lineno, location.to_str().unwrap().to_string());
+            let compiler = Compiler::new(instruction, error);
 
-        let compiled = compiler.compile();
-        println!("{:?}", compiled);
+            let compiled = compiler.compile();
+            println!("{:?}", compiled);
+        }
 
         lineno += 1;
     }

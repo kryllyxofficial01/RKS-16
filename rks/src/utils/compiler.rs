@@ -75,70 +75,88 @@ pub mod compiler {
 		}
 
 		pub fn compile(&self) -> Vec<String> {
-			let instruction: Vec<&str> = self.line.split(" ").collect();
-			let cmd = &self.instructions.get(&instruction.get(0).unwrap().to_uppercase() as &str).unwrap().0.to_string();
-			let args = &instruction[1..];
-	
 			let mut binary: Vec<String> = Vec::new();
-			binary.push(cmd.to_string());
-	
-			for arg in args {
-				let mut i = arg.chars().into_iter();
-				let prefix = i.next().unwrap();
-				let mut bin = String::new();
-				let mut start = 1;
-				
-				if prefix == '!' {
-					bin = self.bin(&arg[1..]);
-				}
-				else if prefix == '@' {
-					if !self.registers.contains_key(&arg[1..]) {
-						self.error.print_stacktrace("RegisterIDError".to_string(), format!("Unknown register ID '{}'", &arg[1..]));
-					}
+			let instruction: Vec<&str> = self.line.split(" ").collect();
+			
+			if self.instructions.contains_key(instruction.get(0).unwrap().to_uppercase().as_str()) {
+				let cmd = &self.instructions.get(&instruction.get(0).unwrap().to_uppercase() as &str).unwrap().0.to_string();
+				let args = &instruction[1..];
 
-					if &(*self.registers.get(&arg[1..].to_uppercase() as &str).unwrap() as usize) <= &4 {
-						bin = self.bin(&self.registers.get(&arg[1..].to_uppercase() as &str).unwrap().to_string());
-					}
-					else {
-						self.error.print_stacktrace("RegisterIDError".to_string(), format!("Illegal use of register '{}'", &arg[1..]))
-					}
-				}
-				else if prefix == '0' {
-					let base = prefix.to_string() + &i.next().unwrap().to_string();
-					start = 2;
+				binary.push(cmd.to_string());
+		
+				for arg in args {
+					let mut i = arg.chars().into_iter();
+					let prefix = i.next().unwrap();
+					let mut bin = String::new();
+					let mut start = 1;
 					
-					if base == "0b" {
-						bin = arg[2..].to_string();
+					if prefix == '!' {
+						bin = self.bin(&arg[1..]);
 					}
-					else if base == "0x" {
-						bin = BinaryString::from_hex(format!("{}", "0".repeat(4 - &arg[2..].len())) + &arg[2..]).unwrap().to_string();
+					else if prefix == '@' {
+						if !self.registers.contains_key(&arg[1..]) {
+							self.error.print_stacktrace("RegisterIDError".to_string(), format!("Unknown register ID '{}'", &arg[1..]));
+						}
+
+						if &(*self.registers.get(&arg[1..].to_uppercase() as &str).unwrap() as usize) <= &4 {
+							bin = self.bin(&self.registers.get(&arg[1..].to_uppercase() as &str).unwrap().to_string());
+						}
+						else {
+							self.error.print_stacktrace("RegisterIDError".to_string(), format!("Illegal use of register '{}'", &arg[1..]))
+						}
+					}
+					else if prefix == '0' {
+						let base = prefix.to_string() + &i.next().unwrap().to_string();
+						start = 2;
+						
+						if base == "0b" {
+							bin = arg[2..].to_string();
+						}
+						else if base == "0x" {
+							bin = BinaryString::from_hex(format!("{}", "0".repeat(4 - &arg[2..].len())) + &arg[2..]).unwrap().to_string();
+						}
+						else {
+							self.error.print_stacktrace("BaseError".to_string(), format!("Unknown base '{}'", base));
+						}
 					}
 					else {
-						self.error.print_stacktrace("BaseError".to_string(), format!("Unknown base '{}'", base));
+						self.error.print_stacktrace("ArgError".to_string(), format!("Unknown prefix '{}'", prefix));
 					}
-				}
-				else {
-					self.error.print_stacktrace("ArgError".to_string(), format!("Unknown prefix '{}'", prefix));
+
+					bin = bin.trim_start_matches("0").to_string();
+					let repeat = cmd.len() + bin.len();
+					if repeat > 16 {
+						self.error.print_stacktrace("OverflowError".to_string(), format!("Value '{}' goes over 10-bit limit", &arg[start..]))
+					}
+
+					binary.push(format!("{}", "0".repeat(16 - repeat)) + &bin.to_string());
 				}
 
-				bin = bin.trim_start_matches("0").to_string();
-				let repeat = cmd.len() + bin.len();
-				if repeat > 16 {
-					self.error.print_stacktrace("OverflowError".to_string(), format!("Value '{}' goes over 10-bit limit", &arg[start..]))
+				if &binary[1..].len() > &(self.instructions.get(&instruction.get(0).unwrap().to_uppercase() as &str).unwrap().1 as usize) {
+					self.error.print_stacktrace("ArgError".to_string(), format!("Too many arguments; instruction only takes {} argument(s)", self.instructions.get(&cmd.to_uppercase() as &str).unwrap().1));
 				}
-
-				binary.push(format!("{}", "0".repeat(16 - repeat)) + &bin.to_string());
 			}
-
-			if &binary[1..].len() > &(self.instructions.get(&instruction.get(0).unwrap().to_uppercase() as &str).unwrap().1 as usize) {
-				self.error.print_stacktrace("ArgError".to_string(), format!("Too many arguments; instruction only takes {} argument(s)", self.instructions.get(&cmd.to_uppercase() as &str).unwrap().1));
+			else {
+				self.error.print_stacktrace("InstructionError".to_string(), format!("Unknown instruction '{}'", instruction.get(0).unwrap()));
 			}
 
 			return binary;
 		}
 
 		fn bin(&self, immediate: &str) -> String {
-			return format!("{:b}", immediate.parse::<u16>().unwrap());
+			for character in immediate.chars() {
+				if !character.is_numeric() {
+					self.error.print_stacktrace("ValueError".to_string(), format!("Invalid value '{}'", immediate));
+				}
+			}
+
+			let mut bin = 0;
+			match immediate.parse::<u16>() {
+				Ok(immediate) => bin = immediate,
+    			Err(_) => self.error.print_stacktrace("ValueError".to_string(), format!("Value '{}' goes over 10-bit limit", immediate)),
+			}
+
+			return format!("{:b}", bin);
 		}
 	}
 }
