@@ -41,7 +41,7 @@ pub mod assembler {
 		// Not my own code. See the original here: https://stackoverflow.com/a/26286238
 		fn hex(&self, data: String) -> String {
 			let hexadecimal: u32 = u32::from_str_radix(data.as_str(), 2).unwrap();
-    			return format!("{:01$x}", hexadecimal, 4);
+    		return format!("{:01$x}", hexadecimal, 4);
 		}
 	}
 }
