@@ -1,5 +1,32 @@
-; Store the immediate value 1023 into register A
-lda !1023
-
-; Store the immediate value 25 into register B
-ldb !25
+lda !0
+lda !1
+lda !2
+lda !3
+lda !4
+lda !5
+lda !6
+lda !7
+lda !8
+lda !9
+lda !10
+lda !11
+lda !12
+lda !13
+lda !14
+lda !15
+lda !16
+lda !17
+lda !18
+lda !19
+lda !20
+lda !21
+lda !22
+lda !23
+lda !24
+lda !25
+lda !26
+lda !27
+lda !28
+lda !29
+lda !30
+lda !31

@@ -2,7 +2,7 @@ use std::fs;
 use std::io::{BufReader, BufRead};
 use std::path::PathBuf;
 
-use crate::utils::{compiler::compiler::Compiler, error::error::Error};
+use crate::utils::{compiler::compiler::Compiler, assembler::assembler::Assembler, error::error::Error};
 
 pub mod utils;
 
@@ -13,6 +13,7 @@ fn main() {
     let file = fs::File::open(filename).expect("Could not find the file");
     let reader = BufReader::new(file);
 
+    let mut instructions: Vec<String> = Vec::new();
     let mut lineno = 1;
     for line in reader.lines() {
         let instruction = &line.unwrap();
@@ -22,9 +23,12 @@ fn main() {
             let compiler = Compiler::new(instruction, error);
 
             let compiled = compiler.compile();
-            println!("{:?}", compiled);
+            instructions.push(compiled.join(""));
         }
 
         lineno += 1;
     }
+
+    let assembler = Assembler::new(instructions);
+    assembler.assemble(&(location.to_str().unwrap().to_string() + ".bin"));
 }
