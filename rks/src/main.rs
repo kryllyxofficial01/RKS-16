@@ -30,5 +30,5 @@ fn main() {
     }
 
     let assembler = Assembler::new(instructions);
-    assembler.assemble(&(location.to_str().unwrap().to_string() + ".bin"));
+    assembler.assemble(&(location.to_str().unwrap()[0..location.to_str().unwrap().len()-4].to_string()));
 }
