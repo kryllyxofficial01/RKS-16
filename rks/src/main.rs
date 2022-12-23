@@ -13,6 +13,7 @@ fn main() {
     let file = fs::File::open(filename).expect("Could not find the file");
     let reader = BufReader::new(file);
 
+    println!("Compiling...");
     let mut instructions: Vec<String> = Vec::new();
     let mut lineno = 1;
     for line in reader.lines() {
@@ -29,6 +30,7 @@ fn main() {
         lineno += 1;
     }
 
+    println!("\nAssembling...");
     let assembler = Assembler::new(instructions);
     assembler.assemble(&(location.to_str().unwrap()[0..location.to_str().unwrap().len()-4].to_string()));
 }

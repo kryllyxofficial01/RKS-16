@@ -31,6 +31,7 @@ pub mod assembler {
 			}
 			hex.remove(0);
 
+			println!("Writing to output file...");
 			file.write_all(b"v3.0 hex words plain\n");
 			for vec in hex {
 				let data = vec.join(" ") + "\n";

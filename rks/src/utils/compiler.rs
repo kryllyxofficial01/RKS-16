@@ -82,6 +82,8 @@ pub mod compiler {
 				let cmd = &self.instructions.get(&instruction.get(0).unwrap().to_uppercase() as &str).unwrap().0.to_string();
 				let args = &instruction[1..];
 
+				println!("Current instruction: {} -> {}", instruction.get(0).unwrap().to_lowercase(), cmd);
+
 				binary.push(cmd.to_string());
 		
 				for arg in args {
