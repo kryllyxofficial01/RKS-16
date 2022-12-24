@@ -17,32 +17,10 @@ pub mod assembler {
 		pub fn assemble(&self, path: &String) {
 			let mut file = File::create(path).unwrap();
 
-			let mut hex: Vec<Vec<String>> = Vec::new();
-			let mut line = 0;
-			hex.push(Vec::new());
-			for instruction in &self.instructions {
-				let index = self.instructions.iter().position(|i| i == instruction).unwrap();
-				if index % 16 == 0 {
-					line += 1;
-					hex.push(Vec::new());
-				}
-
-				hex[line].push(self.hex(instruction.to_string()));
-			}
-			hex.remove(0);
-
 			println!("Writing to output file...");
-			file.write_all(b"v3.0 hex words plain\n");
-			for vec in hex {
-				let data = vec.join(" ") + "\n";
-				file.write_all(data.as_bytes());
+			for instruction in &self.instructions {
+				file.write_all((instruction.to_owned() + "\n").as_bytes());
 			}
-		}
-
-		// Not my own code. See the original here: https://stackoverflow.com/a/26286238
-		fn hex(&self, data: String) -> String {
-			let hexadecimal: u32 = u32::from_str_radix(data.as_str(), 2).unwrap();
-    		return format!("{:01$x}", hexadecimal, 4);
 		}
 	}
 }
