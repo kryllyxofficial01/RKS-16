@@ -2,6 +2,8 @@
 #include <vector>
 #include <fstream>
 
+#include "components/Memory.hpp"
+
 using namespace std;
 
 int main() {
@@ -18,7 +20,10 @@ int main() {
 		instructions.push_back(line);
 	}
 
-	for (string instruction: instructions) {
-		cout << instruction << endl;
-	}
+	Registers registers;
+	Memory::RAM ram;
+	ram.main.resize(65536);
+	
+	Memory::ProgramMemory programMemory(instructions, registers, ram);
+	programMemory.execute();
 }
