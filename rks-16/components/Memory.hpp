@@ -59,10 +59,14 @@ void Memory::ProgramMemory::execute() {
 			case 9: this->ram.main[this->registers.registers.find(arg)->second] = this->registers.registers.find(2)->second; break;
 			case 10: this->ram.main[this->registers.registers.find(arg)->second] = this->registers.registers.find(3)->second; break;
 			case 11: this->ram.main[this->registers.registers.find(arg)->second] = this->registers.registers.find(4)->second; break;
+			case 12: this->registers.registers.find(0)->second = this->ram.main[this->registers.registers.find(arg)->second]; break;
+			case 13: this->registers.registers.find(1)->second = this->ram.main[this->registers.registers.find(arg)->second]; break;
+			case 14: this->registers.registers.find(2)->second = this->ram.main[this->registers.registers.find(arg)->second]; break;
+			case 15: this->registers.registers.find(3)->second = this->ram.main[this->registers.registers.find(arg)->second]; break;
 		}
 
 		this->registers.registers.find(6)->second++;
 	}
 
-	std::cout << this->registers.registers.find(0)->second << std::endl;
+	std::cout << this->registers.registers.find(2)->second << std::endl;
 }

@@ -1,3 +1,4 @@
 lda !19
 ldb !3
-mov @A @B
+sta @B
+lrc @B
