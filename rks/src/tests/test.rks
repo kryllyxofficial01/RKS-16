@@ -1,3 +1,4 @@
 lda !19
 ldb !3
 sta @B
+add @A @B

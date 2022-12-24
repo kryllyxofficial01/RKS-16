@@ -91,21 +91,27 @@ pub mod compiler {
 					let prefix = i.next().unwrap();
 					let mut bin = String::new();
 					let mut start = 1;
+
+					if &arg[1..] == "" {
+						self.error.print_stacktrace("RegisterIDError", "Missing argument info".to_string());
+					}
 					
 					if prefix == '!' {
 						bin = self.bin(&arg[1..]);
 					}
 					else if prefix == '@' {
 						if !self.registers.contains_key(&arg[1..]) {
-							self.error.print_stacktrace("RegisterIDError".to_string(), format!("Unknown register ID '{}'", &arg[1..]));
+							self.error.print_stacktrace("RegisterIDError", format!("Unknown register ID '{}'", &arg[1..]));
 						}
 
-						if &(*self.registers.get(&arg[1..].to_uppercase() as &str).unwrap() as usize) <= &4 {
-							bin = self.bin(&self.registers.get(&arg[1..].to_uppercase() as &str).unwrap().to_string());
-						}
-						else {
-							self.error.print_stacktrace("RegisterIDError".to_string(), format!("Illegal use of register '{}'", &arg[1..]))
-						}
+						// if &(*self.registers.get(&arg[1..].to_uppercase() as &str).unwrap() as usize) <= &4 {
+						// 	bin = self.bin(&self.registers.get(&arg[1..].to_uppercase() as &str).unwrap().to_string());
+						// }
+						// else {
+						// 	self.error.print_stacktrace("RegisterIDError".to_string(), format!("Illegal use of register '{}'", &arg[1..]))
+						// }
+
+						bin = self.bin(&self.registers.get(&arg[1..].to_uppercase() as &str).unwrap().to_string());
 					}
 					else if prefix == '0' {
 						let base = prefix.to_string() + &i.next().unwrap().to_string();
@@ -115,31 +121,43 @@ pub mod compiler {
 							bin = arg[2..].to_string();
 						}
 						else if base == "0x" {
-							bin = BinaryString::from_hex(format!("{}", "0".repeat(4 - &arg[2..].len())) + &arg[2..]).unwrap().to_string();
+							bin = BinaryString::from_hex(&arg[2..]).unwrap().to_string();
 						}
 						else {
-							self.error.print_stacktrace("BaseError".to_string(), format!("Unknown base '{}'", base));
+							self.error.print_stacktrace("BaseError", format!("Unknown base '{}'", base));
 						}
 					}
 					else {
-						self.error.print_stacktrace("ArgError".to_string(), format!("Unknown prefix '{}'", prefix));
+						self.error.print_stacktrace("ArgError", format!("Unknown prefix '{}'", prefix));
 					}
 
 					bin = bin.trim_start_matches("0").to_string();
 					let repeat = cmd.len() + bin.len();
 					if repeat > 16 {
-						self.error.print_stacktrace("OverflowError".to_string(), format!("Value '{}' goes over 10-bit limit", &arg[start..]))
+						self.error.print_stacktrace("OverflowError", format!("Value '{}' goes over 10-bit limit", &arg[start..]))
 					}
 
-					binary.push(format!("{}", "0".repeat(16 - repeat)) + &bin.to_string());
+					binary.push("0".repeat(16 - repeat) + &bin.to_string());
 				}
 
-				if &binary[1..].len() > &(self.instructions.get(&instruction.get(0).unwrap().to_uppercase() as &str).unwrap().1 as usize) {
-					self.error.print_stacktrace("ArgError".to_string(), format!("Too many arguments; instruction only takes {} argument(s)", self.instructions.get(&cmd.to_uppercase() as &str).unwrap().1));
+				if binary[1..].len() > self.instructions.get(&instruction.get(0).unwrap().to_uppercase() as &str).unwrap().1 as usize {
+					self.error.print_stacktrace("ArgError", format!("Too many arguments; instruction only takes {} argument(s)", self.instructions.get(instruction.get(0).unwrap().to_uppercase().as_str()).unwrap().1));
 				}
 			}
 			else {
-				self.error.print_stacktrace("InstructionError".to_string(), format!("Unknown instruction '{}'", instruction.get(0).unwrap()));
+				self.error.print_stacktrace("InstructionError", format!("Unknown instruction '{}'", instruction.get(0).unwrap()));
+			}
+
+			if binary[1..].len() == 2 {
+				for arg in &binary.clone()[1..] {
+					let mut arg_val = arg.trim_start_matches("0");
+					if arg_val == "" {
+						arg_val = "0";
+					}
+
+					let index = binary.iter().position(|i| i == arg).unwrap();
+					binary[index] = "0".repeat(5 - arg_val.len()) + &arg_val.to_string();
+				}
 			}
 
 			return binary;
@@ -148,14 +166,14 @@ pub mod compiler {
 		fn bin(&self, immediate: &str) -> String {
 			for character in immediate.chars() {
 				if !character.is_numeric() {
-					self.error.print_stacktrace("ValueError".to_string(), format!("Invalid value '{}'", immediate));
+					self.error.print_stacktrace("ValueError", format!("Invalid value '{}'", immediate));
 				}
 			}
 
 			let mut bin = 0;
 			match immediate.parse::<u16>() {
 				Ok(immediate) => bin = immediate,
-    			Err(_) => self.error.print_stacktrace("ValueError".to_string(), format!("Value '{}' goes over 10-bit limit", immediate)),
+    			Err(_) => self.error.print_stacktrace("ValueError", format!("Value '{}' goes over 10-bit limit", immediate)),
 			}
 
 			return format!("{:b}", bin);

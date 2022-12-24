@@ -16,10 +16,10 @@ pub mod error {
 			}
 		}
 
-		pub fn print_stacktrace(&self, error_name: String, reason: String) {
+		pub fn print_stacktrace(&self, error_name: &str, reason: String) {
 			println!("\n\x1b[31mError - at line {} in <{}>", self.lineno, self.location);
-			println!("\t\x1b[31m{}", self.line);
-			println!("\x1b[31m{}: {}\n", error_name, reason);
+			println!("\t{}", self.line);
+			println!("{}: {}\n\x1b[0m", error_name, reason);
 
 			std::process::exit(0);
 		}
