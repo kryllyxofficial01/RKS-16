@@ -7,7 +7,7 @@ use crate::utils::{compiler::compiler::Compiler, assembler::assembler::Assembler
 pub mod utils;
 
 fn main() {
-    let filename = "src/tests/test.rks";
+    let filename = "../tests/test.rks";
     let location = fs::canonicalize(&(PathBuf::from(filename))).unwrap();
     
     let file = fs::File::open(filename).expect("Could not find the file");
