@@ -25,7 +25,7 @@ Prefixes:
 0x = Hexadecimal
 # = Label
 
-=====================================================================================================================
+======================================================================================================================
 
 0 -> NOP #No operation
 1 -> LDA <val> #Load <val> into register A
@@ -64,3 +64,10 @@ Prefixes:
 34 -> JN <label> #Jump to <label> if the Negative flag is 1
 35 -> JO <label> #Jump to <label> if the Overflow flag is 1
 36 -> HLT #Stops the program
+
+======================================================================================================================
+
+RAM Sections:
+Main - 49152 slots
+Stack - 256 slots
+Unknown - 16128 slots

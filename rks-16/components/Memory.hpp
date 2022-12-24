@@ -18,6 +18,7 @@ class Memory {
 
 struct Memory::RAM {
 	std::vector<uint16_t> main;
+	std::vector<uint16_t> main;
 };
 
 class Memory::ProgramMemory {

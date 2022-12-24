@@ -1,5 +1,6 @@
 {
 	"files.associations": {
+		"*.py": "python",
 		"array": "cpp",
 		"atomic": "cpp",
 		"bit": "cpp",
@@ -44,6 +45,8 @@
 		"ostream": "cpp",
 		"stdexcept": "cpp",
 		"streambuf": "cpp",
-		"typeinfo": "cpp"
+		"typeinfo": "cpp",
+		"bitset": "cpp",
+		"map": "cpp"
 	}
 }
