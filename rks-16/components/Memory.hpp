@@ -79,11 +79,10 @@ void Memory::ProgramMemory::execute() {
 			case 16: this->registers.registers.find(x)->second = this->ram.stack[this->registers.registers.find(6)->second]; break;
 			case 17: this->registers.registers.find(6)->second += x; break;
 			case 18: this->registers.registers.find(6)->second += x; break;
-			case 35: std::exit(0);
+			case 35: std::cout << this->registers.registers.find(x)->second << std::endl; break;
+			case 36: std::exit(0);
 		}
 
 		this->registers.registers.find(5)->second++;
 	}
-
-	std::cout << this->ram.stack.at(2) << std::endl;
 }

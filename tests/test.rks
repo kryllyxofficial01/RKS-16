@@ -1,4 +1,6 @@
 lda !19
-isp !1
-isp !1
-psh @A
+ldb !1023
+sta @B
+mov @B @A
+lrc @A
+out @C

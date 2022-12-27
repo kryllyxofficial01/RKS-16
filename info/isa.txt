@@ -61,7 +61,8 @@ Prefixes:
 32 -> JZ <label> #Jump to <label> if the Zero flag is 1
 33 -> JN <label> #Jump to <label> if the Negative flag is 1
 34 -> JO <label> #Jump to <label> if the Overflow flag is 1
-35 -> HLT #Stops the program
+35 -> OUT <reg> #Prints the value in <reg> to the terminal
+36 -> HLT #Stops the program
 
 ======================================================================================================================
 
