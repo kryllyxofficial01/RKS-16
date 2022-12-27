@@ -22,7 +22,8 @@ int main() {
 
 	Registers registers;
 	Memory::RAM ram;
-	ram.main.resize(49152);
+	ram.main.resize(65280);
+	ram.stack.resize(256);
 	
 	Memory::ProgramMemory programMemory(instructions, registers, ram);
 	programMemory.execute();

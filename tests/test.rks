@@ -1,4 +1,4 @@
 lda !19
-ldb !3
-sta @B
-lrc @B
+isp
+isp
+psh @A

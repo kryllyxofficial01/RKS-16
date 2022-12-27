@@ -23,7 +23,10 @@ fn main() {
             let error = Error::new(instruction, lineno, location.to_str().unwrap().to_string());
             let compiler = Compiler::new(instruction, error);
 
-            let compiled = compiler.compile();
+            let mut compiled = compiler.compile();
+            if compiled.len() == 1 {
+                compiled.push("0".repeat(10).to_string());
+            }
             instructions.push(compiled.join(""));
         }
 
