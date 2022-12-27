@@ -1,4 +1,4 @@
 lda !19
-isp
-isp
+isp !1
+isp !1
 psh @A

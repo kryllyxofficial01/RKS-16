@@ -43,8 +43,8 @@ Prefixes:
 14 -> LRD <reg> #Loads the contents of the RAM address stored in <reg> into register D
 15 -> PSH <reg> #Pushes the contents of <reg> onto the stack
 16 -> PUL <reg> #Loads the value at the stack pointer into <reg>
-17 -> ISP #Increments the SP register
-18 -> DSP #Decrements the SP register
+17 -> ISP <val> #Increments the SP register <val> times
+18 -> DSP <val> #Decrements the SP register <val> times
 19 -> ADD <reg1> <reg2> #Adds <reg1> to <reg2>
 20 -> SUB <reg1> <reg2> #Subtracts <reg1> from <reg2>
 21 -> MUL <reg1> <reg2> #Multiplies <reg1> by <reg2>
