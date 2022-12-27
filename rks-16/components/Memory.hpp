@@ -4,6 +4,7 @@
 #include <vector>
 #include <map>
 #include <bitset>
+#include <stdlib.h>
 
 #include "Registers.hpp"
 
@@ -47,29 +48,29 @@ void Memory::ProgramMemory::execute() {
 		uint16_t arg2 = (uint16_t) std::bitset<5>(instruction.substr(instruction.size()-5)).to_ulong();
 
 		switch (code) {
-			case 0: break;                                                                                                                                                // NOP
-			case 1: this->registers.registers.find(0)->second = arg; break;                                                                                               // LDA
-			case 2: this->registers.registers.find(1)->second = arg; break;                                                                                               // LDB
-			case 3: this->registers.registers.find(2)->second = arg; break;                                                                                               // LDC
-			case 4: this->registers.registers.find(3)->second = arg; break;                                                                                               // LDD
-			case 5: std::swap(this->registers.registers.find(arg1)->second, this->registers.registers.find(arg2)->second); break;                                         // SWP
-			case 6: this->registers.registers.find(arg2)->second = this->registers.registers.find(arg1)->second; this->registers.registers.find(arg1)->second = 0; break; // MOV
-			case 7: this->ram.main[this->registers.registers.find(arg)->second] = this->registers.registers.find(0)->second; break;                                       // STA
-			case 8: this->ram.main[this->registers.registers.find(arg)->second] = this->registers.registers.find(1)->second; break;                                       // STB
-			case 9: this->ram.main[this->registers.registers.find(arg)->second] = this->registers.registers.find(2)->second; break;                                       // STC
-			case 10: this->ram.main[this->registers.registers.find(arg)->second] = this->registers.registers.find(3)->second; break;                                      // STD
-			case 11: this->ram.main[this->registers.registers.find(arg)->second] = this->registers.registers.find(4)->second; break;                                      // STAO
-			case 12: this->registers.registers.find(0)->second = this->ram.main[this->registers.registers.find(arg)->second]; break;                                      // LRA
-			case 13: this->registers.registers.find(1)->second = this->ram.main[this->registers.registers.find(arg)->second]; break;                                      // LRB
-			case 14: this->registers.registers.find(2)->second = this->ram.main[this->registers.registers.find(arg)->second]; break;                                      // LRC
-			case 15: this->registers.registers.find(3)->second = this->ram.main[this->registers.registers.find(arg)->second]; break;                                      // LRD
-			case 16: this->ram.stack[this->registers.registers.find(7)->second] = this->registers.registers.find(arg)->second; break;                                     // PSH
-			case 17: this->registers.registers.find(arg)->second = this->ram.stack[this->registers.registers.find(7)->second]; break;                                     // PUL
-			case 18: this->registers.registers.find(7)->second++; break;
-			case 19: this->registers.registers.find(7)->second--; break;
+			case 0: break;
+			case 1: this->registers.registers.find(0)->second = arg; break;
+			case 2: this->registers.registers.find(1)->second = arg; break;
+			case 3: this->registers.registers.find(2)->second = arg; break;
+			case 4: this->registers.registers.find(3)->second = arg; break;
+			case 5: std::swap(this->registers.registers.find(arg1)->second, this->registers.registers.find(arg2)->second); break;
+			case 6: this->registers.registers.find(arg2)->second = this->registers.registers.find(arg1)->second; this->registers.registers.find(arg1)->second = 0; break;
+			case 7: this->ram.main[this->registers.registers.find(arg)->second] = this->registers.registers.find(0)->second; break;
+			case 8: this->ram.main[this->registers.registers.find(arg)->second] = this->registers.registers.find(1)->second; break;
+			case 9: this->ram.main[this->registers.registers.find(arg)->second] = this->registers.registers.find(2)->second; break;
+			case 10: this->ram.main[this->registers.registers.find(arg)->second] = this->registers.registers.find(3)->second; break;
+			case 11: this->registers.registers.find(0)->second = this->ram.main[this->registers.registers.find(arg)->second]; break;
+			case 12: this->registers.registers.find(1)->second = this->ram.main[this->registers.registers.find(arg)->second]; break;
+			case 13: this->registers.registers.find(2)->second = this->ram.main[this->registers.registers.find(arg)->second]; break;
+			case 14: this->registers.registers.find(3)->second = this->ram.main[this->registers.registers.find(arg)->second]; break;
+			case 15: this->ram.stack[this->registers.registers.find(6)->second] = this->registers.registers.find(arg)->second; break;
+			case 16: this->registers.registers.find(arg)->second = this->ram.stack[this->registers.registers.find(6)->second]; break;
+			case 17: this->registers.registers.find(6)->second++; break;
+			case 18: this->registers.registers.find(6)->second--; break;
+			case 35: std::exit(0);
 		}
 
-		this->registers.registers.find(6)->second++;
+		this->registers.registers.find(5)->second++;
 	}
 
 	std::cout << this->ram.stack.at(2) << std::endl;
