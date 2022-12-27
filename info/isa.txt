@@ -45,15 +45,15 @@ Prefixes:
 16 -> PUL <reg> #Loads the value at the stack pointer into <reg>
 17 -> ISP <val> #Increments the SP register <val> times
 18 -> DSP <val> #Decrements the SP register <val> times
-19 -> ADD <reg1> <reg2> #Adds <reg1> to <reg2>
-20 -> SUB <reg1> <reg2> #Subtracts <reg1> from <reg2>
-21 -> MUL <reg1> <reg2> #Multiplies <reg1> by <reg2>
-22 -> DIV <reg1> <reg2> #Divides <reg1> by <reg2>
-23 -> AND <reg1> <reg2> #ANDs <reg1> and <reg2>
-24 -> OR <reg1> <reg2> #ORs <reg1> and <reg2>
-25 -> NOR <reg1> <reg2> #NORs <reg1> and <reg2>
-26 -> XOR <reg1> <reg2> #XORs <reg1> and <reg2>
-27 -> NOT <reg> #Runs <reg> through a NOT gate
+19 -> ADD <reg1> <reg2> #Adds <reg1> to <reg2>, and stores the result in <reg1>
+20 -> SUB <reg1> <reg2> #Subtracts <reg1> from <reg2>, and stores the result in <reg1>
+21 -> MUL <reg1> <reg2> #Multiplies <reg1> by <reg2>, and stores the result in <reg1>
+22 -> DIV <reg1> <reg2> #Divides <reg1> by <reg2>, and stores the result in <reg1>
+23 -> AND <reg1> <reg2> #Puts <reg1> and <reg2> through a bitwise AND gate, and stores the result in <reg1>
+24 -> OR <reg1> <reg2> #Puts <reg1> and <reg2> through a bitwise OR gate, and stores the result in <reg1>
+25 -> NOR <reg1> <reg2> #Puts <reg1> and <reg2> through a bitwise NOR gate, and stores the result in <reg1>
+26 -> XOR <reg1> <reg2> #Puts <reg1> and <reg2> through a bitwise XOR gate, and stores the result in <reg1>
+27 -> NOT <reg> #Puts <reg1> through a bitwise NOT gate, and stores the result in <reg1>
 28 -> INC <reg> #Increments <reg> by 1
 29 -> DEC <reg> #Decrements <reg> by 1
 30 -> JMP <label> #Jumps to <label> unconditionally

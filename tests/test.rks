@@ -1,6 +1,5 @@
-lda !19
-ldb !1023
-sta @B
-mov @B @A
-lrc @A
-out @C
+lda !5
+ldb !9
+and @A @B
+
+out @A
