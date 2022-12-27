@@ -10,17 +10,26 @@
 
 using string = std::string;
 
+/**
+ * @brief Handles all memory.
+ */
 class Memory {
 	public:
 		class ProgramMemory;
 		struct RAM;
 };
 
+/**
+ * @brief Container for both main memory and stack.
+ */
 struct Memory::RAM {
 	std::vector<uint16_t> main;
 	std::vector<uint16_t> stack;
 };
 
+/**
+ * @brief Controls the execution of the compiled instruction binary.
+ */
 class Memory::ProgramMemory {
 	public:
 		ProgramMemory(std::vector<string> instructions, Registers registers, Memory::RAM ram);
@@ -38,6 +47,9 @@ Memory::ProgramMemory::ProgramMemory(std::vector<string> instructions, Registers
 	this->ram = ram;
 }
 
+/**
+ * @brief Executes the instructions.
+ */
 void Memory::ProgramMemory::execute() {
 	for (string instruction: this->instructions) {
 		string op_code = instruction.substr(0, 6);

@@ -3,6 +3,9 @@
 #include <iostream>
 #include <map>
 
+/**
+ * @brief Container for all current register values.
+ */
 struct Registers {
 	std::map<int, uint16_t> registers = {
 		{0, 0}, // A
