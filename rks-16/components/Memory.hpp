@@ -85,6 +85,11 @@ void Memory::ProgramMemory::execute() {
 			case 22: this->registers.registers.find(y)->second /= this->registers.registers.find(z)->second; break;
 			case 23: this->registers.registers.find(y)->second &= this->registers.registers.find(z)->second; break;
 			case 24: this->registers.registers.find(y)->second |= this->registers.registers.find(z)->second; break;
+			case 25: this->registers.registers.find(y)->second = ~(this->registers.registers.find(y)->second | this->registers.registers.find(z)->second); break;
+			case 26: this->registers.registers.find(y)->second ^= this->registers.registers.find(z)->second; break;
+			case 27: this->registers.registers.find(x)->second = ~(this->registers.registers.find(x)->second); break;
+			case 28: this->registers.registers.find(x)->second++; break;
+			case 29: this->registers.registers.find(x)->second--; break;
 
 			case 35: std::cout << this->registers.registers.find(x)->second << std::endl; break;
 			case 36: std::exit(0);
