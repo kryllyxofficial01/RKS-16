@@ -51,7 +51,9 @@ Memory::ProgramMemory::ProgramMemory(std::vector<string> instructions, Registers
  * @brief Executes the instructions.
  */
 void Memory::ProgramMemory::execute() {
-	for (string instruction: this->instructions) {
+	while (this->registers.registers.find(5)->second < this->instructions.size()) {
+		string instruction = this->instructions.at(this->registers.registers.find(5)->second);
+
 		string op_code = instruction.substr(0, 6);
 		int code = (int) std::bitset<6>(op_code).to_ulong();
 
