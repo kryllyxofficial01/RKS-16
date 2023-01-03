@@ -54,7 +54,7 @@ pub mod compiler {
 						("JN", ("100001", 1)),
 						("JO", ("100010", 1)),
 						("OUT", ("100011", 1)),
-						("HLT", ("100100", 0))
+						("HLT", ("100100", 1))
 					]
 				),
 				registers: HashMap::from(
@@ -145,7 +145,12 @@ pub mod compiler {
 						self.error.print_stacktrace("ArgError", format!("Too many arguments; instruction only takes {} argument(s)", self.instructions.get(instruction.get(0).unwrap().to_uppercase().as_str()).unwrap().1));
 					}
 					else {
-						self.error.print_stacktrace("ArgError", format!("Missing {} argument(s)", self.instructions.get(instruction.get(0).unwrap().to_uppercase().as_str()).unwrap().1 - args.len() as u8))
+						if instruction.get(0).unwrap().to_uppercase() == "HLT" {
+							binary.push("0".repeat(10));
+						}
+						else {
+							self.error.print_stacktrace("ArgError", format!("Missing {} argument(s)", self.instructions.get(instruction.get(0).unwrap().to_uppercase().as_str()).unwrap().1 - args.len() as u8));
+						}
 					}
 				}
 			}

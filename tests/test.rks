@@ -11,5 +11,4 @@ pop @c
 mul @a @c
 
 ; Output the result
-out @a
-hlt !9
+ou @a

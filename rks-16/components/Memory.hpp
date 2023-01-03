@@ -54,6 +54,10 @@ void Memory::ProgramMemory::execute() {
 	while (this->registers.registers.find(5)->second < this->instructions.size()) {
 		string instruction = this->instructions.at(this->registers.registers.find(5)->second);
 
+		if (instruction == "") {
+			break;
+		}
+
 		string op_code = instruction.substr(0, 6);
 		int code = (int) std::bitset<6>(op_code).to_ulong();
 
@@ -94,7 +98,7 @@ void Memory::ProgramMemory::execute() {
 			case 29: this->registers.registers.find(x)->second--; break;
 
 			case 35: std::cout << this->registers.registers.find(x)->second << std::endl; break;
-			case 36: std::exit(x);
+			case 36: std::cout << "\u001b[33mExited with code: " << x << "\u001b[0m" << std::endl; std::exit(x);
 		}
 
 		this->registers.registers.find(5)->second++;

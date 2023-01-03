@@ -8,7 +8,7 @@ SRCS = $(shell find . -name '.ccls-cache' -type d -prune -o -type f -name '*.cpp
 HEADERS = $(shell find . -name '.ccls-cache' -type d -prune -o -type f -name '*.h' -print)
 
 main: $(SRCS) $(HEADERS)
-	$(CXX) $(CXXFLAGS) $(SRCS) -o "$@" && echo "" && ./main
+	-$(CXX) $(CXXFLAGS) $(SRCS) -o "$@" && echo "" && ./main
 
 compile:
 	set -e && cd ../rks && cargo run && cd ../rks-16 && echo -e "\n==========================================="
