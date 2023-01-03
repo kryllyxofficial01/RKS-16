@@ -1,5 +1,5 @@
 .SILENT:
-all: clean compile main
+all: compile main clean
 
 CXX = g++
 override CXXFLAGS += -g -Wno-everything -std=c++17
