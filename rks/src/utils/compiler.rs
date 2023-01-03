@@ -34,7 +34,7 @@ pub mod compiler {
 						("LRC", ("001101", 1)),
 						("LRD", ("001110", 1)),
 						("PSH", ("001111", 1)),
-						("PUL", ("010000", 1)),
+						("POP", ("010000", 1)),
 						("ISP", ("010001", 1)),
 						("DSP", ("010010", 1)),
 						("ADD", ("010011", 2)),
@@ -100,7 +100,7 @@ pub mod compiler {
 							bin = self.bin(&arg[1..]);
 						}
 						else if prefix == '@' {
-							if !self.registers.contains_key(&arg[1..]) {
+							if !self.registers.contains_key(&arg[1..].to_uppercase() as &str) {
 								self.error.print_stacktrace("RegisterIDError", format!("Unknown register ID '{}'", &arg[1..]));
 							}
 	

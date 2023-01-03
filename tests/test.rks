@@ -1,5 +1,15 @@
-lda !5
-ldb !9
-and @A @B
+; Setup
+lda !19
+ldb !29
 
-out @A
+; Save value to stack
+psh @a
+
+; Arithmetic
+add @a @b
+pop @c
+mul @a @c
+
+; Output the result
+out @a
+hlt !9

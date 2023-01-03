@@ -1,4 +1,5 @@
-all: clean main
+.SILENT:
+all: clean compile main
 
 CXX = g++
 override CXXFLAGS += -g -Wno-everything -std=c++17
@@ -8,6 +9,9 @@ HEADERS = $(shell find . -name '.ccls-cache' -type d -prune -o -type f -name '*.
 
 main: $(SRCS) $(HEADERS)
 	$(CXX) $(CXXFLAGS) $(SRCS) -o "$@" && echo "" && ./main
+
+compile:
+	set -e && cd ../rks && cargo run && cd ../rks-16 && echo -e "\n==========================================="
 
 clean:
 	rm -f main

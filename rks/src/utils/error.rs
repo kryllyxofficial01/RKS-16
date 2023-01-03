@@ -21,7 +21,7 @@ pub mod error {
 			println!("\t{}", self.line);
 			println!("{}: {}\n\x1b[0m", error_name, reason);
 
-			std::process::exit(0);
+			std::process::exit(1);
 		}
 	}
 }

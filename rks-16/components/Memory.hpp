@@ -94,7 +94,7 @@ void Memory::ProgramMemory::execute() {
 			case 29: this->registers.registers.find(x)->second--; break;
 
 			case 35: std::cout << this->registers.registers.find(x)->second << std::endl; break;
-			case 36: std::exit(0);
+			case 36: std::exit(x);
 		}
 
 		this->registers.registers.find(5)->second++;
