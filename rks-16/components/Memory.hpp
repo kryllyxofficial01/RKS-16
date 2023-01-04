@@ -11,7 +11,7 @@
 using string = std::string;
 
 /**
- * @brief Handles all memory.
+ * Handles all memory.
  */
 class Memory {
 	public:
@@ -20,7 +20,7 @@ class Memory {
 };
 
 /**
- * @brief Container for both main memory and stack.
+ * Container for both main memory and stack.
  */
 struct Memory::RAM {
 	std::vector<uint16_t> main;
@@ -28,7 +28,7 @@ struct Memory::RAM {
 };
 
 /**
- * @brief Controls the execution of the compiled instruction binary.
+ * Controls the execution of the compiled instruction binary.
  */
 class Memory::ProgramMemory {
 	public:
@@ -48,7 +48,7 @@ Memory::ProgramMemory::ProgramMemory(std::vector<string> instructions, Registers
 }
 
 /**
- * @brief Executes the instructions.
+ * Executes the instructions.
  */
 void Memory::ProgramMemory::execute() {
 	while (this->registers.registers.find(5)->second < this->instructions.size() && this->instructions.at(this->registers.registers.find(5)->second) != "") {
