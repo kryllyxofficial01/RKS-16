@@ -104,13 +104,6 @@ pub mod compiler {
 								self.error.print_stacktrace("RegisterIDError", format!("Unknown register ID '{}'", &arg[1..]));
 							}
 	
-							// if &(*self.registers.get(&arg[1..].to_uppercase() as &str).unwrap() as usize) <= &4 {
-							// 	bin = self.bin(&self.registers.get(&arg[1..].to_uppercase() as &str).unwrap().to_string());
-							// }
-							// else {
-							// 	self.error.print_stacktrace("RegisterIDError".to_string(), format!("Illegal use of register '{}'", &arg[1..]))
-							// }
-	
 							bin = self.bin(&self.registers.get(&arg[1..].to_uppercase() as &str).unwrap().to_string());
 						}
 						else if prefix == '0' {
