@@ -4,7 +4,7 @@
 #include <map>
 
 /**
- * @brief Container for all current register values.
+ * Container for all current register values.
  */
 struct Registers {
 	std::map<int, uint16_t> registers = {
