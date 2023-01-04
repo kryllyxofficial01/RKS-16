@@ -1,0 +1,31 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"scopeName": "source.rks",
+	"name": "rks",
+	"patterns": [
+		{"include": "#comments"},
+		{"include": "#keywords"},
+		{"include": "#registers"},
+		{"include": "#immediate"}
+	],
+	"repository": {
+		"keywords": {
+			"patterns": [{
+				"name": "keyword.control.rks",
+				"match": "\\b(lda|ldb|ldc|ldd|swp|mov|sta|stb|stc|std|lra|lrb|lrc|lrd|psh|pop|isp|dsp|add|sub|mul|div|and|or|nor|xor|not|inc|dec|jmp|cmp|jz|jn|jo|out|hlt)\\b"
+			}]
+		},
+		"comments": {
+            "name": "comment.line",
+            "match": "\\s*;.*"
+        },
+		"registers": {
+            "name": "keyword.operator.new",
+            "match": "@[^ ]+"
+        },
+		"immediate": {
+            "name": "constant.numeric",
+            "match": "![0-9]+"
+        }
+	}
+}

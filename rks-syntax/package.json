@@ -1,0 +1,25 @@
+{
+  "name": "rks-syntax",
+  "displayName": "rks-syntax",
+  "description": "Syntax Highlighting for the \"rks\" assmembly language.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "rks",
+      "aliases": ["rks", "rks"],
+      "extensions": [".rks"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "rks",
+      "scopeName": "source.rks",
+      "path": "./syntaxes/rks.tmLanguage.json"
+    }]
+  }
+}
