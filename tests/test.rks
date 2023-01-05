@@ -1,14 +1,6 @@
-; Setup
-lda !19
-ldb !29
+.test:
+	lda !19
+.stop
 
-; Save value to stack
-psh @a
-
-; Arithmetic
-add @a @b
-pop @c
-mul @a @c
-
-; Output the result
+jmp #test
 out @a

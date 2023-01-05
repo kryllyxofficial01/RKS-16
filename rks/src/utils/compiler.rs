@@ -8,7 +8,7 @@ pub mod compiler {
 
     pub struct Compiler<'a> {
 		instructions: HashMap<&'a str, (&'a str, u8)>,
-		registers: HashMap<&'a str, i8>,
+		registers: HashMap<&'a str, u8>,
 		line: String,
 		error: Error
 	}
@@ -73,7 +73,7 @@ pub mod compiler {
 			}
 		}
 
-		pub fn compile(&self) -> Vec<String> {
+		pub fn compile(&mut self) -> Vec<String> {
 			let mut binary: Vec<String> = Vec::new();
 			let instruction: Vec<&str> = self.line.split(" ").collect();
 			
@@ -147,6 +147,11 @@ pub mod compiler {
 					}
 				}
 			}
+			else if self.line.starts_with(".") {
+				
+				
+				std::process::exit(0);
+			}
 			else {
 				self.error.print_stacktrace("InstructionError", format!("Unknown instruction '{}'", instruction.get(0).unwrap()));
 			}
@@ -169,7 +174,9 @@ pub mod compiler {
 		fn bin(&self, immediate: &str) -> String {
 			for character in immediate.chars() {
 				if !character.is_numeric() {
-					self.error.print_stacktrace("ValueError", format!("Invalid value '{}'", immediate));
+					if character != '-' {
+						self.error.print_stacktrace("ValueError", format!("Invalid value '{}'", immediate));
+					}
 				}
 			}
 
