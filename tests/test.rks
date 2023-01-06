@@ -1,5 +1,7 @@
 .test
 	lda !19
+	nop
+	nop
 .stop
 
 jmp #test

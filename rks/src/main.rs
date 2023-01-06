@@ -1,4 +1,4 @@
-#![warn(non_snake_case)]
+#![allow(non_snake_case, unused_variables, unused_mut)]
 
 use std::collections::HashMap;
 use std::fs;
@@ -19,9 +19,6 @@ fn main() {
     println!("Compiling...");
 
     let instructions: Vec<String> = clean(reader.lines().collect::<Result<_, _>>().unwrap(), location.to_str().unwrap().to_string());
-    // let labels: HashMap<String, u32> = cleaned.1;
-
-    // println!("{:?}", labels);
     
     let mut lineno = 1;
     let mut binary: Vec<String> = Vec::new();
@@ -44,51 +41,66 @@ fn main() {
 }
 
 fn clean(mut lines: Vec<String>, location: String) -> Vec<String> {
-    let mut labels: HashMap<String, u32> = HashMap::new();
+    let mut labels: HashMap<String, (u32, Vec<String>)> = HashMap::new();
     let mut instructions: Vec<String> = Vec::new();
 
     lines.retain(|i| i.trim() != "" && !i.trim().starts_with(";"));
 
-    println!("{:?}", lines);
-    std::process::exit(0);
-
     let mut lineno = 1;
     let mut i: i32 = -1;
     let mut inLabel = false;
-    for line in lines {
-        let error = Error::new(&line, lineno, location.clone());
+	let mut labelName = String::new();
+    for line in &lines.clone() {
+        // let error = Error::new(&line, lineno, location.clone());
+		let line = &line.trim().to_string();
 
-        if line.starts_with(".") {
-            let mut idx = 1;
-            let mut label = String::new();
-            while idx != line.len() {
-                label.push(line.chars().nth(idx).unwrap());
-                idx += 1;
-            }
+		if !inLabel {
+			if line.starts_with(".") && line != ".stop" {
+	            let mut idx = 1;
+	            let mut label = String::new();
+	            while idx != line.len() {
+	                label.push(line.chars().nth(idx).unwrap());
+	                idx += 1;
+	            }
 
-            println!("{label}");
-
-            if label == "stop" {
-                if !inLabel {
-                    error.print_stacktrace("LabelError", "Attempted to stop a label, but no label has been started".to_string())
-                }
-                else {
-                    inLabel = false;
-                }
-            }
-            else {
-                if inLabel {
-                    error.print_stacktrace("LabelError", "Attempted to start a label, but the previous label has not been closed".to_string())
-                }
-                else {
-                    inLabel = true;
-
-                }
-            }
-        }
+				labels.insert(label.clone(), ((i+1).try_into().unwrap(), Vec::new()));
+				inLabel = true;
+				labelName = label;
+			}
+			else {
+				i += 1
+			}
+		}
+		else {
+			if line == ".stop" {
+				inLabel = false;
+				
+				lines.retain(|i| *i != ".".to_string() + &labelName);
+				for instruction in &labels.get_mut(&labelName).unwrap().1 {
+					lines.retain(|i| i.trim() != instruction);
+				}
+				lines.retain(|i| *i != ".stop".to_string());
+			}
+			
+			labels.get_mut(&labelName).unwrap().1.push(line.trim().to_string());
+			i += 1;
+		}
 
         lineno += 1;
-    }
+	}
+
+	for i in 0..labels.keys().len() {
+		let keys = &labels.keys().cloned().collect::<Vec<String>>();
+		let mut content = &mut labels.get(&keys[i]).unwrap().to_owned();
+
+		if i != 0 {
+			content.0 = labels.get(&keys[i-1]).unwrap().1.len() as u32;
+		}
+
+		println!("{:?}", content)
+	}
+	
+	print!("{:?}", instructions);
 
     return instructions;
 }
