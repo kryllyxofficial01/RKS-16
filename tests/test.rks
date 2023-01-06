@@ -1,6 +1,10 @@
-.test:
+.test
 	lda !19
 .stop
 
 jmp #test
 out @a
+
+.tset
+	ldb !17
+.stop
