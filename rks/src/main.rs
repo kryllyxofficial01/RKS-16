@@ -1,4 +1,4 @@
-#![allow(non_snake_case, unused_variables, unused_mut)]
+#![allow(non_snake_case, unused_variables, unused_mut, dead_code)]
 
 use std::collections::HashMap;
 use std::fs;
@@ -18,13 +18,16 @@ fn main() {
 
     println!("Compiling...");
 
-    let instructions: Vec<String> = clean(reader.lines().collect::<Result<_, _>>().unwrap(), location.to_str().unwrap().to_string());
+	let cleaned = clean(reader.lines().collect::<Result<_, _>>().unwrap(), location.to_str().unwrap().to_string());
+    let instructions = cleaned.0;
+	let labels = cleaned.1;
+	let start = cleaned.2;
     
     let mut lineno = 1;
     let mut binary: Vec<String> = Vec::new();
-    for instruction in instructions {
+    for instruction in instructions[start..].into_iter() {
         let error = Error::new(&instruction, lineno, location.to_str().unwrap().to_string());
-        let mut compiler = Compiler::new(&instruction, error);
+        let mut compiler = Compiler::new(&instruction, labels.clone(), error);
 
         let mut compiled = compiler.compile();
         if compiled.len() == 1 {
@@ -40,9 +43,8 @@ fn main() {
     assembler.assemble(&(location.to_str().unwrap()[0..location.to_str().unwrap().len()-4].to_string()));
 }
 
-fn clean(mut lines: Vec<String>, location: String) -> Vec<String> {
+fn clean(mut lines: Vec<String>, location: String) -> (Vec<String>, HashMap<String, (u32, Vec<String>)>, usize) {
     let mut labels: HashMap<String, (u32, Vec<String>)> = HashMap::new();
-    let mut instructions: Vec<String> = Vec::new();
 
     lines.retain(|i| i.trim() != "" && !i.trim().starts_with(";"));
 
@@ -51,7 +53,6 @@ fn clean(mut lines: Vec<String>, location: String) -> Vec<String> {
     let mut inLabel = false;
 	let mut labelName = String::new();
     for line in &lines.clone() {
-        // let error = Error::new(&line, lineno, location.clone());
 		let line = &line.trim().to_string();
 
 		if !inLabel {
@@ -89,18 +90,33 @@ fn clean(mut lines: Vec<String>, location: String) -> Vec<String> {
         lineno += 1;
 	}
 
-	for i in 0..labels.keys().len() {
-		let keys = &labels.keys().cloned().collect::<Vec<String>>();
-		let mut content = &mut labels.get(&keys[i]).unwrap().to_owned();
+	let mut length = 0;
+	let mut i = 0;
+	for key in labels.keys().cloned().collect::<Vec<String>>() {
+		let mut content = labels.get_mut(&key).unwrap();
 
-		if i != 0 {
-			content.0 = labels.get(&keys[i-1]).unwrap().1.len() as u32;
+		if i > 0 {
+			content.0 = length;
 		}
-
-		println!("{:?}", content)
+		else {
+			content.0 = 0;
+		}
+		length = content.1.len() as u32;
+		
+		i += 1;
 	}
-	
-	print!("{:?}", instructions);
 
-    return instructions;
+	for i in 0..lines.len() {
+		for key in labels.keys() {
+			lines[i] = lines[i].replace(&format!("#{}", key), &format!("#{}", labels.get(key).unwrap().0));
+		}
+	}
+
+	let mut start = 0;
+	for key in labels.keys().cloned().collect::<Vec<String>>() {
+		lines = [labels.get(&key).unwrap().1.clone(), lines].concat();
+		start += labels.get(&key).unwrap().1.clone().len();
+	}
+
+    return (lines, labels, start);
 }

@@ -4,7 +4,7 @@
 	nop
 .stop
 
-jmp #test
+jmp #tset
 out @a
 
 .tset

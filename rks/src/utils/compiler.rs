@@ -1,5 +1,3 @@
-#![allow(non_snake_case)]
-
 pub mod compiler {
     use std::collections::HashMap;
 	use to_binary::BinaryString;
@@ -9,12 +7,13 @@ pub mod compiler {
     pub struct Compiler<'a> {
 		instructions: HashMap<&'a str, (&'a str, u8)>,
 		registers: HashMap<&'a str, u8>,
+		labels: HashMap<String, (u32, Vec<String>)>,
 		line: String,
 		error: Error
 	}
 
 	impl Compiler<'_> {
-		pub fn new(line: &String, error: Error) -> Self {
+		pub fn new(line: &String, labels: HashMap<String, (u32, Vec<String>)>, error: Error) -> Self {
 			Self { 
 				instructions: HashMap::from(
 					[
@@ -69,7 +68,8 @@ pub mod compiler {
 					]
 				),
 				line: line.to_string(),
-				error: error
+				labels: labels,
+				error: error,
 			}
 		}
 
@@ -146,11 +146,6 @@ pub mod compiler {
 						}
 					}
 				}
-			}
-			else if self.line.starts_with(".") {
-				
-				
-				std::process::exit(0);
 			}
 			else {
 				self.error.print_stacktrace("InstructionError", format!("Unknown instruction '{}'", instruction.get(0).unwrap()));
