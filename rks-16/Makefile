@@ -11,7 +11,7 @@ main: $(SRCS) $(HEADERS)
 	-$(CXX) $(CXXFLAGS) $(SRCS) -o "$@" && echo "" && ./main
 
 compile:
-	set -e && cd ../rks && cargo run && cd ../rks-16 && echo -e "\n==========================================="
+	set -e && cd ../rks && cargo run && cd ../rks-16 && echo "\n==========================================="
 
 clean:
 	rm -f main

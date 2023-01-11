@@ -80,7 +80,7 @@ void Memory::ProgramMemory::execute() {
 			case 15: this->ram.stack[this->registers.registers.find(6)->second] = this->registers.registers.find(x)->second; break;
 			case 16: this->registers.registers.find(x)->second = this->ram.stack[this->registers.registers.find(6)->second]; break;
 			case 17: this->registers.registers.find(6)->second += x; break;
-			case 18: this->registers.registers.find(6)->second += x; break;
+			case 18: this->registers.registers.find(6)->second -= x; break;
 			case 19: this->registers.registers.find(y)->second += this->registers.registers.find(z)->second; break;
 			case 20: this->registers.registers.find(y)->second -= this->registers.registers.find(z)->second; break;
 			case 21: this->registers.registers.find(y)->second *= this->registers.registers.find(z)->second; break;

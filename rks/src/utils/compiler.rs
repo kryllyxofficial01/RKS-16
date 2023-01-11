@@ -7,13 +7,13 @@ pub mod compiler {
     pub struct Compiler<'a> {
 		instructions: HashMap<&'a str, (&'a str, u8)>,
 		registers: HashMap<&'a str, u8>,
-		labels: HashMap<String, (u32, Vec<String>)>,
+		labels: Vec<(String, u32, Vec<String>)>,
 		line: String,
 		error: Error
 	}
 
 	impl Compiler<'_> {
-		pub fn new(line: &String, labels: HashMap<String, (u32, Vec<String>)>, error: Error) -> Self {
+		pub fn new(line: &String, labels: Vec<(String, u32, Vec<String>)>, error: Error) -> Self {
 			Self { 
 				instructions: HashMap::from(
 					[
@@ -120,16 +120,24 @@ pub mod compiler {
 								self.error.print_stacktrace("BaseError", format!("Unknown base '{}'", base));
 							}
 						}
+						else if prefix == '#' {
+							let labelName = &arg[1..];
+							for label in &self.labels {
+								if label.0 == labelName {
+									bin = self.bin(format!("{}", label.1).as_str());
+								}
+							}
+						}
 						else {
 							self.error.print_stacktrace("ArgError", format!("Unknown prefix '{}'", prefix));
 						}
-	
+
 						bin = bin.trim_start_matches("0").to_string();
 						let repeat = cmd.len() + bin.len();
 						if repeat > 16 {
 							self.error.print_stacktrace("OverflowError", format!("Value '{}' goes over 10-bit limit", &arg[start..]))
 						}
-	
+
 						binary.push("0".repeat(16 - repeat) + &bin.to_string());
 					}
 				}
@@ -146,6 +154,9 @@ pub mod compiler {
 						}
 					}
 				}
+			}
+			else if instruction.get(0).unwrap() == &".stop" {
+				
 			}
 			else {
 				self.error.print_stacktrace("InstructionError", format!("Unknown instruction '{}'", instruction.get(0).unwrap()));
