@@ -5,7 +5,7 @@ CXX = g++
 override CXXFLAGS += -g -Wno-everything -std=c++17
 
 SRCS = $(shell find . -name '.ccls-cache' -type d -prune -o -type f -name '*.cpp' -print | sed -e 's/ /\\ /g')
-HEADERS = $(shell find . -name '.ccls-cache' -type d -prune -o -type f -name '*.h' -print)
+HEADERS = $(shell find . -name '.ccls-cache' -type d -prune -o -type f -name '*.hpp' -print)
 
 main: $(SRCS) $(HEADERS)
 	-$(CXX) $(CXXFLAGS) $(SRCS) -o "$@" && echo "" && ./main
