@@ -15,7 +15,7 @@ int main() {
 	ifstream reader("../tests/test");
 	vector<string> instructions;
 
-	cout << "Reading binary..." << endl;
+	cout << "\nReading binary..." << endl;
 	string line;
 	while (getline(reader, line)) {
 		instructions.push_back(line);

@@ -1,14 +1,1 @@
-.test
-	lda !19
-	nop
-	nop
-.stop
-
-jmp #test
-jmp #tset
-out @a
-out @b
-
-.tset
-	ldb !17
-.stop
+lda !19
