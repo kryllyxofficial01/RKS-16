@@ -13,9 +13,10 @@ class Compiler:
 	def compile(self) -> list:
 		binary = []
 		
-		instruction = self.instruction.split(" ")
-		binary.append("0"*(6-len(bin(self.instructions[instruction[0]][0])[2:])) + bin(self.instructions[instruction[0]][0])[2:])
+		instruction = [i.strip().lower() for i in self.instruction.split(" ")]
+		print(f"Current Instruction: {instruction[0]} -> {'0'*(6-len(bin(self.instructions[instruction[0]][0])[2:])) + bin(self.instructions[instruction[0]][0])[2:]}")
 		
+		binary.append("0"*(6-len(bin(self.instructions[instruction[0]][0])[2:])) + bin(self.instructions[instruction[0]][0])[2:])		
 		for arg in instruction[1:]:
 			argBin = ""
 			if arg[0] == "!":
