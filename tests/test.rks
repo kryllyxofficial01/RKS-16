@@ -1,2 +1,3 @@
 lda !19
 ldb !17
+swp @a @b @c
