@@ -3,7 +3,7 @@ val = Immediate Value
 reg = Register ID
 label = Label Defined by User
 
-Registers:
+16-Bit Registers:
 0 - A
 1 - B
 2 - C
