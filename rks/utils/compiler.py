@@ -18,8 +18,9 @@ class Compiler:
 		"sp": 6
 	}
 	
-	def __init__(self, instruction):
+	def __init__(self, instruction, error):
 		self.instruction = instruction
+		self.error = error
 
 	def compile(self) -> list:
 		binary = []
@@ -34,10 +35,17 @@ class Compiler:
 				if arg[0] == "!":
 					if arg[1:].isnumeric():
 						argBin = "0"*(10-len(bin(int(arg[1:]))[2:])) + bin(int(arg[1:]))[2:]
+					else:
+						self.error.print_stacktrace("ValueError", f"Invalid immediate '{arg[1:]}'")
 				
 				elif arg[0] == "@":
 					if arg[1:] in self.registers.keys():
 						argBin = "0"*(10-len(bin(self.registers[arg[1:]])[2:])) + bin(self.registers[arg[1:]])[2:]
+					else:
+						self.error.print_stacktrace("RegisterError", f"Unknown register ID '{arg[1:]}'")
+      
+				else:
+					self.error.print_stacktrace("ArgError", f"Unknown argument prefix '{arg[0]}'")
 
 				binary.append(argBin)
 	
@@ -49,6 +57,7 @@ class Compiler:
 				binary = list(binary[0]) + args
     
 		else:
-			pass
+			extra = ", ".join([f"'{arg}'" for arg in instruction[1:][-(len(instruction[1:]) - self.instructions[instruction[0]][1]):]])
+			self.error.print_stacktrace("ArgError", f"Extra arguments {extra}")
 
 		return binary
