@@ -9,8 +9,9 @@ print("Compiling...")
 instructions = file.readlines()
 lineno = 0
 for instruction in instructions:
-	error = Error(instruction, lineno, file.name)
-	compiler = Compiler(instruction, error)
-	bin_file.write("".join(compiler.compile()) + "\n")
+	if instruction != "\n" and instruction[0] != ";":
+		error = Error(instruction, lineno, file.name)
+		compiler = Compiler(instruction, error)
+		bin_file.write("".join(compiler.compile()) + "\n")
  
 	lineno += 1

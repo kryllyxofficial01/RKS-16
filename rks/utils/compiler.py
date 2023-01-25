@@ -62,7 +62,8 @@ class Compiler:
 		print(f"Current Instruction: {instruction[0]} -> {'0'*(6-len(bin(self.instructions[instruction[0]][0])[2:])) + bin(self.instructions[instruction[0]][0])[2:]}")
 		
 		if len(instruction[1:]) <= self.instructions[instruction[0]][1]:
-			binary.append("0"*(6-len(bin(self.instructions[instruction[0]][0])[2:])) + bin(self.instructions[instruction[0]][0])[2:])		
+			binary.append("0"*(6-len(bin(self.instructions[instruction[0]][0])[2:])) + bin(self.instructions[instruction[0]][0])[2:])
+   	
 			for arg in instruction[1:]:
 				argBin = ""
 				if arg[0] == "!":

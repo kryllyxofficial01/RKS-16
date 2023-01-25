@@ -93,8 +93,8 @@ void Memory::ProgramMemory::execute() {
 			case 28: this->registers.registers.find(x)->second++; break;
 			case 29: this->registers.registers.find(x)->second--; break;
 
-			case 35: std::cout << this->registers.registers.find(x)->second << std::endl; break;
-			case 36: std::cout << "\u001b[33mExited with code: " << x << "\u001b[0m" << std::endl; std::exit(x);
+			case 38: std::cout << this->registers.registers.find(x)->second << std::endl; break;
+			case 39: std::cout << "\u001b[33mExited with code: " << x << "\u001b[0m" << std::endl; std::exit(x);
 		}
 
 		this->registers.registers.find(5)->second++;
