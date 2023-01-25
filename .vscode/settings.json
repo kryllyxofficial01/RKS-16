@@ -48,5 +48,6 @@
 		"typeinfo": "cpp",
 		"bitset": "cpp",
 		"map": "cpp"
-	}
+	},
+	"python.analysis.typeCheckingMode": "basic"
 }
