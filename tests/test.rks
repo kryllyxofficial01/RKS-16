@@ -1,5 +1,5 @@
-lda !19
-ldb !17
+lda 0b10011
+ldb 0b10001
 
 not @b
 inc @b

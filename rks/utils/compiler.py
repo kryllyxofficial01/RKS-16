@@ -78,6 +78,16 @@ class Compiler:
 					else:
 						self.error.print_stacktrace("RegisterError", f"Unknown register ID '{arg[1:]}'")
       
+				elif arg[0] == "0":
+					base = arg[0:2]
+					if base == "0b":
+						try:
+							temp = int(arg[2:], 2)
+						except ValueError:
+							self.error.print_stacktrace("ValueError", f"'{arg[2:]}' is not valid binary")
+						else:
+							argBin = "0"*(10-len(arg[2:])) + arg[2:].lstrip("0")
+    			
 				else:
 					self.error.print_stacktrace("ArgError", f"Unknown argument prefix '{arg[0]}'")
 
