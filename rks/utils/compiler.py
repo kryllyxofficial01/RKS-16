@@ -1,3 +1,5 @@
+from .error import Error
+
 class Compiler:
 	instructions = {
 		"nop": (0, 0),
@@ -51,7 +53,7 @@ class Compiler:
 		"sp": 6
 	}
 	
-	def __init__(self, instruction, error):
+	def __init__(self, instruction, error: Error):
 		self.instruction = instruction
 		self.error = error
 
@@ -81,7 +83,7 @@ class Compiler:
       
 				elif arg[0] == "0":
 					base = arg[1]
-					start = 2
+					start = 0
 					if base == "b":
 						try:
 							temp = int(arg[2:], 2)
@@ -96,14 +98,16 @@ class Compiler:
 						except ValueError:
 							self.error.print_stacktrace("ValueError", f"'{arg[2:]}' is not valid hexadecimal")
 						else:
-							
 							argBin = "0"*(10-len(bin(temp)[2:].lstrip("0"))) + bin(temp)[2:].lstrip("0")
+       
+					else:
+						self.error.print_stacktrace("ArgError", f"Unknown base '{arg[0:2]}'")
     			
 				else:
 					self.error.print_stacktrace("ArgError", f"Unknown argument prefix '{arg[0]}'")
 
 				if len(argBin) > 10:
-					self.error.print_stacktrace("ValueError", f"Argument bit width goes over 10-Bit limit: '{arg[start:]}'")
+					self.error.print_stacktrace("ValueError", f"Argument bit width goes over 10-bit limit: '{arg[start:]}' -> '{argBin}'")
 
 				binary.append(argBin)
 	

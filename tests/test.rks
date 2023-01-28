@@ -1,4 +1,4 @@
-lda !19
+lda 0x0897235
 ldb !17
 
 not @b
