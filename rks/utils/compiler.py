@@ -57,6 +57,7 @@ class Compiler:
 
 	def compile(self) -> list:
 		binary = []
+		start = 1
 		
 		instruction = [i.strip().lower() for i in self.instruction.split(" ")]
 		print(f"Current Instruction: {instruction[0]} -> {'0'*(6-len(bin(self.instructions[instruction[0]][0])[2:])) + bin(self.instructions[instruction[0]][0])[2:]}")
@@ -79,17 +80,30 @@ class Compiler:
 						self.error.print_stacktrace("RegisterError", f"Unknown register ID '{arg[1:]}'")
       
 				elif arg[0] == "0":
-					base = arg[0:2]
-					if base == "0b":
+					base = arg[1]
+					start = 2
+					if base == "b":
 						try:
 							temp = int(arg[2:], 2)
 						except ValueError:
 							self.error.print_stacktrace("ValueError", f"'{arg[2:]}' is not valid binary")
 						else:
-							argBin = "0"*(10-len(arg[2:])) + arg[2:].lstrip("0")
+							argBin = "0"*(10-len(bin(temp)[2:].lstrip("0"))) + bin(temp)[2:].lstrip("0")
+       
+					elif base == "x":
+						try:
+							temp = int(arg[2:].lower(), 16)
+						except ValueError:
+							self.error.print_stacktrace("ValueError", f"'{arg[2:]}' is not valid hexadecimal")
+						else:
+							
+							argBin = "0"*(10-len(bin(temp)[2:].lstrip("0"))) + bin(temp)[2:].lstrip("0")
     			
 				else:
 					self.error.print_stacktrace("ArgError", f"Unknown argument prefix '{arg[0]}'")
+
+				if len(argBin) > 10:
+					self.error.print_stacktrace("ValueError", f"Argument bit width goes over 10-Bit limit: '{arg[start:]}'")
 
 				binary.append(argBin)
 	

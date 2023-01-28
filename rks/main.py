@@ -1,3 +1,5 @@
+import os
+
 from utils.compiler import Compiler
 from utils.error import Error
 
@@ -7,10 +9,10 @@ bin_file = open(filename[:-4], 'w')
 
 print("Compiling...")
 instructions = file.readlines()
-lineno = 0
+lineno = 1
 for instruction in instructions:
 	if instruction != "\n" and instruction[0] != ";":
-		error = Error(instruction, lineno, file.name)
+		error = Error(instruction, lineno, os.path.abspath(filename))
 		compiler = Compiler(instruction, error)
 		bin_file.write("".join(compiler.compile()) + "\n")
  
