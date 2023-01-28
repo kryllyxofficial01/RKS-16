@@ -2,7 +2,7 @@ Key:
 val = Immediate Value
 reg = Register ID
 label = Label name
-subrout = Subroutine name
+macro = Macro name
 
 16-Bit Registers:
 0 - A
@@ -24,7 +24,7 @@ Prefixes:
 0b = Binary
 0x = Hexadecimal
 . = Label
-$ = subroutine
+$ = macro
 
 ======================================================================================================================
 
@@ -66,8 +66,8 @@ $ = subroutine
 35 -> JNN <label> #Jump to <label> if the Negative flag is 0
 36 -> JO <label> #Jump to <label> if the Overflow flag is 1
 37 -> JNO <label> #Jump to <label> if the Overflow flag is 0
-38 -> CALL <subrout> #Jumps to <subrout>, and pushes the PC register to the Call Stack
-39 -> RET #Sets the PC register back to where the subroutine was called
+38 -> CALL <macro> #Jumps to <macro>, and pushes the PC register to the Call Stack
+39 -> RET #Sets the PC register back to where the macro called
 38 -> OUT <reg> #Prints the value in <reg> to the terminal
 39 -> HLT <code> #Stops the program with exit code <code> (if <code> is ommited, then "0" is used)
 
@@ -77,3 +77,14 @@ RAM Sections:
 Main - 65024 slots
 Stack - 256 slots
 Call Stack - 256 slots (cannot be modified or accessed by the user)
+
+======================================================================================================================
+
+Labels:
+.label <label>:
+    ...
+
+Macros (must have ret to end, otherwise they are executed as labels):
+.macro <macro>:
+    ...
+    ret
