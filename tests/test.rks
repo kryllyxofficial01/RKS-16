@@ -1,8 +1,6 @@
-lda 0x0897235
-ldb !17
+jmp .test
 
-not @b
-inc @b
-add @a @b
+.label test:
+    lda !19
 
 out @a

@@ -52,21 +52,21 @@ class Compiler:
 		"pc": 5,
 		"sp": 6
 	}
-	
-	def __init__(self, instruction, error: Error):
+
+	def __init__(self, instruction: str, error: Error) -> None:
 		self.instruction = instruction
 		self.error = error
 
 	def compile(self) -> list:
 		binary = []
 		start = 1
-		
+
 		instruction = [i.strip().lower() for i in self.instruction.split(" ")]
 		print(f"Current Instruction: {instruction[0]} -> {'0'*(6-len(bin(self.instructions[instruction[0]][0])[2:])) + bin(self.instructions[instruction[0]][0])[2:]}")
-		
+
 		if len(instruction[1:]) <= self.instructions[instruction[0]][1]:
 			binary.append("0"*(6-len(bin(self.instructions[instruction[0]][0])[2:])) + bin(self.instructions[instruction[0]][0])[2:])
-   	
+
 			for arg in instruction[1:]:
 				argBin = ""
 				if arg[0] == "!":
@@ -80,7 +80,7 @@ class Compiler:
 						argBin = "0"*(10-len(bin(self.registers[arg[1:]])[2:])) + bin(self.registers[arg[1:]])[2:]
 					else:
 						self.error.print_stacktrace("RegisterError", f"Unknown register ID '{arg[1:]}'")
-      
+
 				elif arg[0] == "0":
 					base = arg[1]
 					start = 0
@@ -91,7 +91,7 @@ class Compiler:
 							self.error.print_stacktrace("ValueError", f"'{arg[2:]}' is not valid binary")
 						else:
 							argBin = "0"*(10-len(bin(temp)[2:].lstrip("0"))) + bin(temp)[2:].lstrip("0")
-       
+
 					elif base == "x":
 						try:
 							temp = int(arg[2:].lower(), 16)
@@ -99,10 +99,10 @@ class Compiler:
 							self.error.print_stacktrace("ValueError", f"'{arg[2:]}' is not valid hexadecimal")
 						else:
 							argBin = "0"*(10-len(bin(temp)[2:].lstrip("0"))) + bin(temp)[2:].lstrip("0")
-       
+
 					else:
 						self.error.print_stacktrace("ArgError", f"Unknown base '{arg[0:2]}'")
-    			
+
 				else:
 					self.error.print_stacktrace("ArgError", f"Unknown argument prefix '{arg[0]}'")
 
@@ -110,14 +110,14 @@ class Compiler:
 					self.error.print_stacktrace("ValueError", f"Argument bit width goes over 10-bit limit: '{arg[start:]}' -> '{argBin}'")
 
 				binary.append(argBin)
-	
+
 			if len(binary[1:]) == 2:
 				args = binary[1:]
 				for i in range(len(args)):
 					args[i] = "0"*(5-len(args[i].lstrip("0"))) + args[i].lstrip("0")
-		
+
 				binary = list(binary[0]) + args
-    
+
 		else:
 			extra = ", ".join([f"'{arg}'" for arg in instruction[1:][-(len(instruction[1:]) - self.instructions[instruction[0]][1]):]])
 			self.error.print_stacktrace("ArgError", f"Extra arguments {extra}")
