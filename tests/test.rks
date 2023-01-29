@@ -1,6 +1,12 @@
-jmp .test
+jmp .tset
 
-.label test:
+.label test
     lda !19
+    ldb !17
 
 out @a
+
+.label tset
+    ldc !21
+
+out @c

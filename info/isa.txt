@@ -81,10 +81,10 @@ Call Stack - 256 slots (cannot be modified or accessed by the user)
 ======================================================================================================================
 
 Labels:
-.label <label>:
+.label <label>
     ...
 
 Macros (must have ret to end, otherwise they are executed as labels):
-.macro <macro>:
+.macro <macro>
     ...
     ret

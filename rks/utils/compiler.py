@@ -57,7 +57,7 @@ class Compiler:
 		self.instruction = instruction
 		self.error = error
 
-	def compile(self) -> list:
+	def compile(self) -> list[str]:
 		binary = []
 		start = 1
 
@@ -123,3 +123,40 @@ class Compiler:
 			self.error.print_stacktrace("ArgError", f"Extra arguments {extra}")
 
 		return binary
+
+	@classmethod
+	def clean(cls, instructions: list[str]) -> list[str]:
+		for i in range(len(instructions)):
+			if instructions[i] == "\n" or instructions[i].startswith(";"):
+				instructions[i] = ""
+		return [temp.rstrip() for temp in instructions if temp]
+
+	@classmethod
+	def collect(cls, lines: list[str]) -> dict[str, tuple[int, list[str]]]:
+		labels = {}
+
+		label = ""
+		inLabel = False
+		lineno = 0
+		for line in lines:
+			if line.startswith("."):
+				header = line[1:].split(" ")
+				if header[0].lower() == "label":
+					label = header[1].strip()
+					labels[label] = (lineno-1, [])
+					inLabel = True
+	
+				lines[lines.index(line)] = ""
+	
+			else:
+				if inLabel:
+					if line.startswith("    "):
+						labels[label][1].append(line.strip())
+      
+			lineno += 1
+   
+		for line in lines:
+			if line.startswith("."):
+				lines.remove(line)
+
+		return labels

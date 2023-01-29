@@ -8,12 +8,16 @@ file = open(filename, 'r')
 bin_file = open(filename[:-4], 'w')
 
 print("Compiling...")
-instructions = file.readlines()
+instructions = Compiler.clean(file.readlines())
+labels = Compiler.collect(instructions)
+instructions = Compiler.clean(instructions)
+
+print(instructions)
+
 lineno = 1
 for instruction in instructions:
-	if instruction != "\n" and instruction[0] != ";":
-		error = Error(instruction, lineno, os.path.abspath(filename))
-		compiler = Compiler(instruction, error)
-		bin_file.write("".join(compiler.compile()) + "\n")
+	error = Error(instruction, lineno, os.path.abspath(filename))
+	compiler = Compiler(instruction, error)
+	bin_file.write("".join(compiler.compile()) + "\n")
  
 	lineno += 1
