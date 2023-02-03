@@ -105,7 +105,7 @@ class Compiler:
 						self.error.print_stacktrace("ArgError", f"Unknown base '{arg[0:2]}'")
 
 				elif arg[0] == ".":
-					pass
+					argBin = "0"*(10-len(bin(self.labels[arg[1:]][0])[2:])) + bin(self.labels[arg[1:]][0])[2:]
 
 				else:
 					self.error.print_stacktrace("ArgError", f"Unknown argument prefix '{arg[0]}'")

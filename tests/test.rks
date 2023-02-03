@@ -5,6 +5,7 @@ jmp .tset
     ldb !17
 
 .label tset
+    lda !19
     ldc !21
 
-out @c
+out @a
