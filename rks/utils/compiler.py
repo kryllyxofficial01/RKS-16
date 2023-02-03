@@ -53,8 +53,9 @@ class Compiler:
 		"sp": 6
 	}
 
-	def __init__(self, instruction: str, error: Error) -> None:
+	def __init__(self, instruction: str, labels: dict[str, tuple[int, list[str]]],  error: Error) -> None:
 		self.instruction = instruction
+		self.labels = labels
 		self.error = error
 
 	def compile(self) -> list[str]:
@@ -74,7 +75,7 @@ class Compiler:
 						argBin = "0"*(10-len(bin(int(arg[1:]))[2:])) + bin(int(arg[1:]))[2:]
 					else:
 						self.error.print_stacktrace("ValueError", f"Invalid immediate '{arg[1:]}'")
-				
+
 				elif arg[0] == "@":
 					if arg[1:] in self.registers.keys():
 						argBin = "0"*(10-len(bin(self.registers[arg[1:]])[2:])) + bin(self.registers[arg[1:]])[2:]
@@ -103,6 +104,9 @@ class Compiler:
 					else:
 						self.error.print_stacktrace("ArgError", f"Unknown base '{arg[0:2]}'")
 
+				elif arg[0] == ".":
+					pass
+
 				else:
 					self.error.print_stacktrace("ArgError", f"Unknown argument prefix '{arg[0]}'")
 
@@ -127,36 +131,37 @@ class Compiler:
 	@classmethod
 	def clean(cls, instructions: list[str]) -> list[str]:
 		for i in range(len(instructions)):
-			if instructions[i] == "\n" or instructions[i].startswith(";"):
-				instructions[i] = ""
-		return [temp.rstrip() for temp in instructions if temp]
+			if instructions[i] == "\n" or instructions[i].startswith(";"): instructions[i] = ""
+			else: instructions[i] = instructions[i].rstrip()
+		return instructions
 
 	@classmethod
-	def collect(cls, lines: list[str]) -> dict[str, tuple[int, list[str]]]:
+	def collect(cls, lines: list[str], location: str) -> tuple[dict[str, tuple[int, list[str]]], list[str]]:
 		labels = {}
+		instructions = []
 
-		label = ""
+		headers = []
+		idx = 0
 		inLabel = False
-		lineno = 0
-		for line in lines:
-			if line.startswith("."):
-				header = line[1:].split(" ")
-				if header[0].lower() == "label":
-					label = header[1].strip()
-					labels[label] = (lineno-1, [])
-					inLabel = True
-	
-				lines[lines.index(line)] = ""
-	
-			else:
-				if inLabel:
-					if line.startswith("    "):
-						labels[label][1].append(line.strip())
-      
-			lineno += 1
-   
-		for line in lines:
-			if line.startswith("."):
-				lines.remove(line)
+		labelName = ""
+		for i in range(len(lines)):
+			if lines[i].startswith("."):
+				headers.append(i)
+				header = [temp.strip().lower() for temp in lines[i][1:].split(" ")]
 
-		return labels
+				if header[0] == "label":
+					labels[header[1]] = (idx, [])
+					inLabel = True
+					labelName = header[1]
+				else:
+					Error(lines[i], i+1, location).print_stacktrace("HeaderError", f"Unknown header type '{header[0]}'")
+
+			elif lines[i] != "":
+				if inLabel:
+					if lines[i].startswith("    "): labels[labelName][1].append(lines[i].strip())
+					else: inLabel = False
+
+				instructions.append(lines[i])
+				idx += 1
+
+		return labels, instructions
