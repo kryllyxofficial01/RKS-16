@@ -60,6 +60,9 @@ void Memory::ProgramMemory::execute() {
 		uint16_t x = (uint16_t) std::bitset<10>(instruction.substr(6)).to_ulong();
 		uint16_t y = (uint16_t) std::bitset<5>(instruction.substr(6, 5)).to_ulong();
 		uint16_t z = (uint16_t) std::bitset<5>(instruction.substr(instruction.size()-5)).to_ulong();
+		uint16_t w = (uint16_t) std::bitset<16>(this->instructions.at(this->registers.registers.find(5)->second+1)).to_ulong();
+
+		// string flags = std::bitset<3>(this->registers.registers.find(4)->second).to_string();
 
 		switch (code) {
 			case 0: break;
@@ -92,7 +95,7 @@ void Memory::ProgramMemory::execute() {
 			case 27: this->registers.registers.find(x)->second = ~(this->registers.registers.find(x)->second); break;
 			case 28: this->registers.registers.find(x)->second++; break;
 			case 29: this->registers.registers.find(x)->second--; break;
-			case 30: this->registers.registers.find(5)->second = x-1; break;
+			case 30: this->registers.registers.find(5)->second = w-1; break;
 
 			case 38: std::cout << this->registers.registers.find(x)->second << std::endl; break;
 			case 39: std::cout << "\u001b[33mExited with code: " << x << "\u001b[0m" << std::endl; std::exit(x);

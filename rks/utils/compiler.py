@@ -53,16 +53,19 @@ class Compiler:
 		"sp": 6
 	}
 
-	def __init__(self, instruction: str, labels: dict[str, tuple[int, list[str]]],  error: Error) -> None:
+	def __init__(self, instruction: str, labels: dict[str, tuple[int, list[str]]], lines: list[str], error: Error) -> None:
 		self.instruction = instruction
 		self.labels = labels
+		self.lines = lines
 		self.error = error
 
 	def compile(self) -> list[str]:
 		binary = []
 		start = 1
+		word = ""
 
 		instruction = [i.strip().lower() for i in self.instruction.split(" ")]
+		instruction_idx = self.lines.index(self.instruction)
 		print(f"Current Instruction: {instruction[0]} -> {'0'*(6-len(bin(self.instructions[instruction[0]][0])[2:])) + bin(self.instructions[instruction[0]][0])[2:]}")
 
 		if len(instruction[1:]) <= self.instructions[instruction[0]][1]:
@@ -105,7 +108,15 @@ class Compiler:
 						self.error.print_stacktrace("ArgError", f"Unknown base '{arg[0:2]}'")
 
 				elif arg[0] == ".":
-					argBin = "0"*(10-len(bin(self.labels[arg[1:]][0])[2:])) + bin(self.labels[arg[1:]][0])[2:]
+					try:
+						for label in self.labels.keys():
+							if self.labels[label][0] > instruction_idx:
+								self.labels[label] = (self.labels[label][0]+1,) + (self.labels[label][1],) # Funny tuple stuff
+        
+						word = "0"*(16-len(bin(self.labels[arg[1:]][0])[2:])) + bin(self.labels[arg[1:]][0])[2:]
+						argBin = "0"*10
+
+					except KeyError: self.error.print_stacktrace("LabelError", f"Unknown label '{arg[1:]}'")
 
 				else:
 					self.error.print_stacktrace("ArgError", f"Unknown argument prefix '{arg[0]}'")
@@ -125,8 +136,11 @@ class Compiler:
 		else:
 			extra = ", ".join([f"'{arg}'" for arg in instruction[1:][-(len(instruction[1:]) - self.instructions[instruction[0]][1]):]])
 			self.error.print_stacktrace("ArgError", f"Extra arguments {extra}")
+   
+		if len(binary) == 1:
+			binary.append("0"*10)
 
-		return binary
+		return (binary + ["\n" + word]) if word else binary
 
 	@classmethod
 	def clean(cls, instructions: list[str]) -> list[str]:

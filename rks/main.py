@@ -15,7 +15,7 @@ instructions = [temp.strip() for temp in instructions]
 lineno = 1
 for instruction in instructions:
 	error = Error(instruction, lineno, filename)
-	compiler = Compiler(instruction, labels, error)
+	compiler = Compiler(instruction, labels, instructions, error)
 	bin_file.write("".join(compiler.compile()) + "\n")
 
 	lineno += 1
