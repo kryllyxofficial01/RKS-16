@@ -3,6 +3,8 @@
 #include <fstream>
 
 #include "components/Memory.hpp"
+#include "components/Registers.hpp"
+#include "components/Flags.hpp"
 
 using namespace std;
 
@@ -22,7 +24,7 @@ int main() {
 	}
 
 	if (instructions.size() > UINT16_MAX) {
-		cout << "\u001b[33mWARNING: INSTRUCTION FILE GOES OVER 16-BIT LIMIT. EXTRA INSTRUCTIONS WILL BE SKIPPED DURING EXECUTION \u001b[0m\n" << endl;
+		cout << "\u001b[33mWARNING: INSTRUCTION FILE GOES OVER 16-BIT LIMIT. EXTRA INSTRUCTIONS WILL BE SKIPPED DURING EXECUTION\u001b[0m\n" << endl;
 	}
 
 	instructions.resize(UINT16_MAX);

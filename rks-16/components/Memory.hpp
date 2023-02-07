@@ -5,8 +5,10 @@
 #include <map>
 #include <bitset>
 #include <stdlib.h>
+#include <typeinfo>
 
 #include "Registers.hpp"
+#include "Flags.hpp"
 
 using string = std::string;
 
@@ -82,19 +84,72 @@ void Memory::ProgramMemory::execute() {
 			case 14: this->registers.registers.find(3)->second = this->ram.main[this->registers.registers.find(x)->second]; break;
 			case 15: this->ram.stack[this->registers.registers.find(6)->second] = this->registers.registers.find(x)->second; break;
 			case 16: this->registers.registers.find(x)->second = this->ram.stack[this->registers.registers.find(6)->second]; break;
-			case 17: this->registers.registers.find(6)->second += x; break;
-			case 18: this->registers.registers.find(6)->second -= x; break;
-			case 19: this->registers.registers.find(y)->second += this->registers.registers.find(z)->second; break;
-			case 20: this->registers.registers.find(y)->second -= this->registers.registers.find(z)->second; break;
-			case 21: this->registers.registers.find(y)->second *= this->registers.registers.find(z)->second; break;
-			case 22: this->registers.registers.find(y)->second /= this->registers.registers.find(z)->second; break;
-			case 23: this->registers.registers.find(y)->second &= this->registers.registers.find(z)->second; break;
-			case 24: this->registers.registers.find(y)->second |= this->registers.registers.find(z)->second; break;
-			case 25: this->registers.registers.find(y)->second = ~(this->registers.registers.find(y)->second | this->registers.registers.find(z)->second); break;
-			case 26: this->registers.registers.find(y)->second ^= this->registers.registers.find(z)->second; break;
-			case 27: this->registers.registers.find(x)->second = ~(this->registers.registers.find(x)->second); break;
-			case 28: this->registers.registers.find(x)->second++; break;
-			case 29: this->registers.registers.find(x)->second--; break;
+			
+			case 17:
+				this->registers.registers.find(4)->second = Flags::updateFlags(this->registers.registers.find(4)->second, this->registers.registers.find(x)->second + x);
+				this->registers.registers.find(6)->second += x;
+				break;
+			
+			case 18:
+				this->registers.registers.find(4)->second = Flags::updateFlags(this->registers.registers.find(4)->second, this->registers.registers.find(x)->second - x);
+				this->registers.registers.find(6)->second -= x;
+				break;
+			
+			case 19:
+				this->registers.registers.find(4)->second = Flags::updateFlags(this->registers.registers.find(4)->second, this->registers.registers.find(y)->second + this->registers.registers.find(z)->second);
+				this->registers.registers.find(y)->second += this->registers.registers.find(z)->second;
+				break;
+			
+			case 20:
+				this->registers.registers.find(4)->second = Flags::updateFlags(this->registers.registers.find(4)->second, this->registers.registers.find(y)->second - this->registers.registers.find(z)->second);
+				this->registers.registers.find(y)->second -= this->registers.registers.find(z)->second;
+				break;
+			
+			case 21:
+				this->registers.registers.find(4)->second = Flags::updateFlags(this->registers.registers.find(4)->second, this->registers.registers.find(y)->second * this->registers.registers.find(z)->second);
+				this->registers.registers.find(y)->second *= this->registers.registers.find(z)->second;
+				break;
+			
+			case 22:
+				this->registers.registers.find(y)->second /= this->registers.registers.find(z)->second;
+				this->registers.registers.find(4)->second = Flags::updateFlags(this->registers.registers.find(4)->second, this->registers.registers.find(y)->second / this->registers.registers.find(z)->second);
+				break;
+			
+			case 23:
+				this->registers.registers.find(4)->second = Flags::updateFlags(this->registers.registers.find(4)->second, this->registers.registers.find(y)->second & this->registers.registers.find(z)->second);
+				this->registers.registers.find(y)->second &= this->registers.registers.find(z)->second;
+				break;
+			
+			case 24:
+				this->registers.registers.find(4)->second = Flags::updateFlags(this->registers.registers.find(4)->second, this->registers.registers.find(y)->second | this->registers.registers.find(z)->second);
+				this->registers.registers.find(y)->second |= this->registers.registers.find(z)->second;
+				break;
+			
+			case 25:
+				this->registers.registers.find(4)->second = Flags::updateFlags(this->registers.registers.find(4)->second, ~(this->registers.registers.find(y)->second | this->registers.registers.find(z)->second));
+				this->registers.registers.find(y)->second = ~(this->registers.registers.find(y)->second | this->registers.registers.find(z)->second);
+				break;
+			
+			case 26:
+				this->registers.registers.find(4)->second = Flags::updateFlags(this->registers.registers.find(4)->second, this->registers.registers.find(y)->second ^ this->registers.registers.find(z)->second);
+				this->registers.registers.find(y)->second ^= this->registers.registers.find(z)->second;
+				break;
+			
+			case 27:
+				this->registers.registers.find(4)->second = Flags::updateFlags(this->registers.registers.find(4)->second, ~this->registers.registers.find(x)->second);
+				this->registers.registers.find(x)->second = ~(this->registers.registers.find(x)->second);
+				break;
+			
+			case 28:
+				this->registers.registers.find(4)->second = Flags::updateFlags(this->registers.registers.find(4)->second, this->registers.registers.find(x)->second + 1);
+				this->registers.registers.find(x)->second++;
+				break;
+			
+			case 29:
+				this->registers.registers.find(4)->second = Flags::updateFlags(this->registers.registers.find(4)->second, this->registers.registers.find(x)->second - 1);
+				this->registers.registers.find(x)->second--;
+				break;
+			
 			case 30: this->registers.registers.find(5)->second = w-1; break;
 
 			case 38: std::cout << this->registers.registers.find(x)->second << std::endl; break;

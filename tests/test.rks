@@ -1,9 +1,4 @@
-jmp .test
-
-hlt
-
-.label test
-    lda !19
-    ldb !17
-
-out @b
+lda !19
+ldb !17
+sub @b @a
+out @f
