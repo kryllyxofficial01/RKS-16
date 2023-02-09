@@ -62,9 +62,9 @@ void Memory::ProgramMemory::execute() {
 		uint16_t x = (uint16_t) std::bitset<10>(instruction.substr(6)).to_ulong();
 		uint16_t y = (uint16_t) std::bitset<5>(instruction.substr(6, 5)).to_ulong();
 		uint16_t z = (uint16_t) std::bitset<5>(instruction.substr(instruction.size()-5)).to_ulong();
-		uint16_t w = (uint16_t) std::bitset<16>(this->instructions.at(this->registers.registers.find(5)->second+1)).to_ulong();
+		uint16_t w = (uint16_t) std::bitset<16>(this->instructions.at(this->registers.registers.find(5)->second+1)).to_ulong()-1;
 
-		// string flags = std::bitset<3>(this->registers.registers.find(4)->second).to_string();
+		string flags = std::bitset<3>(this->registers.registers.find(4)->second).to_string();
 
 		switch (code) {
 			case 0: break;
@@ -149,11 +149,18 @@ void Memory::ProgramMemory::execute() {
 				this->registers.registers.find(4)->second = Flags::updateFlags(this->registers.registers.find(4)->second, this->registers.registers.find(x)->second - 1);
 				this->registers.registers.find(x)->second--;
 				break;
-			
-			case 30: this->registers.registers.find(5)->second = w-1; break;
 
-			case 38: std::cout << this->registers.registers.find(x)->second << std::endl; break;
-			case 39: std::cout << "\u001b[33mExited with code: " << x << "\u001b[0m" << std::endl; std::exit(x);
+			case 30: this->registers.registers.find(4)->second = Flags::updateFlags(this->registers.registers.find(4)->second, this->registers.registers.find(y)->second - this->registers.registers.find(z)->second); break;
+			case 31: this->registers.registers.find(5)->second = w; break;
+			case 32: this->registers.registers.find(5)->second = flags[0] == '1' ? w : this->registers.registers.find(5)->second; break;
+			case 33: this->registers.registers.find(5)->second = flags[0] == '0' ? w : this->registers.registers.find(5)->second; break;
+			case 34: this->registers.registers.find(5)->second = flags[1] == '1' ? w : this->registers.registers.find(5)->second; break;
+			case 35: this->registers.registers.find(5)->second = flags[1] == '0' ? w : this->registers.registers.find(5)->second; break;
+			case 36: this->registers.registers.find(5)->second = flags[2] == '1' ? w : this->registers.registers.find(5)->second; break;
+			case 37: this->registers.registers.find(5)->second = flags[2] == '0' ? w : this->registers.registers.find(5)->second; break;
+
+			case 40: std::cout << this->registers.registers.find(x)->second << std::endl; break;
+			case 41: std::cout << "\u001b[33mExited with code: " << x << "\u001b[0m" << std::endl; std::exit(x);
 		}
 
 		this->registers.registers.find(5)->second++;

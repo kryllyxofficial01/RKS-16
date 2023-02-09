@@ -1,4 +1,10 @@
 lda !19
-ldb !17
-sub @b @a
-out @f
+ldb !19
+cmp @a @b
+
+jz .test
+
+hlt
+
+.label test
+    out @a
