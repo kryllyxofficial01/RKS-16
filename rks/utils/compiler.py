@@ -52,12 +52,14 @@ class Compiler:
 		"d": 3,
 		"f": 4,
 		"pc": 5,
-		"sp": 6
+		"sp": 6,
+		"cs": 7
 	}
 
-	def __init__(self, instruction: str, labels: dict[str, tuple[int, list[str]]], lines: list[str], error: Error) -> None:
+	def __init__(self, instruction: str, labels: dict[str, tuple[int, list[str]]], macros: dict[str, tuple[int, list[str]]], lines: list[str], error: Error) -> None:
 		self.instruction = instruction
 		self.labels = labels
+		self.macros = macros
 		self.lines = lines
 		self.error = error
 
@@ -113,12 +115,23 @@ class Compiler:
 					try:
 						for label in self.labels.keys():
 							if self.labels[label][0] > instruction_idx:
-								self.labels[label] = (self.labels[label][0]+1,) + (self.labels[label][1],) # Funny tuple stuff
+								self.labels[label] = (self.labels[label][0]+1, self.labels[label][1],)
         
 						word = "0"*(16-len(bin(self.labels[arg[1:]][0])[2:])) + bin(self.labels[arg[1:]][0])[2:]
 						argBin = "0"*10
 
 					except KeyError: self.error.print_stacktrace("LabelError", f"Unknown label '{arg[1:]}'")
+				
+				elif arg[0] == "$":
+					try:
+						for macro in self.macros.keys():
+							if self.macros[macro][0] > instruction_idx:
+								self.macros[macro] = (self.labels[macro][0]+1, self.labels[macro][1],)
+
+						word = "0"*(16-len(bin(self.macros[arg[1:]][0])[2:])) + bin(self.macros[arg[1:]][0])[2:]
+						argBin = "0"*10
+
+					except KeyError: self.error.print_stacktrace("MacroError", f"Unknown macro '{arg[1:]}'")
 
 				else:
 					self.error.print_stacktrace("ArgError", f"Unknown argument prefix '{arg[0]}'")
@@ -152,32 +165,42 @@ class Compiler:
 		return instructions
 
 	@classmethod
-	def collect(cls, lines: list[str], location: str) -> tuple[dict[str, tuple[int, list[str]]], list[str]]:
+	def collect(cls, lines: list[str], location: str) -> tuple[dict[str, tuple[int, list[str]]], dict[str, tuple[int, list[str]]] , list[str]]:
 		labels = {}
+		macros = {}
 		instructions = []
 
-		headers = []
-		idx = 0
 		inLabel = False
 		labelName = ""
+		inMacro = False
+		macroName = ""
+
+		idx = 0
 		for i in range(len(lines)):
 			if lines[i].startswith("."):
-				headers.append(i)
 				header = [temp.strip().lower() for temp in lines[i][1:].split(" ")]
-
 				if header[0] == "label":
 					labels[header[1]] = (idx, [])
 					inLabel = True
 					labelName = header[1]
-				else:
-					Error(lines[i], i+1, location).print_stacktrace("HeaderError", f"Unknown header type '{header[0]}'")
+
+				elif header[0] == "macro":
+					macros[header[1]] = (idx, [])
+					inMacro = True
+					macroName = header[1]
+
+				else: Error(lines[i], i+1, location).print_stacktrace("HeaderError", f"Unknown header type '{header[0]}'")
 
 			elif lines[i] != "":
 				if inLabel:
 					if lines[i].startswith("    "): labels[labelName][1].append(lines[i].strip())
 					else: inLabel = False
+				
+				elif inMacro:
+					if lines[i] != "    ret": macros[macroName][1].append(lines[i].strip())
+					else: inMacro = False
 
 				instructions.append(lines[i])
 				idx += 1
 
-		return labels, instructions
+		return labels, macros, instructions

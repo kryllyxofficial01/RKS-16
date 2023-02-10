@@ -1,10 +1,5 @@
-lda !19
-ldb !19
-cmp @a @b
+.macro test
+    lda !17
+    ret
 
-jz .test
-
-hlt
-
-.label test
-    out @a
+call $test

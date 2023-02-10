@@ -9,13 +9,13 @@ bin_file = open(filename[:-4], 'w')
 
 print("Compiling...")
 instructions = Compiler.clean(file.readlines())
-labels, instructions = Compiler.collect(instructions, filename)
+labels, macros, instructions = Compiler.collect(instructions, filename)
 instructions = [temp.strip() for temp in instructions]
 
 lineno = 1
 for instruction in instructions:
 	error = Error(instruction, lineno, filename)
-	compiler = Compiler(instruction, labels, instructions, error)
+	compiler = Compiler(instruction, labels, macros, instructions, error)
 	bin_file.write("".join(compiler.compile()) + "\n")
 
 	lineno += 1

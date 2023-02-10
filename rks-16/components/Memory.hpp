@@ -27,6 +27,7 @@ class Memory {
 struct Memory::RAM {
 	std::vector<uint16_t> main;
 	std::vector<uint16_t> stack;
+	std::vector<uint16_t> call_stack;
 };
 
 /**
@@ -158,11 +159,18 @@ void Memory::ProgramMemory::execute() {
 			case 35: this->registers.registers.find(5)->second = flags[1] == '0' ? w : this->registers.registers.find(5)->second; break;
 			case 36: this->registers.registers.find(5)->second = flags[2] == '1' ? w : this->registers.registers.find(5)->second; break;
 			case 37: this->registers.registers.find(5)->second = flags[2] == '0' ? w : this->registers.registers.find(5)->second; break;
+			case 38: this->ram.call_stack.at(this->registers.registers.find(7)->second++) = this->registers.registers.find(5)->second; break;
 
 			case 40: std::cout << this->registers.registers.find(x)->second << std::endl; break;
 			case 41: std::cout << "\u001b[33mExited with code: " << x << "\u001b[0m" << std::endl; std::exit(x);
 		}
 
 		this->registers.registers.find(5)->second++;
+	}
+
+	int i = 0;
+	for (uint16_t slot: this->ram.call_stack) {
+		std::cout << i << ": " << slot << std::endl;
+		i++;
 	}
 }

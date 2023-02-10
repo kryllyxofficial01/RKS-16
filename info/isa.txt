@@ -12,6 +12,7 @@ macro = Macro name
 4 - F #Flags
 5 - PC #Program Counter
 6 - SP #Stack Pointer
+7 - CS #Call Stack Pointer
 
 Flags:
 Zero
@@ -84,7 +85,7 @@ Labels:
 .label <label>
     ...
 
-Macros (must have ret to end, otherwise they are executed as labels):
+Macros (must have ret to end):
 .macro <macro>
     ...
     ret
