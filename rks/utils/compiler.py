@@ -195,12 +195,18 @@ class Compiler:
 				if inLabel:
 					if lines[i].startswith("    "): labels[labelName][1].append(lines[i].strip())
 					else: inLabel = False
+
+					instructions.append(lines[i])
 				
 				elif inMacro:
-					if lines[i] != "    ret": macros[macroName][1].append(lines[i].strip())
-					else: inMacro = False
+					if lines[i].strip() == "ret":
+						inMacro = False
 
-				instructions.append(lines[i])
+					macros[macroName][1].append(lines[i].strip())
+				
+				else:
+					instructions.append(lines[i])
+
 				idx += 1
 
 		return labels, macros, instructions

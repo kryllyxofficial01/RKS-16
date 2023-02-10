@@ -12,6 +12,11 @@ instructions = Compiler.clean(file.readlines())
 labels, macros, instructions = Compiler.collect(instructions, filename)
 instructions = [temp.strip() for temp in instructions]
 
+for macro in macros:
+	instructions[0:0] = macros[macro][1]
+
+print(instructions)
+
 lineno = 1
 for instruction in instructions:
 	error = Error(instruction, lineno, filename)

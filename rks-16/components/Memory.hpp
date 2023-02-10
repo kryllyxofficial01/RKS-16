@@ -168,9 +168,9 @@ void Memory::ProgramMemory::execute() {
 		this->registers.registers.find(5)->second++;
 	}
 
-	int i = 0;
-	for (uint16_t slot: this->ram.call_stack) {
-		std::cout << i << ": " << slot << std::endl;
-		i++;
-	}
+	// int i = 0;
+	// for (uint16_t slot: this->ram.call_stack) {
+	// 	std::cout << i << ": " << slot << std::endl;
+	// 	i++;
+	// }
 }
