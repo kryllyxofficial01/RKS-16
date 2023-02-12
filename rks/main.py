@@ -12,13 +12,13 @@ instructions = Compiler.clean(file.readlines())
 labels, macros, instructions = Compiler.collect(instructions, filename)
 instructions = [temp.strip() for temp in instructions]
 
+start = 0
 for macro in macros:
+	start += len(macros[macro][1])
 	instructions[0:0] = macros[macro][1]
 
-print(instructions)
-
 lineno = 1
-for instruction in instructions:
+for instruction in instructions[start:]:
 	error = Error(instruction, lineno, filename)
 	compiler = Compiler(instruction, labels, macros, instructions, error)
 	bin_file.write("".join(compiler.compile()) + "\n")

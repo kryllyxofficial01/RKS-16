@@ -11,8 +11,6 @@ macro = Macro name
 3 - D
 4 - F #Flags
 5 - PC #Program Counter
-6 - SP #Stack Pointer
-7 - CS #Call Stack Pointer
 
 Flags:
 Zero
@@ -46,31 +44,29 @@ $ = macro
 14 -> LRD <reg> #Loads the contents of the RAM address stored in <reg> into register D
 15 -> PSH <reg> #Pushes the contents of <reg> onto the stack
 16 -> POP <reg> #Pops the value at the stack pointer into <reg>
-17 -> ISP <val> #Increments the SP register <val> times
-18 -> DSP <val> #Decrements the SP register <val> times
-19 -> ADD <reg1> <reg2> #Adds <reg1> to <reg2>, and stores the result in <reg1>
-20 -> SUB <reg1> <reg2> #Subtracts <reg1> from <reg2>, and stores the result in <reg1>
-21 -> MUL <reg1> <reg2> #Multiplies <reg1> by <reg2>, and stores the result in <reg1>
-22 -> DIV <reg1> <reg2> #Divides <reg1> by <reg2>, and stores the result in <reg1>
-23 -> AND <reg1> <reg2> #Puts <reg1> and <reg2> through a bitwise AND gate, and stores the result in <reg1>
-24 -> OR <reg1> <reg2> #Puts <reg1> and <reg2> through a bitwise OR gate, and stores the result in <reg1>
-25 -> NOR <reg1> <reg2> #Puts <reg1> and <reg2> through a bitwise NOR gate, and stores the result in <reg1>
-26 -> XOR <reg1> <reg2> #Puts <reg1> and <reg2> through a bitwise XOR gate, and stores the result in <reg1>
-27 -> NOT <reg> #Puts <reg> through a bitwise NOT gate, and stores the result in <reg>
-28 -> INC <reg> #Increments <reg> by 1
-29 -> DEC <reg> #Decrements <reg> by 1
-30 -> JMP <label> #Jumps to <label> unconditionally
-31 -> CMP <reg1> <reg2> #Subtracts the contents of <reg2> from <reg1>; updates flags accordingly
-32 -> JZ <label> #Jump to <label> if the Zero flag is 1
-33 -> JNZ <label> #Jump to <label> if the Zero flag is 0
-34 -> JN <label> #Jump to <label> if the Negative flag is 1
-35 -> JNN <label> #Jump to <label> if the Negative flag is 0
-36 -> JO <label> #Jump to <label> if the Overflow flag is 1
-37 -> JNO <label> #Jump to <label> if the Overflow flag is 0
-38 -> CALL <macro> #Jumps to <macro>, and pushes the PC register to the Call Stack
-39 -> RET #Sets the PC register back to where the macro called
-40 -> OUT <reg> #Prints the value in <reg> to the terminal
-41 -> HLT <code> #Stops the program with exit code <code> (if <code> is ommited, then "0" is used)
+17 -> ADD <reg1> <reg2> #Adds <reg1> to <reg2>, and stores the result in <reg1>
+18 -> SUB <reg1> <reg2> #Subtracts <reg1> from <reg2>, and stores the result in <reg1>
+19 -> MUL <reg1> <reg2> #Multiplies <reg1> by <reg2>, and stores the result in <reg1>
+20 -> DIV <reg1> <reg2> #Divides <reg1> by <reg2>, and stores the result in <reg1>
+21 -> AND <reg1> <reg2> #Puts <reg1> and <reg2> through a bitwise AND gate, and stores the result in <reg1>
+22 -> OR <reg1> <reg2> #Puts <reg1> and <reg2> through a bitwise OR gate, and stores the result in <reg1>
+23 -> NOR <reg1> <reg2> #Puts <reg1> and <reg2> through a bitwise NOR gate, and stores the result in <reg1>
+24 -> XOR <reg1> <reg2> #Puts <reg1> and <reg2> through a bitwise XOR gate, and stores the result in <reg1>
+25 -> NOT <reg> #Puts <reg> through a bitwise NOT gate, and stores the result in <reg>
+26 -> INC <reg> #Increments <reg> by 1
+27 -> DEC <reg> #Decrements <reg> by 1
+28 -> JMP <label> #Jumps to <label> unconditionally
+29 -> CMP <reg1> <reg2> #Subtracts the contents of <reg2> from <reg1>; updates flags accordingly
+30 -> JZ <label> #Jump to <label> if the Zero flag is 1
+31 -> JNZ <label> #Jump to <label> if the Zero flag is 0
+32 -> JN <label> #Jump to <label> if the Negative flag is 1
+33 -> JNN <label> #Jump to <label> if the Negative flag is 0
+34 -> JO <label> #Jump to <label> if the Overflow flag is 1
+35 -> JNO <label> #Jump to <label> if the Overflow flag is 0
+36 -> CALL <macro> #Jumps to <macro>, and pushes the PC register to the Call Stack
+37 -> RET #Sets the PC register back to where the macro called
+38 -> OUT <reg> #Prints the value in <reg> to the terminal
+39 -> HLT <code> #Stops the program with exit code <code> (if <code> is ommited, then "0" is used)
 
 ======================================================================================================================
 

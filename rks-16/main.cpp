@@ -33,8 +33,6 @@ int main() {
 	Registers registers;
 	Memory::RAM ram;
 	ram.main.resize(65024);
-	ram.stack.resize(256);
-	ram.call_stack.resize(256);
 
 	cout << "Executing instructions...\n" << endl;
 	Memory::ProgramMemory programMemory(instructions, registers, ram);
