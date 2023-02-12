@@ -64,7 +64,7 @@ $ = macro
 34 -> JO <label> #Jump to <label> if the Overflow flag is 1
 35 -> JNO <label> #Jump to <label> if the Overflow flag is 0
 36 -> CALL <macro> #Jumps to <macro>, and pushes the PC register to the Call Stack
-37 -> RET #Sets the PC register back to where the macro called
+37 -> RET #Sets the PC register back to where the macro was called
 38 -> OUT <reg> #Prints the value in <reg> to the terminal
 39 -> HLT <code> #Stops the program with exit code <code> (if <code> is ommited, then "0" is used)
 
