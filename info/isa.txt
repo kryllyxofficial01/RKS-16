@@ -2,6 +2,7 @@ Key:
 val = Immediate Value
 reg = Register ID
 label = Label name
+name = Variable Name
 
 16-Bit Registers:
 0 - A
@@ -22,9 +23,11 @@ Prefixes:
 0b = Binary
 0x = Hexadecimal
 . = Label
+$ = Variable
 
 ======================================================================================================================
 
+Instructions:
 0 -> NOP #No operation
 1 -> LDA <val> #Load <val> into register A
 2 -> LDB <val> #Load <val> into register B
@@ -72,6 +75,12 @@ Stack - 256 slots
 
 ======================================================================================================================
 
-Labels:
-.label <label>
+Label Declaration:
+.label <name>
     ...
+
+======================================================================================================================
+
+Directives:
+Mutable Integer Variable -> #def <name> <val>
+Constant (Immutable) Integer Variable -> #const <name> <val>

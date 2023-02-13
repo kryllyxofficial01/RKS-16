@@ -50,9 +50,10 @@ class Compiler:
 		"pc": 5
 	}
 
-	def __init__(self, instruction: str, labels: dict[str, tuple[int, list[str]]], lines: list[str], error: Error) -> None:
+	def __init__(self, instruction: str, labels: dict[str, tuple[int, list[str]]], variables: dict[str, int], lines: list[str], error: Error) -> None:
 		self.instruction = instruction
 		self.labels = labels
+		self.variables = variables
 		self.lines = lines
 		self.error = error
 
@@ -60,6 +61,9 @@ class Compiler:
 		binary = []
 		start = 1
 		word = ""
+
+		if self.instruction.startswith("#"):
+			return binary
 
 		instruction = [i.strip().lower() for i in self.instruction.split(" ")]
 		instruction_idx = self.lines.index(self.instruction)
@@ -119,6 +123,8 @@ class Compiler:
 
 					except KeyError: self.error.print_stacktrace("LabelError", f"Unknown label '{arg[1:]}'")
 				
+				elif arg[0] == "$":
+					argBin = "0"*(10-len(bin(self.variables[arg[1:]])[2:])) + bin(self.variables[arg[1:]])[2:]
 
 				else:
 					self.error.print_stacktrace("ArgError", f"Unknown argument prefix '{arg[0]}'")

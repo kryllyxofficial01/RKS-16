@@ -1,6 +1,4 @@
-lda !19
+#def test 19
 
-psh @a
-pop @b
-
-out @b
+lda $test
+out @a
