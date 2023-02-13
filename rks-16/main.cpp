@@ -23,9 +23,6 @@ int main() {
 		instructions.push_back(line);
 	}
 
-	int start = stoi(instructions.at(0));
-	instructions.erase(instructions.begin());
-
 	if (instructions.size() > UINT16_MAX) {
 		cout << "\u001b[33mWARNING: INSTRUCTION FILE GOES OVER 16-BIT LIMIT. EXTRA INSTRUCTIONS WILL BE SKIPPED DURING EXECUTION\u001b[0m\n" << endl;
 	}
@@ -34,10 +31,8 @@ int main() {
 
 	cout << "Setting up components..." << endl;
 	Registers registers;
-	registers.registers.find(5)->second = start;
-
 	Memory::RAM ram;
-	ram.main.resize(65024);
+	ram.main.resize(65280);
 
 	cout << "Executing instructions...\n" << endl;
 	Memory::ProgramMemory programMemory(instructions, registers, ram);

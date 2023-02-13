@@ -28,7 +28,6 @@ class Memory {
 struct Memory::RAM {
 	std::vector<uint16_t> main;
 	std::stack<uint16_t> stack;
-	std::stack<uint16_t> call_stack;
 };
 
 /**
@@ -85,7 +84,7 @@ void Memory::ProgramMemory::execute() {
 			case 13: this->registers.registers.find(2)->second = this->ram.main[this->registers.registers.find(x)->second]; break;
 			case 14: this->registers.registers.find(3)->second = this->ram.main[this->registers.registers.find(x)->second]; break;
 			case 15: this->ram.stack.push(this->registers.registers.find(x)->second); break;
-			case 16: this->registers.registers.find(x)->second = this->ram.call_stack.top(); this->ram.call_stack.pop(); break;
+			case 16: this->registers.registers.find(x)->second = this->ram.stack.top(); this->ram.stack.pop(); break;
 			
 			case 17:
 				this->registers.registers.find(4)->second = Flags::updateFlags(this->registers.registers.find(4)->second, this->registers.registers.find(y)->second + this->registers.registers.find(z)->second);
@@ -150,19 +149,8 @@ void Memory::ProgramMemory::execute() {
 			case 33: this->registers.registers.find(5)->second = flags[1] == '0' ? w : this->registers.registers.find(5)->second; break;
 			case 34: this->registers.registers.find(5)->second = flags[2] == '1' ? w : this->registers.registers.find(5)->second; break;
 			case 35: this->registers.registers.find(5)->second = flags[2] == '0' ? w : this->registers.registers.find(5)->second; break;
-			
-			case 36:
-				this->ram.call_stack.push(this->registers.registers.find(5)->second);
-				this->registers.registers.find(5)->second = w;
-				break;
-
-			case 37:
-				this->registers.registers.find(5)->second = this->ram.call_stack.top();
-				this->ram.call_stack.pop();
-				break;
-			
-			case 38: std::cout << this->registers.registers.find(x)->second << std::endl; break;
-			case 39: std::cout << "\u001b[33mExited with code: " << x << "\u001b[0m" << std::endl; std::exit(x);
+			case 36: std::cout << this->registers.registers.find(x)->second << std::endl; break;
+			case 37: std::cout << "\u001b[33mExited with code: " << x << "\u001b[0m" << std::endl; std::exit(x);
 		}
 
 		this->registers.registers.find(5)->second++;

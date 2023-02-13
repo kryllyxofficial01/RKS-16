@@ -2,7 +2,6 @@ Key:
 val = Immediate Value
 reg = Register ID
 label = Label name
-macro = Macro name
 
 16-Bit Registers:
 0 - A
@@ -23,7 +22,6 @@ Prefixes:
 0b = Binary
 0x = Hexadecimal
 . = Label
-$ = macro
 
 ======================================================================================================================
 
@@ -63,25 +61,17 @@ $ = macro
 33 -> JNN <label> #Jump to <label> if the Negative flag is 0
 34 -> JO <label> #Jump to <label> if the Overflow flag is 1
 35 -> JNO <label> #Jump to <label> if the Overflow flag is 0
-36 -> CALL <macro> #Jumps to <macro>, and pushes the PC register to the Call Stack
-37 -> RET #Sets the PC register back to where the macro was called
-38 -> OUT <reg> #Prints the value in <reg> to the terminal
-39 -> HLT <code> #Stops the program with exit code <code> (if <code> is ommited, then "0" is used)
+36 -> OUT <reg> #Prints the value in <reg> to the terminal
+37 -> HLT <code> #Stops the program with exit code <code> (if <code> is ommited, then "0" is used)
 
 ======================================================================================================================
 
 RAM Sections:
-Main - 65024 slots
+Main - 65280 slots
 Stack - 256 slots
-Call Stack - 256 slots (cannot be modified or accessed by the user)
 
 ======================================================================================================================
 
 Labels:
 .label <label>
     ...
-
-Macros (must have ret to end):
-.macro <macro>
-    ...
-    ret

@@ -38,10 +38,8 @@ class Compiler:
 		"jnn": (33, 1),
 		"jo": (34, 1),
 		"jno": (35, 1),
-		"call": (36, 1),
-		"ret": (37, 0),
-		"out": (38, 1),
-		"hlt": (39, 1),
+		"out": (36, 1),
+		"hlt": (37, 1),
 	}
 	registers = {
 		"a": 0,
@@ -52,10 +50,9 @@ class Compiler:
 		"pc": 5
 	}
 
-	def __init__(self, instruction: str, labels: dict[str, tuple[int, list[str]]], macros: dict[str, tuple[int, list[str]]], lines: list[str], error: Error) -> None:
+	def __init__(self, instruction: str, labels: dict[str, tuple[int, list[str]]], lines: list[str], error: Error) -> None:
 		self.instruction = instruction
 		self.labels = labels
-		self.macros = macros
 		self.lines = lines
 		self.error = error
 
@@ -66,7 +63,11 @@ class Compiler:
 
 		instruction = [i.strip().lower() for i in self.instruction.split(" ")]
 		instruction_idx = self.lines.index(self.instruction)
-		print(f"Current Instruction: {instruction[0]} -> {'0'*(6-len(bin(self.instructions[instruction[0]][0])[2:])) + bin(self.instructions[instruction[0]][0])[2:]}")
+
+		try:
+			print(f"Current Instruction: {instruction[0]} -> {'0'*(6-len(bin(self.instructions[instruction[0]][0])[2:])) + bin(self.instructions[instruction[0]][0])[2:]}")
+		except KeyError:
+			self.error.print_stacktrace("InstructionError", f"Unknown instruction '{instruction[0]}'")
 
 		if len(instruction[1:]) <= self.instructions[instruction[0]][1]:
 			binary.append("0"*(6-len(bin(self.instructions[instruction[0]][0])[2:])) + bin(self.instructions[instruction[0]][0])[2:])
@@ -118,12 +119,6 @@ class Compiler:
 
 					except KeyError: self.error.print_stacktrace("LabelError", f"Unknown label '{arg[1:]}'")
 				
-				elif arg[0] == "$":
-					try:
-						word = "0"*(16-len(bin(self.macros[arg[1:]][0])[2:])) + bin(self.macros[arg[1:]][0])[2:]
-						argBin = "0"*10
-
-					except KeyError: self.error.print_stacktrace("MacroError", f"Unknown macro '{arg[1:]}'")
 
 				else:
 					self.error.print_stacktrace("ArgError", f"Unknown argument prefix '{arg[0]}'")
@@ -157,15 +152,12 @@ class Compiler:
 		return instructions
 
 	@classmethod
-	def collect(cls, lines: list[str], location: str) -> tuple[dict[str, tuple[int, list[str]]], dict[str, tuple[int, list[str]]] , list[str]]:
+	def collect(cls, lines: list[str], location: str) -> tuple[dict[str, tuple[int, list[str]]], list[str]]:
 		labels = {}
-		macros = {}
 		instructions = []
 
 		inLabel = False
 		labelName = ""
-		inMacro = False
-		macroName = ""
 
 		idx = 0
 		for i in range(len(lines)):
@@ -176,11 +168,6 @@ class Compiler:
 					inLabel = True
 					labelName = header[1]
 
-				elif header[0] == "macro":
-					macros[header[1]] = (None, [])
-					inMacro = True
-					macroName = header[1]
-
 				else: Error(lines[i], i+1, location).print_stacktrace("HeaderError", f"Unknown header type '{header[0]}'")
 
 			elif lines[i] != "":
@@ -188,17 +175,7 @@ class Compiler:
 					if lines[i].startswith("    "): labels[labelName][1].append(lines[i].strip())
 					else: inLabel = False
 
-					instructions.append(lines[i])
-				
-				elif inMacro:
-					if lines[i].strip() == "ret":
-						inMacro = False
-
-					macros[macroName][1].append(lines[i].strip())
-				
-				else:
-					instructions.append(lines[i])
-
+				instructions.append(lines[i])
 				idx += 1
 
-		return labels, macros, instructions
+		return labels, instructions
