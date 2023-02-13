@@ -1,6 +1,6 @@
+call $test
+out @a
+
 .macro test
     lda !19
     ret
-
-call $test
-out @a

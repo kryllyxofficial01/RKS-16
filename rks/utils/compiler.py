@@ -120,10 +120,6 @@ class Compiler:
 				
 				elif arg[0] == "$":
 					try:
-						for macro in self.macros.keys():
-							if self.macros[macro][0] > instruction_idx:
-								self.macros[macro] = (self.labels[macro][0]+1, self.labels[macro][1],)
-
 						word = "0"*(16-len(bin(self.macros[arg[1:]][0])[2:])) + bin(self.macros[arg[1:]][0])[2:]
 						argBin = "0"*10
 
@@ -181,7 +177,7 @@ class Compiler:
 					labelName = header[1]
 
 				elif header[0] == "macro":
-					macros[header[1]] = (idx, [])
+					macros[header[1]] = (None, [])
 					inMacro = True
 					macroName = header[1]
 
