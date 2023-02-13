@@ -1,18 +1,16 @@
-- [ ] Labels
-    - [ ] Creation
-    - [ ] Unconditional Jumping
-    - [ ] Comparing
-    - [ ] Conditionals
-        - [ ] JZ
-        - [ ] JNZ
-        - [ ] JN
-        - [ ] JNN
-        - [ ] JO
-        - [ ] JNO
+- [x] Labels
+    - [x] Creation
+    - [x] Unconditional Jumping
+    - [x] Comparing
+    - [x] Conditionals
+        - [x] JZ
+        - [x] JNZ
+        - [x] JN
+        - [x] JNN
+        - [x] JO
+        - [x] JNO
 
-- [ ] Macros
-    - [ ] Creation
-    - [ ] Calling
-    - [ ] Returning
-
-- [ ] Preprocessor Directives (maybe)
+- [ ] Directives
+    - [ ] Variables
+        - [ ] Mutable
+        - [ ] Constants
