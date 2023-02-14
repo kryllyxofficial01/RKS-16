@@ -1,10 +1,10 @@
 .SILENT:
-all: compile separate main clean
+all: compile separate run clean
 
 compile:
 	set -e && cd rks && python main.py
 
-main:
+run:
 	-cd rks-16 && g++ -std=c++17 -o "main" main.cpp && ./main && cd ..
 
 clean:
