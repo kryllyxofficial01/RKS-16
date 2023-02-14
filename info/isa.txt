@@ -82,5 +82,4 @@ Label Declaration:
 ======================================================================================================================
 
 Directives:
-Mutable Integer Variable -> #def <name> <val>
-Constant (Immutable) Integer Variable -> #const <name> <val>
+Integer Variable -> #def <name> <val>

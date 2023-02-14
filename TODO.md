@@ -11,6 +11,4 @@
         - [x] JNO
 
 - [ ] Directives
-    - [ ] Variables
-        - [ ] Mutable
-        - [ ] Constants
+    - [x] Variables
