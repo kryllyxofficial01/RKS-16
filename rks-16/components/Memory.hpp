@@ -74,7 +74,7 @@ void Memory::ProgramMemory::execute() {
 			case 3: this->registers.registers.find(2)->second = x; break;
 			case 4: this->registers.registers.find(3)->second = x; break;
 			case 5: std::swap(this->registers.registers.find(y)->second, this->registers.registers.find(z)->second); break;
-			case 6: this->registers.registers.find(z)->second = this->registers.registers.find(y)->second; this->registers.registers.find(y)->second = 0; break;
+			case 6: this->registers.registers.find(z)->second = this->registers.registers.find(y)->second; break;
 			case 7: this->ram.main[this->registers.registers.find(x)->second] = this->registers.registers.find(0)->second; break;
 			case 8: this->ram.main[this->registers.registers.find(x)->second] = this->registers.registers.find(1)->second; break;
 			case 9: this->ram.main[this->registers.registers.find(x)->second] = this->registers.registers.find(2)->second; break;

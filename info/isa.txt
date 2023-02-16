@@ -34,7 +34,7 @@ Instructions:
 3 -> LDC <val> #Load <val> into register C
 4 -> LDD <val> #Load <val> into register D
 5 -> SWP <reg1> <reg2> #Swaps the value in <reg1> and <reg2>
-6 -> MOV <reg1> <reg2> #Move the value in <reg1> to <reg2> (overwrites the contents of <reg2> and sets <reg1> to 0)
+6 -> MOV <reg1> <reg2> #Move the value in <reg1> to <reg2> (overwrites the contents of <reg2>)
 7 -> STA <reg> #Store register A's contents at the RAM address stored in <reg>
 8 -> STB <reg> #Store register B's contents at the RAM address stored in <reg>
 9 -> STC <reg> #Store register C's contents at the RAM address stored in <reg>

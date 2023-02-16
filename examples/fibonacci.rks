@@ -8,7 +8,9 @@ ldc $limit
 
 ; Main loop
 .label loop
-	swp @a @b
+	; Fixes timing issues
+	nop
+
 	add @a @b
 	out @b
 	swp @a @b
