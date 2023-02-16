@@ -153,7 +153,7 @@ class Compiler:
 	@classmethod
 	def clean(cls, instructions: list[str]) -> list[str]:
 		for i in range(len(instructions)):
-			if instructions[i] == "\n" or instructions[i].startswith(";"): instructions[i] = ""
+			if instructions[i] == "\n" or instructions[i].strip().startswith(";"): instructions[i] = ""
 			else: instructions[i] = instructions[i].rstrip()
 		return instructions
 
