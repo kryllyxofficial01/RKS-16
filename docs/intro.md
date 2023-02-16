@@ -5,7 +5,7 @@ RKS-16 is a virtual CPU with a 16-Bit architecture, and a custom assembly langua
 - 16-Bit architecture
 - 38 total instructions
 - Memory:
-    - 131.072 KB of RAM
+    - 131.072 KB of RAM total
     - 65280 slots dedicated to main memory
     - 256 slots dedicated to stack
 - Can execute up to roughly 60K instructions<sup>1</sup>
