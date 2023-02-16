@@ -1,4 +1,5 @@
 # Introduction to RKS-16
+RKS-16 is a virtual CPU with a 16-Bit architecture, and a custom assembly language for scripting.
 
 ## Specs:
 - 16-Bit architecture
