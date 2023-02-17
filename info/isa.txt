@@ -3,6 +3,7 @@ val = Immediate Value
 reg = Register ID
 label = Label name
 name = Variable Name
+char = Single Character
 
 16-Bit Registers:
 0 - A
@@ -24,15 +25,16 @@ Prefixes:
 0x = Hexadecimal
 . = Label
 $ = Variable
+Characters are contained inside of single quotes ('')
 
 ======================================================================================================================
 
 Instructions:
 0 -> NOP #No operation
-1 -> LDA <val> #Load <val> into register A
-2 -> LDB <val> #Load <val> into register B
-3 -> LDC <val> #Load <val> into register C
-4 -> LDD <val> #Load <val> into register D
+1 -> LDA <val/char> #Load either <val> or <char>'s ASCII representation into register A
+2 -> LDB <val/char> #Load either <val> or <char>'s ASCII representation into register B
+3 -> LDC <val/char> #Load either <val> or <char>'s ASCII representation into register C
+4 -> LDD <val/char> #Load either <val> or <char>'s ASCII representation into register D
 5 -> SWP <reg1> <reg2> #Swaps the value in <reg1> and <reg2>
 6 -> MOV <reg1> <reg2> #Move the value in <reg1> to <reg2> (overwrites the contents of <reg2>)
 7 -> STA <reg> #Store register A's contents at the RAM address stored in <reg>
@@ -82,4 +84,4 @@ Label Declaration:
 ======================================================================================================================
 
 Directives:
-Integer Variable -> #def <name> <val>
+Variable -> #def <name> <val>

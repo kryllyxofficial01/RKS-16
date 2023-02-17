@@ -125,6 +125,14 @@ class Compiler:
 				
 				elif arg[0] == "$":
 					argBin = "0"*(10-len(bin(self.variables[arg[1:]])[2:])) + bin(self.variables[arg[1:]])[2:]
+				
+				elif arg[0] == "'":
+					if arg[-1] == "'":
+						char = arg[1:-1]
+						if len(char) == 1:argBin = "0"*(10-len(bin(ord(char))[2:])) + bin(ord(char))[2:]
+						else: self.error.print_stacktrace("CharError", f"Expected 1 character, but found {len(char)}")
+
+					else: self.error.print_stacktrace("CharError", "Missing closing \"'\"")
 
 				else:
 					self.error.print_stacktrace("ArgError", f"Unknown argument prefix '{arg[0]}'")

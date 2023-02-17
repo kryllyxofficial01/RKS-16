@@ -1,4 +1,5 @@
 - [ ] Bugfixing
 - [ ] Characters
+	- [x] ASCII Representation
 	- [ ] "put" instruction
  	- [ ] Variables

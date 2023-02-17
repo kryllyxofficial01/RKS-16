@@ -1,0 +1,2 @@
+lda 'a'
+out @a
