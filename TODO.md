@@ -1,1 +1,4 @@
-Bugfixing
+- [ ] Bugfixing
+- [ ] Characters
+	- [ ] "put" instruction
+ 	- [ ] Variables
