@@ -150,7 +150,7 @@ void Memory::ProgramMemory::execute() {
 			case 34: this->registers.registers.find(5)->second = flags[2] == '1' ? w : this->registers.registers.find(5)->second; break;
 			case 35: this->registers.registers.find(5)->second = flags[2] == '0' ? w : this->registers.registers.find(5)->second; break;
 			case 36: std::cout << this->registers.registers.find(x)->second << std::endl; break;
-			case 37: std::cout << (char) this->registers.registers.find(x)->second << std::endl; break;
+			case 37: std::cout << (char) this->registers.registers.find(x)->second; break;
 			case 38: std::cout << "\u001b[33mExited with code: " << x << "\u001b[0m" << std::endl; std::exit(x);
 		}
 

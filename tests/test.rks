@@ -1,4 +1,16 @@
-#def char 'a'
+#def limit !10
+#def fizz !3
+#def buzz !5
 
-lda $char
-put @a
+; Setup
+lda !3
+psh @a
+ldb $fizz
+
+; Get remainder
+div @a @b
+mov @a @b
+ldc $fizz
+mul @b @c
+pop @a
+sub @a @b
