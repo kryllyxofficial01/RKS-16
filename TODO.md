@@ -1,5 +1,6 @@
 - [ ] Bugfixing
 - [ ] Characters
 	- [x] ASCII Representation
-	- [ ] "put" instruction
+	- [x] "put" instruction
  	- [ ] Variables
+- [ ] Add argument prefixes to variable values on declaration

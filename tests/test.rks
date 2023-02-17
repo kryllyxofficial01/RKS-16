@@ -1,2 +1,2 @@
 lda 'a'
-out @a
+put @a

@@ -39,7 +39,8 @@ class Compiler:
 		"jo": (34, 1),
 		"jno": (35, 1),
 		"out": (36, 1),
-		"hlt": (37, 1),
+		"put": (37, 1),
+		"hlt": (38, 1)
 	}
 	registers = {
 		"a": 0,
