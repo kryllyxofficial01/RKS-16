@@ -1,4 +1,4 @@
-from .error import Error
+from .error import *
 
 class Compiler:
 	instructions = {
@@ -194,3 +194,32 @@ class Compiler:
 				idx += 1
 
 		return labels, instructions
+	
+	@classmethod
+	def getValue(cls, content: str) -> int:
+		value = 0
+		if content[0] == "!":
+			try: value = int(content[1:])
+			except ValueError: raise ImmediateValueError
+
+		elif content[0] == "0":
+			base = content[1]
+			if base == "b":
+				try: value = int(content[2:], base=2)
+				except ValueError: raise BaseValueError
+			
+			elif base == "x":
+				try: value = int(content[2:], base=16)
+				except ValueError: raise BaseValueError
+			
+			else: raise BaseTypeError
+
+		elif content[0] == "'":
+			if content[-1] == "'":
+				if len(content[1:-1]) == 1: value = ord(content[1:-1])
+				else: raise CharContentError
+			else: raise CharTerminationError
+		
+		else: raise PrefixError
+		
+		return value

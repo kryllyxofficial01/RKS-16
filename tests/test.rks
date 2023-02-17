@@ -1,2 +1,4 @@
-lda 'a'
+#def char 'a'
+
+lda $char
 put @a
