@@ -1,16 +1,24 @@
 #def limit !10
 #def fizz !3
 #def buzz !5
+#def newline !10
 
 ; Setup
 lda !3
-psh @a
 ldb $fizz
+mov @a @d
 
 ; Get remainder
+psh @a
 div @a @b
 mov @a @b
 ldc $fizz
 mul @b @c
 pop @a
 sub @a @b
+
+; Store the result for later
+ldc !0
+sta @c
+
+cmp @c @a
