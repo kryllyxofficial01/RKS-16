@@ -13,26 +13,17 @@
 
 using string = std::string;
 
-/**
- * Handles all memory.
- */
 class Memory {
 	public:
 		class ProgramMemory;
 		struct RAM;
 };
 
-/**
- * Container for both main memory and stack.
- */
 struct Memory::RAM {
 	std::vector<uint16_t> main;
 	std::stack<uint16_t> stack;
 };
 
-/**
- * Controls the execution of the compiled instruction binary.
- */
 class Memory::ProgramMemory {
 	public:
 		ProgramMemory(std::vector<string> instructions, Registers registers, Memory::RAM ram);
@@ -50,9 +41,6 @@ Memory::ProgramMemory::ProgramMemory(std::vector<string> instructions, Registers
 	this->ram = ram;
 }
 
-/**
- * Executes the instructions.
- */
 void Memory::ProgramMemory::execute() {
 	while (this->registers.registers.find(5)->second < this->instructions.size() && this->instructions.at(this->registers.registers.find(5)->second) != "") {
 		string instruction = this->instructions.at(this->registers.registers.find(5)->second);
