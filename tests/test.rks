@@ -4,16 +4,21 @@
 #def newline !10
 
 ; Setup
-lda !1
+lda !3
 sta @b
-ldb $fizz
 
-jmp .main
+jmp .fizz
 
-.label main
-	; Get remainder
+; Checks if the current number is divisible by 3
+.label fizz
+	ldb $fizz
+
 	div @a @b
 	mul @a @b
 	lrb @c
 	sub @b @a
-	out @b
+
+	cmp @c @b
+
+.label check
+	hlt

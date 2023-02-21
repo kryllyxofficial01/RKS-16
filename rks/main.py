@@ -12,6 +12,8 @@ instructions = Compiler.clean(file.readlines())
 labels, instructions = Compiler.collect(instructions, filename)
 instructions = [temp.strip() for temp in instructions]
 
+print(labels)
+
 variables = {}
 lineno = 1
 for instruction in instructions:
