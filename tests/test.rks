@@ -4,21 +4,16 @@
 #def newline !10
 
 ; Setup
-lda !3
+lda !1
+sta @b
 ldb $fizz
-mov @a @d
 
-; Get remainder
-psh @a
-div @a @b
-mov @a @b
-ldc $fizz
-mul @b @c
-pop @a
-sub @a @b
+jmp .main
 
-; Store the result for later
-ldc !0
-sta @c
-
-cmp @c @a
+.label main
+	; Get remainder
+	div @a @b
+	mul @a @b
+	lrb @c
+	sub @b @a
+	out @b

@@ -13,7 +13,7 @@ class Compiler:
 		"stb": (8, 1),
 		"stc": (9, 1),
 		"std": (10, 1),
-		"lra": (11, 0),
+		"lra": (11, 1),
 		"lrb": (12, 1),
 		"lrc": (13, 1),
 		"lrd": (14, 1),
@@ -174,7 +174,7 @@ class Compiler:
 		inLabel = False
 		labelName = ""
 
-		idx = 0
+		idx = -3 # For some reason this is offset by three
 		for i in range(len(lines)):
 			if lines[i].startswith("."):
 				header = [temp.strip().lower() for temp in lines[i][1:].split(" ")]
@@ -187,7 +187,8 @@ class Compiler:
 
 			elif lines[i] != "":
 				if inLabel:
-					if lines[i].startswith("    "): labels[labelName][1].append(lines[i].strip())
+					if lines[i].replace("    ", "\t").startswith("\t"):
+						labels[labelName][1].append(lines[i].strip())
 					else: inLabel = False
 
 				instructions.append(lines[i])
