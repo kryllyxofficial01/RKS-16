@@ -12,10 +12,3 @@ class Error:
         print(f"{error_name}: {reason}\033[0;0m\n")
 
         sys.exit(-1)
-
-class PrefixError(Exception): pass
-class ImmediateValueError(Exception): pass
-class BaseValueError(Exception): pass
-class BaseTypeError(Exception): pass
-class CharContentError(Exception): pass
-class CharTerminationError(Exception): pass
