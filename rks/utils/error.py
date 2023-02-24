@@ -2,7 +2,7 @@ import sys
 
 class Error:
     def __init__(self, line: str, lineno: int, location: str) -> None:
-        self.line = line
+        self.line = line.strip()
         self.lineno = lineno
         self.location = location
     

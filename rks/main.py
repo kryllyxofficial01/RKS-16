@@ -8,3 +8,8 @@ file = open(filename, 'r')
 bin_file = open(filename[:-4], 'w')
 
 instructions = file.readlines()
+lineno = 1
+for instruction in instructions:
+	error = Error(instruction, lineno, filename)
+	lexer = Lexer(instruction, error)
+	print(lexer.lex())
