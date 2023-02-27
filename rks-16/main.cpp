@@ -26,15 +26,11 @@ int main() {
 	if (instructions.size() > UINT16_MAX) {
 		cout << "\u001b[33mWARNING: INSTRUCTION FILE GOES OVER 16-BIT LIMIT. EXTRA INSTRUCTIONS WILL BE SKIPPED DURING EXECUTION\u001b[0m\n" << endl;
 	}
-
 	instructions.resize(UINT16_MAX);
 
-	cout << "Setting up components..." << endl;
 	Registers registers;
-	Memory::RAM ram;
-	ram.main.resize(65280);
 
 	cout << "Executing instructions...\n" << endl;
-	Memory::ProgramMemory programMemory(instructions, registers, ram);
+	Memory::ProgramMemory programMemory(instructions, registers);
 	programMemory.execute();
 }
