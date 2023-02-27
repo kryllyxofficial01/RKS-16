@@ -4,7 +4,6 @@
 
 #include "components/Memory.hpp"
 #include "components/Registers.hpp"
-#include "components/Flags.hpp"
 
 using namespace std;
 

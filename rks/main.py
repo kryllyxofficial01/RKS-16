@@ -10,4 +10,11 @@ bin_file = open(filename[:-4], 'w')
 instructions = file.readlines()
 Assembler.clean(instructions)
 
-print(instructions)
+for lineno in range(len(instructions)):
+    error = Error(
+        instructions[lineno],
+        lineno+1,
+        filename
+    )
+
+    assembler = Assembler(instructions, error)
