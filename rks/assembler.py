@@ -48,10 +48,16 @@ class Assembler:
                 register_id = self.registers.index(arg[1:])
                 register_bin = bin(register_id)[2:]
                 binary.append("0"*(12-len(register_bin)) + register_bin)
-            
+
             else:
                 immediate_bin = bin(int(arg))[2:]
                 binary.append("\n" +"0"*(16-len(immediate_bin)) + immediate_bin)
+        
+        if len(binary[1:]) == 2:
+            for i in range(len(binary[1:])):
+                if binary[i+1][0] != "\n":
+                    arg = binary[i+1].lstrip("0")
+                    binary[i+1] = "0"*(6-len(arg)) + arg
 
         return binary
     

@@ -1,1 +1,1 @@
-ldi @a 19
+mov @a @b
