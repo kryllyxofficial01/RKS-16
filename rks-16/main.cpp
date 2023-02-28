@@ -2,8 +2,7 @@
 #include <vector>
 #include <fstream>
 
-#include "components/Memory.hpp"
-#include "components/Registers.hpp"
+#include "CPU.hpp"
 
 using namespace std;
 
@@ -27,9 +26,7 @@ int main() {
 	}
 	instructions.resize(UINT16_MAX);
 
-	Registers registers;
-
 	cout << "Executing instructions...\n" << endl;
-	Memory::ProgramMemory programMemory(instructions, registers);
-	programMemory.execute();
+	CPU cpu(instructions);
+	cpu.start();
 }

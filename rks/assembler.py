@@ -33,6 +33,8 @@ class Assembler:
 		self.error = error
 	
 	def assemble(self) -> list[str]:
+		print("Assembling...")
+
 		instruction = self.instruction.split(" ")
 		mneumonic = instruction[0]
 		args = instruction[1:]
@@ -41,7 +43,10 @@ class Assembler:
 		
 		opcode = list(self.instructions.keys()).index(mneumonic)
 		opcode_bin = bin(int(opcode))[2:]
-		binary.append("0"*(opcode_width-len(opcode_bin)) + opcode_bin)
+		opcode = "0"*(opcode_width-len(opcode_bin)) + opcode_bin
+		binary.append(opcode)
+
+		print(f"Current instruction: {mneumonic} -> {opcode}")
 	
 		for arg in args:
 			prefix = arg[0]
