@@ -3,6 +3,7 @@
 #include <fstream>
 
 #include "CPU.hpp"
+#include "Registers.hpp"
 
 using namespace std;
 
@@ -26,7 +27,9 @@ int main() {
 	}
 	instructions.resize(UINT16_MAX);
 
+	Registers registers;
+
 	cout << "Executing instructions...\n" << endl;
-	CPU cpu(instructions);
+	CPU cpu(instructions, registers);
 	cpu.start();
 }
