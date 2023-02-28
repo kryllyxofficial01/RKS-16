@@ -1,9 +1,59 @@
 from error import Error
 
 class Assembler:
+    instructions = {
+        "nop": 0,
+        "ldi": 2,
+        "mov": 2,
+        "swp": 2,
+        "poke": 2,
+        "peek": 2,
+        "psh": 1,
+        "pop": 1,
+        "and": 2,
+        "or": 2,
+        "not": 2,
+        "cmp": 2,
+        "jmp": 1,
+        "jz": 1,
+        "hlt": 1
+    }
+
+    registers = [
+        "a",
+        "b",
+        "c",
+        "d",
+        "f",
+        "pc"
+    ]
+
     def __init__(self, instruction: str, error: Error) -> None:
         self.instruction = instruction
         self.error = error
+    
+    def assemble(self) -> list[str]:
+        instruction = self.instruction.split(" ")
+        mneumonic = instruction[0]
+        args = instruction[1:]
+        binary = []
+        
+        opcode = list(self.instructions.keys()).index(mneumonic)
+        opcode_bin = bin(int(opcode))[2:]
+        binary.append("0"*(4-len(opcode_bin)) + opcode_bin)
+
+        for arg in args:
+            prefix = arg[0]
+            if prefix == "@":
+                register_id = self.registers.index(arg[1:])
+                register_bin = bin(register_id)[2:]
+                binary.append("0"*(12-len(register_bin)) + register_bin)
+            
+            else:
+                immediate_bin = bin(int(arg))[2:]
+                binary.append("\n" +"0"*(16-len(immediate_bin)) + immediate_bin)
+
+        return binary
     
     @staticmethod
     def clean(instructions: list[str]) -> None:

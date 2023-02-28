@@ -1,2 +1,1 @@
-; test
-ldi 19
+ldi @a 19

@@ -17,4 +17,7 @@ for lineno in range(len(instructions)):
         filename
     )
 
-    assembler = Assembler(instructions, error)
+    assembler = Assembler(instructions[lineno], error)
+    binary = assembler.assemble()
+
+    bin_file.write("".join(binary))
