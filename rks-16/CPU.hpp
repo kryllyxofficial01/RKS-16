@@ -23,7 +23,7 @@ CPU::CPU(Memory memory, Registers registers) {
 }
 
 void CPU::start() {
-	while (this->memory.ProgramROM.at(this->registers.PC) != "" && this->registers.PC != this->memory.ProgramROM.size()) {
+	while (this->memory.ProgramROM.at(this->registers.PC) != "" && this->registers.PC != UINT16_MAX) {
 		std::string instruction = this->memory.ProgramROM.at(this->registers.PC);
 		std::string opcode = instruction.substr(0, 4);
 		std::string parameter = instruction.substr(4);
@@ -51,10 +51,14 @@ void CPU::start() {
 				std::swap(this->registers[firstRegister], this->registers[secondRegister]);
 				break;
 			}
+
+			case 4: {
+				int registerID = std::bitset<12>(parameter).to_ulong();
+				this->memory.RAM[std::bitset<16>(immediate).to_ulong()] = this->registers[registerID];
+				break;
+			}
 		}
 
 		this->registers.PC++;
 	}
-
-	std::cout << this->registers[0] << std::endl;
 }

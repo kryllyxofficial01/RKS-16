@@ -1,3 +1,2 @@
 ldi @a 19
-ldi @b 17
-swp @a @b
+poke @a 0x0
