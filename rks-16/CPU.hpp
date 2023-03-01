@@ -44,8 +44,17 @@ void CPU::start() {
 				this->registers[destinationRegister] = this->registers[copiedRegister];
 				break;
 			}
+
+			case 3: {
+				int firstRegister = std::bitset<6>(parameter.substr(0, 6)).to_ulong();
+				int secondRegister = std::bitset<6>(parameter.substr(6)).to_ulong();
+				std::swap(this->registers[firstRegister], this->registers[secondRegister]);
+				break;
+			}
 		}
 
 		this->registers.PC++;
 	}
+
+	std::cout << this->registers[0] << std::endl;
 }

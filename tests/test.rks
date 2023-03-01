@@ -1,2 +1,3 @@
 ldi @a 19
-mov @a @b
+ldi @b 17
+swp @a @b
