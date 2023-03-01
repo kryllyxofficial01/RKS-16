@@ -33,8 +33,6 @@ class Assembler:
 		self.error = error
 	
 	def assemble(self) -> list[str]:
-		print("Assembling...")
-
 		instruction = self.instruction.split(" ")
 		mneumonic = instruction[0]
 		args = instruction[1:]
@@ -58,8 +56,8 @@ class Assembler:
 			else:
 				immediate_bin = bin(int(arg))[2:]
 				binary.append("\n" +"0"*(16-len(immediate_bin)) + immediate_bin)
-		
-		if len(binary[1:]) == 2:
+
+		if not any(arg[0] == "\n" for arg in binary[1:]):
 			for i in range(len(binary[1:])):
 				if binary[i+1][0] != "\n":
 					arg = binary[i+1].lstrip("0")

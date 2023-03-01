@@ -31,10 +31,19 @@ void CPU::start() {
 
 		switch (std::bitset<4>(opcode).to_ulong()) {
 			case 0: break;
-			case 1:
+			
+			case 1: {
 				int registerID = std::bitset<12>(parameter).to_ulong();
 				this->registers[registerID] = (uint16_t) std::bitset<16>(immediate).to_ulong();
 				break;
+			}
+			
+			case 2: {
+				int copiedRegister = std::bitset<6>(parameter.substr(0, 6)).to_ulong();
+				int destinationRegister = std::bitset<6>(parameter.substr(6)).to_ulong();
+				this->registers[destinationRegister] = this->registers[copiedRegister];
+				break;
+			}
 		}
 
 		this->registers.PC++;

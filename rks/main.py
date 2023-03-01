@@ -10,14 +10,16 @@ bin_file = open(filename[:-4], 'w')
 instructions = file.readlines()
 Assembler.clean(instructions)
 
+print("Assembling...")
 for lineno in range(len(instructions)):
-    error = Error(
-        instructions[lineno],
-        lineno+1,
-        filename
-    )
+    if instructions[lineno] != "":
+        error = Error(
+            instructions[lineno],
+            lineno+1,
+            filename
+        )
 
-    assembler = Assembler(instructions[lineno], error)
-    binary = assembler.assemble()
+        assembler = Assembler(instructions[lineno], error)
+        binary = assembler.assemble()
 
-    bin_file.write("".join(binary))
+        bin_file.write("".join(binary) + "\n")
