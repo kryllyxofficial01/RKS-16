@@ -54,7 +54,7 @@ class Assembler:
 				binary.append("0"*((16-opcode_width)-len(register_bin)) + register_bin)
 	
 			else:
-				immediate_bin = bin(int(arg))[2:]
+				immediate_bin = bin(int(arg, base=0))[2:]
 				binary.append("\n" +"0"*(16-len(immediate_bin)) + immediate_bin)
 
 		if not any(arg[0] == "\n" for arg in binary[1:]):

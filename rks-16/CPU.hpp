@@ -57,8 +57,16 @@ void CPU::start() {
 				this->memory.RAM[std::bitset<16>(immediate).to_ulong()] = this->registers[registerID];
 				break;
 			}
+
+			case 5: {
+				int registerID = std::bitset<12>(parameter).to_ulong();
+				this->registers[registerID] = this->memory.RAM[std::bitset<16>(immediate).to_ulong()];
+				break;
+			}
 		}
 
 		this->registers.PC++;
 	}
+
+	std::cout << this->registers[1] << std::endl;
 }
