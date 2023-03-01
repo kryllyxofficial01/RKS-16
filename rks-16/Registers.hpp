@@ -10,7 +10,7 @@ struct Registers {
 	uint16_t F = 0;	
 	uint16_t PC = 0;
 
-	uint16_t& operator[](int index) {
+	inline uint16_t& operator[](int index) {
 		return (&A)[index];
 	}
 };

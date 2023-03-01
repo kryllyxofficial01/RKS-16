@@ -3,33 +3,30 @@
 #include <fstream>
 
 #include "CPU.hpp"
+#include "Memory.hpp"
 #include "Registers.hpp"
 
 using namespace std;
 
 int main() {
 	string filepath;
+	Registers registers;
+	Memory memory;
 
 	// cout << "Enter the filepath: ";
 	// cin >> filepath;
 
 	ifstream reader("../tests/test");
-	vector<string> instructions;
 
 	cout << "Reading binary..." << endl;
 	string line;
+	int i = 0;
 	while (getline(reader, line)) {
-		instructions.push_back(line);
+		memory.ProgramROM.at(i) = line;
+		i++;
 	}
-
-	if (instructions.size() > UINT16_MAX) {
-		cout << "\u001b[33mWARNING: INSTRUCTION FILE GOES OVER 16-BIT LIMIT. EXTRA INSTRUCTIONS WILL BE SKIPPED DURING EXECUTION\u001b[0m\n" << endl;
-	}
-	instructions.resize(UINT16_MAX);
-
-	Registers registers;
 
 	cout << "Executing instructions...\n" << endl;
-	CPU cpu(instructions, registers);
+	CPU cpu(memory, registers);
 	cpu.start();
 }
