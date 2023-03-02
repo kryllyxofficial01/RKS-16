@@ -20,6 +20,8 @@ class Assembler:
 		"cmp": 2,
 		"jmp": 1,
 		"jz": 1,
+		"jo": 1,
+		"jn": 1,
 		"hlt": 1
 	}
 	
