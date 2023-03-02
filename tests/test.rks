@@ -1,3 +1,3 @@
-ldi @a 19
-psh @a
-pop @b
+ldi @a 5
+ldi @b 9
+not @a

@@ -43,15 +43,15 @@ void CPU::start() {
 			}
 			
 			case 2: {
-				int copiedRegister = std::bitset<PARAMETER/2>(parameter.substr(0, PARAMETER/2)).to_ulong();
-				int destinationRegister = std::bitset<PARAMETER/2>(parameter.substr(PARAMETER/2)).to_ulong();
+				int copiedRegister = std::bitset<PARAMETER/2>(parameter.substr(0, (PARAMETER)/2)).to_ulong();
+				int destinationRegister = std::bitset<(PARAMETER)/2>(parameter.substr((PARAMETER)/2)).to_ulong();
 				this->registers[destinationRegister] = this->registers[copiedRegister];
 				break;
 			}
 
 			case 3: {
-				int firstRegister = std::bitset<PARAMETER/2>(parameter.substr(0, PARAMETER/2)).to_ulong();
-				int secondRegister = std::bitset<PARAMETER/2>(parameter.substr(PARAMETER/2)).to_ulong();
+				int firstRegister = std::bitset<PARAMETER/2>(parameter.substr(0, (PARAMETER)/2)).to_ulong();
+				int secondRegister = std::bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
 				std::swap(this->registers[firstRegister], this->registers[secondRegister]);
 				break;
 			}
@@ -82,8 +82,30 @@ void CPU::start() {
 				this->memory.stack.pop();
 				break;
 			}
+
+			case 8: {
+				int firstRegister = std::bitset<PARAMETER/2>(parameter.substr(0, (PARAMETER)/2)).to_ulong();
+				int secondRegister = std::bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
+				this->registers[firstRegister] &= this->registers[secondRegister];
+				break;
+			}
+
+			case 9: {
+				int firstRegister = std::bitset<PARAMETER/2>(parameter.substr(0, (PARAMETER)/2)).to_ulong();
+				int secondRegister = std::bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
+				this->registers[firstRegister] |= this->registers[secondRegister];
+				break;
+			}
+			
+			case 10: {
+				int registerID = std::bitset<PARAMETER>(parameter).to_ulong();
+				this->registers[registerID] = ~this->registers[registerID];
+				break;
+			}
 		}
 
 		this->registers.PC++;
 	}
+
+	std::cout << this->registers[0] << std::endl;
 }
