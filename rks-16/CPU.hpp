@@ -81,6 +81,38 @@ void CPU::start() {
 				break;
 			}
 
+			case 8: {
+				int firstRegister = std::bitset<PARAMETER/2>(parameter.substr(0, (PARAMETER)/2)).to_ulong();
+				int secondRegister = std::bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
+				this->registers.F = Flags::updateFlags(this->registers[firstRegister] + this->registers[secondRegister], this->registers);
+				this->registers[firstRegister] += this->registers[secondRegister];
+				break;
+			}
+
+			case 9: {
+				int firstRegister = std::bitset<PARAMETER/2>(parameter.substr(0, (PARAMETER)/2)).to_ulong();
+				int secondRegister = std::bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
+				this->registers.F = Flags::updateFlags(this->registers[firstRegister] - this->registers[secondRegister], this->registers);
+				this->registers[firstRegister] -= this->registers[secondRegister];
+				break;
+			}
+
+			case 10: {
+				int firstRegister = std::bitset<PARAMETER/2>(parameter.substr(0, (PARAMETER)/2)).to_ulong();
+				int secondRegister = std::bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
+				this->registers.F = Flags::updateFlags(this->registers[firstRegister] * this->registers[secondRegister], this->registers);
+				this->registers[firstRegister] *= this->registers[secondRegister];
+				break;
+			}
+
+			case 11: {
+				int firstRegister = std::bitset<PARAMETER/2>(parameter.substr(0, (PARAMETER)/2)).to_ulong();
+				int secondRegister = std::bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
+				this->registers.F = Flags::updateFlags(this->registers[firstRegister] / this->registers[secondRegister], this->registers);
+				this->registers[firstRegister] /= this->registers[secondRegister];
+				break;
+			}
+
 			case 12: {
 				int firstRegister = std::bitset<PARAMETER/2>(parameter.substr(0, (PARAMETER)/2)).to_ulong();
 				int secondRegister = std::bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
