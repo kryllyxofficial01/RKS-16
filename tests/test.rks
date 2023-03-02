@@ -1,3 +1,11 @@
-ldi @a 65535
+ldi @a 65534
 ldi @b 1
 add @a @b
+
+jo end
+
+.test
+ldi @a 19
+
+.end
+hlt

@@ -135,6 +135,37 @@ void CPU::start() {
 				this->registers[registerID] = ~this->registers[registerID];
 				break;
 			}
+
+			case 15: {
+				int firstRegister = std::bitset<PARAMETER/2>(parameter.substr(0, (PARAMETER)/2)).to_ulong();
+				int secondRegister = std::bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
+				this->registers.F = Flags::updateFlags(this->registers[firstRegister] - this->registers[secondRegister], this->registers);
+			}
+
+			case 16: {
+				std::string immediate = this->memory.ProgramROM.at(++this->registers.PC);
+				this->registers.PC = std::bitset<16>(immediate).to_ulong();
+			}
+
+			case 17: {
+				std::string immediate = this->memory.ProgramROM.at(++this->registers.PC);
+				std::string flags = std::bitset<3>(this->registers.F).to_string();
+				this->registers.PC = flags[0] == '1' ? std::bitset<16>(immediate).to_ulong() : this->registers.PC;
+			}
+
+			case 18: {
+				std::string immediate = this->memory.ProgramROM.at(++this->registers.PC);
+				std::string flags = std::bitset<3>(this->registers.F).to_string();
+				this->registers.PC = flags[1] == '1' ? std::bitset<16>(immediate).to_ulong() : this->registers.PC;
+			}
+
+			case 19: {
+				std::string immediate = this->memory.ProgramROM.at(++this->registers.PC);
+				std::string flags = std::bitset<3>(this->registers.F).to_string();
+				this->registers.PC = flags[2] == '1' ? std::bitset<16>(immediate).to_ulong() : this->registers.PC;
+			}
+
+			case 20: std::exit(0);
 		}
 
 		this->registers.PC++;

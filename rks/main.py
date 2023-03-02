@@ -1,4 +1,4 @@
-import os
+import os, sys
 
 from error import Error
 from assembler import Assembler
@@ -8,7 +8,11 @@ file = open(filename, 'r')
 bin_file = open(filename[:-4], 'w')
 
 instructions = file.readlines()
-Assembler.clean(instructions)
+instructions = Assembler.clean(instructions)
+labels, instructions = Assembler.collect(instructions)
+Assembler.updateLabels(instructions, labels)
+
+print(labels)
 
 print("Assembling...")
 for lineno in range(len(instructions)):
@@ -19,7 +23,7 @@ for lineno in range(len(instructions)):
             filename
         )
 
-        assembler = Assembler(instructions[lineno], error)
+        assembler = Assembler(instructions[lineno], labels, error)
         binary = assembler.assemble()
 
         bin_file.write("".join(binary) + "\n")
