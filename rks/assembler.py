@@ -57,7 +57,7 @@ class Assembler:
 				immediate_bin = bin(int(arg, base=0))[2:]
 				binary.append("\n" +"0"*(16-len(immediate_bin)) + immediate_bin)
 
-		if not any(arg[0] == "\n" for arg in binary[1:]):
+		if not any(arg[0] == "\n" for arg in binary[1:]) and len(binary[1:]) >= 2:
 			for i in range(len(binary[1:])):
 				if binary[i+1][0] != "\n":
 					arg = binary[i+1].lstrip("0")
