@@ -1,15 +1,13 @@
 #pragma once
 
-#define BITS 16
-#define OPCODE 4
-#define PARAMETER BITS-OPCODE
-
 #include <iostream>
 #include <vector>
 #include <bitset>
 
-#include "Registers.hpp"
 #include "Memory.hpp"
+#include "Registers.hpp"
+#include "Flags.hpp"
+#include "Constants.hpp"
 
 class CPU {
 	public:
@@ -32,7 +30,7 @@ void CPU::start() {
 		std::string opcode = instruction.substr(0, OPCODE);
 		std::string parameter = instruction.substr(OPCODE);
 
-		switch (std::bitset<4>(opcode).to_ulong()) {
+		switch (std::bitset<OPCODE>(opcode).to_ulong()) {
 			case 0: break;
 			
 			case 1: {
@@ -83,22 +81,25 @@ void CPU::start() {
 				break;
 			}
 
-			case 8: {
+			case 12: {
 				int firstRegister = std::bitset<PARAMETER/2>(parameter.substr(0, (PARAMETER)/2)).to_ulong();
 				int secondRegister = std::bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
+				this->registers.F = Flags::updateFlags(this->registers[firstRegister] & this->registers[secondRegister], this->registers);
 				this->registers[firstRegister] &= this->registers[secondRegister];
 				break;
 			}
 
-			case 9: {
+			case 13: {
 				int firstRegister = std::bitset<PARAMETER/2>(parameter.substr(0, (PARAMETER)/2)).to_ulong();
 				int secondRegister = std::bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
+				Flags::updateFlags(this->registers[firstRegister] | this->registers[secondRegister], this->registers);
 				this->registers[firstRegister] |= this->registers[secondRegister];
 				break;
 			}
-			
-			case 10: {
+
+			case 14: {
 				int registerID = std::bitset<PARAMETER>(parameter).to_ulong();
+				Flags::updateFlags(~this->registers[registerID], this->registers);
 				this->registers[registerID] = ~this->registers[registerID];
 				break;
 			}
@@ -106,6 +107,4 @@ void CPU::start() {
 
 		this->registers.PC++;
 	}
-
-	std::cout << this->registers[0] << std::endl;
 }

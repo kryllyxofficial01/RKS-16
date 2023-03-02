@@ -10,6 +10,10 @@ class Assembler:
 		"peek": 2,
 		"psh": 1,
 		"pop": 1,
+		"add": 2,
+		"sub": 2,
+		"mul": 2,
+		"div": 2,
 		"and": 2,
 		"or": 2,
 		"not": 2,
@@ -58,10 +62,12 @@ class Assembler:
 				binary.append("\n" +"0"*(16-len(immediate_bin)) + immediate_bin)
 
 		if not any(arg[0] == "\n" for arg in binary[1:]) and len(binary[1:]) >= 2:
+			args_bitwidth = 16-opcode_width
+			binary.insert(1, "-"*(args_bitwidth % 2))
+
 			for i in range(len(binary[1:])):
-				if binary[i+1][0] != "\n":
+				if binary[i+1][0] != "\n" and binary[i+1] != "-":
 					arg = binary[i+1].lstrip("0")
-					args_bitwidth = 16-opcode_width
 					arg_width = 0
 					
 					if args_bitwidth % 2 == 0: arg_width = int(args_bitwidth/2)
@@ -69,9 +75,9 @@ class Assembler:
 
 					binary[i+1] = "0"*(arg_width-len(arg)) + arg
 	
-		elif len(binary[1:]) == 0: binary.append("0"*(12))
-	
-		return binary
+		elif len(binary[1:]) == 0: binary.append("0"*(16-opcode_width))
+
+		return [compiled.replace("-", "0") if "-" in compiled else compiled for compiled in binary] # wtf is this
 	
 	@staticmethod
 	def clean(instructions: list[str]) -> None:
