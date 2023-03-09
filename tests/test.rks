@@ -1,24 +1,11 @@
-#def limit !10
-#def fizz !3
-#def buzz !5
-#def newline !10
+ldi @a 65534
+ldi @b 1
+add @a @b
 
-; Setup
-lda !3
-sta @b
+jo end
 
-jmp .fizz
+.test
+ldi @a 19
 
-; Checks if the current number is divisible by 3
-.label fizz
-	ldb $fizz
-
-	div @a @b
-	mul @a @b
-	lrb @c
-	sub @b @a
-
-	cmp @c @b
-
-.label check
-	hlt
+.end
+hlt
