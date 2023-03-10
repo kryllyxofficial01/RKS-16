@@ -9,5 +9,6 @@ run:
 
 clean:
 	find rks-16/build/ -mindepth 1 -delete
+
 separate:
 	echo -e "\n===========================================\n"
