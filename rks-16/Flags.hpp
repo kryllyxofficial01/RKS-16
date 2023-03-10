@@ -3,8 +3,7 @@
 #include <iostream>
 #include <bitset>
 
-#include "Registers.hpp"
-#include "Constants.hpp"
+#include "RKS-16.hpp"
 
 class Flags {
     public:

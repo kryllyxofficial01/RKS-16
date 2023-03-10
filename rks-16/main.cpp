@@ -1,10 +1,9 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <SDL2/SDL.h>
 
-#include "CPU.hpp"
-#include "Memory.hpp"
-#include "Registers.hpp"
+#include "RKS-16.hpp"
 
 using namespace std;
 
@@ -12,6 +11,7 @@ int main() {
 	string filepath;
 	Registers registers;
 	Memory memory;
+	Emulator emulator;
 
 	// cout << "Enter the filepath: ";
 	// cin >> filepath;
@@ -29,4 +29,5 @@ int main() {
 	cout << "Executing instructions...\n" << endl;
 	CPU cpu(memory, registers);
 	cpu.start();
+
 }

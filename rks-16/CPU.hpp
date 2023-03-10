@@ -4,10 +4,7 @@
 #include <vector>
 #include <bitset>
 
-#include "Memory.hpp"
-#include "Registers.hpp"
-#include "Flags.hpp"
-#include "Constants.hpp"
+#include "RKS-16.hpp"
 
 class CPU {
 	public:
