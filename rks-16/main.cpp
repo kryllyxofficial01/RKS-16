@@ -27,5 +27,5 @@ int main() {
 
 	cout << "Executing instructions...\n" << endl;
 	CPU cpu(memory, registers);
-	cpu.start();
+	cpu.run();
 }
