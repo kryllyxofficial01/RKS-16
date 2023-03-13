@@ -1,3 +1,5 @@
+FLAGS = -std=c++17 -o "./build/main"
+
 .SILENT:
 all: clean compile separate run
 
@@ -5,9 +7,10 @@ compile:
 	set -e && cd rks && python main.py
 
 run:
-	-cd rks-16 && g++ -std=c++17 -o "./build/main" main.cpp && ./build/main && cd ..
+	-cd rks-16 && g++ $(FLAGS) main.cpp && ./build/main
 
 clean:
+	if [ ! -d "rks-16/build" ]; then mkdir rks-16/build; fi
 	find rks-16/build/ -mindepth 1 -delete
 
 separate:

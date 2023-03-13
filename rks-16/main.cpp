@@ -2,9 +2,7 @@
 #include <vector>
 #include <fstream>
 
-#include "CPU.hpp"
-#include "Memory.hpp"
-#include "Registers.hpp"
+#include "RKS-16.hpp"
 
 using namespace std;
 
@@ -28,5 +26,5 @@ int main() {
 
 	cout << "Executing instructions...\n" << endl;
 	CPU cpu(memory, registers);
-	cpu.start();
+	cpu.run();
 }

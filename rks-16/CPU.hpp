@@ -4,15 +4,12 @@
 #include <vector>
 #include <bitset>
 
-#include "Memory.hpp"
-#include "Registers.hpp"
-#include "Flags.hpp"
-#include "Constants.hpp"
+#include "RKS-16.hpp"
 
 class CPU {
 	public:
 		CPU(Memory, Registers);
-		void start();
+		inline void run();
 
 	private:
 		Memory memory;
@@ -24,7 +21,7 @@ CPU::CPU(Memory memory, Registers registers) {
 	this->registers = registers;
 }
 
-void CPU::start() {
+void CPU::run() {
 	while (this->memory.ProgramROM.at(this->registers.PC) != "" && this->registers.PC != UINT16_MAX) {
 		std::string instruction = this->memory.ProgramROM.at(this->registers.PC);
 		std::string opcode = instruction.substr(0, OPCODE);

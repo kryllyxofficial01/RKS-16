@@ -12,8 +12,6 @@ instructions = Assembler.clean(instructions)
 labels, instructions = Assembler.collect(instructions)
 Assembler.updateLabels(instructions, labels)
 
-print(labels)
-
 print("Assembling...")
 for lineno in range(len(instructions)):
     if instructions[lineno] != "":
