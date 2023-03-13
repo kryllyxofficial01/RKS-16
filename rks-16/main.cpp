@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
-#include <SDL2/SDL.h>
 
 #include "RKS-16.hpp"
 

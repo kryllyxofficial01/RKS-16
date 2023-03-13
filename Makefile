@@ -1,4 +1,4 @@
-FLAGS = -std=c++17 -o "./build/main" `sdl2-config --libs --cflags` -ggdb3 -O0 -Wall
+FLAGS = -std=c++17 -o "./build/main"
 
 .SILENT:
 all: clean compile separate run
