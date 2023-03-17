@@ -1,8 +1,4 @@
-#include <iostream>
-#include <vector>
-#include <fstream>
-
-#include "RKS-16.hpp"
+#include "basic.h"
 
 using namespace std;
 
@@ -25,6 +21,6 @@ int main() {
 	}
 
 	cout << "Executing instructions...\n" << endl;
-	CPU cpu(memory, registers);
+	RKS16 cpu(memory, registers);
 	cpu.run();
 }
