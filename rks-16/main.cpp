@@ -1,4 +1,5 @@
 #include "basic.h"
+#include "RKS-16.hpp"
 
 using namespace std;
 

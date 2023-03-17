@@ -2,6 +2,8 @@
 #define RKS_16
 
 #include "basic.h"
+#include "Memory.hpp"
+#include "Registers.hpp"
 
 class RKS16 {
 	public:
