@@ -1,11 +1,24 @@
-ldi @a 65534
-ldi @b 1
-add @a @b
+.fard
+nop
 
-jo end
+; f
+ldi @a 102
+poke @a 0xFFFF
 
-.test
-ldi @a 19
+; a
+ldi @a 97
+poke @a 0xFFFF
 
-.end
-hlt
+; r
+ldi @a 114
+poke @a 0xFFFF
+
+; d
+ldi @a 100
+poke @a 0xFFFF
+
+; line feed
+ldi @a 10
+poke @a 0xFFFF
+
+jmp fard
