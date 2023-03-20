@@ -1,7 +1,7 @@
-#ifndef RKS_16
-#define RKS_16
+#ifndef RKS16_HPP
+#define RKS16_HPP
 
-#include "basic.h"
+#include "Constants.hpp"
 #include "Memory.hpp"
 #include "Registers.hpp"
 

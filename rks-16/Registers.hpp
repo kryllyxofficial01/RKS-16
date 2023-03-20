@@ -1,7 +1,7 @@
-#ifndef REG
-#define REG
+#ifndef REG_HPP
+#define REG_HPP
 
-#include "basic.h"
+#include "Constants.hpp"
 
 struct Registers {
 	uint16_t A = 0;
