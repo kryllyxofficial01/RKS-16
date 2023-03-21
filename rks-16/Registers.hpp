@@ -11,11 +11,11 @@ struct Registers {
 	uint16_t F = 0;	
 	uint16_t PC = 0;
 
-	inline uint16_t& operator[](int index) {
+	inline uint16_t& operator[](const int index) {
 		return (&A)[index];
 	}
 
-	void updateFlags(int result) {
+	void updateFlags(const int result) {
 		std::string flags = std::bitset<FLAGS>(this->F).to_string();
 		flags[0] = result == 0 ? '1' : '0';              // Zero Flag
 		flags[1] = result > UINT16_MAX ? '1' : '0';      // Overflow
