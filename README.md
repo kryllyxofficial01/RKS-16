@@ -49,9 +49,9 @@ hlt                : Halt the CPU
 *NOTE:* All ALU operations store the result in the first specified register
 
 ## I/O
-| Port     | RAM Address |
-|:--------:|:-----------:|
-| Output   | 0xFFFF      |
+| Port     | RAM Address | Purpose           |
+|:--------:|:-----------:|:-----------------:|
+| Output   | 0xFFFF      | Print a character |
 
 ---
 ## Credits
