@@ -77,4 +77,5 @@ For all ports, all that is needed is to just store the value at the correspondin
 [Carlsonen](https://github.com/Carlsonen)
 [Verlio-H](https://github.com/Verlio-H)
 [Matthias1590](https://github.com/Matthias1590)
+[Nano112](https://github.com/Nano112)
 Tape#8369
