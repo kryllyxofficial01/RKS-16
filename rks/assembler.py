@@ -47,17 +47,34 @@ class Assembler:
 		noRegisterArgs = ("nop", "jmp", "jz" ,"jo", "jn", "hlt")
 		binary = []
 		
-		opcode = list(self.instructions.keys()).index(mneumonic)
+		try: opcode = list(self.instructions.keys()).index(mneumonic)
+		except ValueError: self.error.print_stacktrace(
+			"MneumonicError",
+			f"Invalid instruction '{mneumonic}'"
+		)
+		
 		opcode_bin = bin(int(opcode))[2:]
 		opcode = "0"*(opcode_width-len(opcode_bin)) + opcode_bin
 		binary.append(opcode)
 
 		print(f"Current instruction: {mneumonic} -> {opcode}")
+
+		if len(args) > self.instructions[mneumonic]:
+			extra = [f"'{arg}'" for arg in args[self.instructions[mneumonic]:]]
+			self.error.print_stacktrace(
+				"ArgError",
+				f"Extra argument(s) {', '.join(extra)}"
+			)
 	
 		for arg in args:
 			prefix = arg[0]
 			if prefix == "@":
-				register_id = self.registers.index(arg[1:])
+				try: register_id = self.registers.index(arg[1:])
+				except ValueError: self.error.print_stacktrace(
+					"RegisterError",
+					f"Invalid register ID '{arg[1:]}'"
+				)
+				
 				register_bin = bin(register_id)[2:]
 				binary.append("0"*((16-opcode_width)-len(register_bin)) + register_bin)
 	
@@ -67,7 +84,12 @@ class Assembler:
 					binary.append("\n" +"0"*(16-len(immediate_bin)) + immediate_bin)
 				
 				except ValueError:
-					immediate_bin = bin(self.labels[arg])[2:]
+					try: immediate_bin = bin(self.labels[arg])[2:]
+					except KeyError: self.error.print_stacktrace(
+						"ArgError",
+						f"Invalid argument '{arg}'"
+					)
+
 					binary.append("\n" +"0"*(16-len(immediate_bin)) + immediate_bin)
 
 		if not any(arg[0] == "\n" for arg in binary[1:]) and len(binary[1:]) >= 2:
@@ -87,8 +109,13 @@ class Assembler:
 		elif mneumonic in noRegisterArgs:
 			try: binary.insert(1, "0"*(16-opcode_width))
 			except IndexError: binary.append("0"*(16-opcode_width))
-
-		return [compiled.replace("-", "0") if "-" in compiled else compiled for compiled in binary] # wtf is this
+		
+		return [
+			compiled.replace("-", "0")
+			if "-" in compiled 
+			else compiled
+			for compiled in binary
+		]
 	
 	@staticmethod
 	def clean(instructions: list[str]) -> list[str]:

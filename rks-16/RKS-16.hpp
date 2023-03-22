@@ -1,9 +1,16 @@
-#ifndef RKS_16
-#define RKS_16
+#ifndef RKS16_HPP
+#define RKS16_HPP
 
-#include "basic.h"
+#include "Constants.hpp"
 #include "Memory.hpp"
 #include "Registers.hpp"
+#include "Ports.hpp"
+
+void ports::IO::output(const uint16_t address, const uint16_t value) {
+	if (address == 0xFFFF) {
+		std::cout << char(value);
+	}
+}
 
 class RKS16 {
 	public:
@@ -54,6 +61,12 @@ void RKS16::run() {
 				int registerID = std::bitset<PARAMETER>(parameter).to_ulong();
 				std::string immediate = this->memory.ProgramROM.at(++this->registers.PC);
 				this->memory.RAM[std::bitset<BITS>(immediate).to_ulong()] = this->registers[registerID];
+
+				ports::IO::output(
+					std::bitset<BITS>(immediate).to_ulong(),
+					this->memory.RAM[std::bitset<BITS>(immediate).to_ulong()]
+				);
+
 				break;
 			}
 

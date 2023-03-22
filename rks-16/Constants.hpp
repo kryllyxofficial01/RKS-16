@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CONST_HPP
+#define CONST_HPP
 
 #include <iostream>
 #include <vector>
@@ -10,3 +11,5 @@
 #define OPCODE 5
 #define PARAMETER BITS-OPCODE
 #define FLAGS 3
+
+#endif
