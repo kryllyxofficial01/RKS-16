@@ -31,12 +31,12 @@ poke <reg> <imm16> : Store a register at an address
 peek <reg> <imm16> : Load a value from an address into a register
 psh <reg>          : Push a register's value onto the stack
 pop <reg>          : Pop the top value of the stack into a register
-add* <reg> <reg>    : Add two registers together
-sub* <reg> <reg>    : Subtract a register from another
-mul* <reg> <reg>    : Multiply two registers together
-div* <reg> <reg>    : Subtract a register by another
-and* <reg> <reg>    : Bitwise AND two registers
-and* <reg> <reg>    : Bitwise OR two registers
+add* <reg> <reg>   : Add two registers together
+sub* <reg> <reg>   : Subtract a register from another
+mul* <reg> <reg>   : Multiply two registers together
+div* <reg> <reg>   : Subtract a register by another
+and* <reg> <reg>   : Bitwise AND two registers
+and* <reg> <reg>   : Bitwise OR two registers
 not <reg>          : Bitwise NOT a register
 cmp <reg> <reg>    : Performs subtraction, but only updates flags
 jmp <label>        : Unconditional jump
