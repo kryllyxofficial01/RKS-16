@@ -6,18 +6,22 @@ read filepath
 assemble() {
     cd rks
     python main.py $filepath
+    cd ..
 }
 
 emulate() {
     rom=${filepath%""."$(echo $filepath | awk -F "." '{print $NF}')"}
-    cd "../rks-16"
+    cd "rks-16"
     g++ -std=c++17 -o "./build/main" main.cpp
     ./build/main $rom
+    cd ..
 }
 
 clean() {
-    if [ ! -d "../rks-16/build" ]; then mkdir rks-16/build; fi
-	find "../rks-16/build/" -mindepth 1 -delete
+    cd "rks-16"
+    if [ ! -d "./build" ]; then mkdir "./build"; fi
+	find "./build/" -mindepth 1 -delete
+    cd ..
 }
 
 assemble
