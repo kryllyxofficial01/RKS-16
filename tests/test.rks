@@ -1,0 +1,24 @@
+.fard
+nop
+
+; f
+ldi @a 102
+poke @a 0xFFFF
+
+; a
+ldi @a 97
+poke @a 0xFFFF
+
+; r
+ldi @a 114
+poke @a 0xFFFF
+
+; d
+ldi @a 100
+poke @a 0xFFFF
+
+; line feed
+ldi @a 10
+poke @a 0xFFFF
+
+jmp fard

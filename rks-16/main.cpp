@@ -3,15 +3,12 @@
 
 using namespace std;
 
-int main() {
+int main(int argc, char* argv[]) {
 	string filepath;
 	Registers registers;
 	Memory memory;
 
-	// cout << "Enter the filepath: ";
-	// cin >> filepath;
-
-	ifstream reader("../tests/test");
+	ifstream reader(argv[1]);
 
 	cout << "Reading binary..." << endl;
 	string line;
