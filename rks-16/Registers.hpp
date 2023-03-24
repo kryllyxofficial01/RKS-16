@@ -17,9 +17,9 @@ struct Registers {
 
 	void updateFlags(const int result) {
 		std::string flags = std::bitset<FLAGS>(this->F).to_string();
-		flags[0] = result == 0 ? '1' : '0';              // Zero Flag
-		flags[1] = result > UINT16_MAX ? '1' : '0';      // Overflow
-		flags[2] = result < 0 ? '1' : '0';               // Negative
+		flags[0] = result == 0 ? '1' : '0'; // Zero Flag
+		flags[1] = result > UINT16_MAX ? '1' : '0'; // Overflow
+		flags[2] = result < 0 ? '1' : '0'; // Negative
 		this->F = std::bitset<FLAGS>(flags).to_ulong();
 	}
 };
