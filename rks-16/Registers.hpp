@@ -1,10 +1,6 @@
 #ifndef REGS
 #define REGS
 
-#include <bitset>
-
-#include "RKS-16.hpp"
-
 struct rks::Registers {
 	uint16_t A;
 	uint16_t B;
