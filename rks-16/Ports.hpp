@@ -1,5 +1,7 @@
-#ifndef PORTS_HPP
-#define PORTS_HPP
+#ifndef PORTS
+#define PORTS
+
+#include <iostream>
 
 namespace ports {
 	class IO {

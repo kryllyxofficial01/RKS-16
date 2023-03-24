@@ -1,7 +1,9 @@
-#ifndef MEM_HPP
-#define MEM_HPP
+#ifndef MEM
+#define MEM
 
-#include "Constants.hpp"
+#include <iostream>
+#include <vector>
+#include <stack>
 
 struct Memory {
     std::vector<uint16_t> RAM = std::vector<uint16_t>(65536, 0);

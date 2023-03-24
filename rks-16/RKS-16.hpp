@@ -1,10 +1,13 @@
-#ifndef RKS16_HPP
-#define RKS16_HPP
+#ifndef RKS
+#define RKS
 
-#include "Constants.hpp"
+#include <iostream>
+#include <bitset>
+
 #include "Memory.hpp"
 #include "Registers.hpp"
 #include "Ports.hpp"
+#include "Constants.hpp"
 
 void ports::IO::output(const uint16_t address, const uint16_t value) {
 	if (address == 0xFFFF) {

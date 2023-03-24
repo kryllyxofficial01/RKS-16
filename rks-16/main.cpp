@@ -1,5 +1,9 @@
-#include "Constants.hpp"
+#include <iostream>
+#include <fstream>
+
 #include "RKS-16.hpp"
+#include "Memory.hpp"
+#include "Registers.hpp"
 
 using namespace std;
 

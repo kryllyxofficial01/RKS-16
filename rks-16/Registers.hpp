@@ -1,5 +1,7 @@
-#ifndef REG_HPP
-#define REG_HPP
+#ifndef REGS
+#define REGS
+
+#include <bitset>
 
 #include "Constants.hpp"
 

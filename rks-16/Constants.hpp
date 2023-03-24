@@ -1,11 +1,5 @@
-#ifndef CONST_HPP
-#define CONST_HPP
-
-#include <iostream>
-#include <vector>
-#include <bitset>
-#include <stack>
-#include <fstream>
+#ifndef CONST
+#define CONST
 
 #define BITS 16
 #define OPCODE 5
