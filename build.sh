@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -o errexit
 echo -n "Enter filepath: "
 read filepath
 

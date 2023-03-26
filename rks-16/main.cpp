@@ -22,7 +22,7 @@ void rks::CPU::run() {
 
 		switch (bitset<OPCODE>(opcode).to_ulong()) {
 			case 0: break;
-			
+
 			case 1: {
 				int registerID = bitset<PARAMETER/2>(parameter).to_ulong();
 				string immediate = this->memory.ProgramROM.at(++this->registers.PC);
@@ -192,6 +192,9 @@ void rks::Registers::updateFlags(const int result) {
 void rks::ports::IO::output(const uint16_t address, const uint16_t value) {
 	if (address == 0xFFFF) {
 		cout << char(value);
+	}
+	else if (address == 0xFFFE) {
+		cout << value;
 	}
 }
 
