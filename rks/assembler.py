@@ -109,7 +109,7 @@ class Assembler:
 		elif mneumonic in noRegisterArgs:
 			try: binary.insert(1, "0"*(16-opcode_width))
 			except IndexError: binary.append("0"*(16-opcode_width))
-		
+
 		return [
 			compiled.replace("-", "0")
 			if "-" in compiled 

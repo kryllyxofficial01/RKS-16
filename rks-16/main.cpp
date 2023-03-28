@@ -29,16 +29,16 @@ void rks::CPU::run() {
 				this->registers[registerID] = (uint16_t) bitset<BITS>(immediate).to_ulong();
 				break;
 			}
-			
+
 			case 2: {
-				int copiedRegister = bitset<PARAMETER/2>(parameter.substr(0, (PARAMETER)/2)).to_ulong();
+				int copiedRegister = bitset<PARAMETER/2>(parameter.substr(1, (PARAMETER)/2)).to_ulong();
 				int destinationRegister = bitset<(PARAMETER)/2>(parameter.substr((PARAMETER)/2)).to_ulong();
 				this->registers[destinationRegister] = this->registers[copiedRegister];
 				break;
 			}
 
 			case 3: {
-				int firstRegister = bitset<PARAMETER/2>(parameter.substr(0, (PARAMETER)/2)).to_ulong();
+				int firstRegister = bitset<PARAMETER/2>(parameter.substr(1, (PARAMETER)/2)).to_ulong();
 				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
 				std::swap(this->registers[firstRegister], this->registers[secondRegister]);
 				break;
@@ -78,7 +78,7 @@ void rks::CPU::run() {
 			}
 
 			case 8: {
-				int firstRegister = bitset<PARAMETER/2>(parameter.substr(0, (PARAMETER)/2)).to_ulong();
+				int firstRegister = bitset<PARAMETER/2>(parameter.substr(1, (PARAMETER)/2)).to_ulong();
 				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
 				this->registers.updateFlags(this->registers[firstRegister] + this->registers[secondRegister]);
 				this->registers[firstRegister] += this->registers[secondRegister];
@@ -86,7 +86,7 @@ void rks::CPU::run() {
 			}
 
 			case 9: {
-				int firstRegister = bitset<PARAMETER/2>(parameter.substr(0, (PARAMETER)/2)).to_ulong();
+				int firstRegister = bitset<PARAMETER/2>(parameter.substr(1, (PARAMETER)/2)).to_ulong();
 				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
 				this->registers.updateFlags(this->registers[firstRegister] - this->registers[secondRegister]);
 				this->registers[firstRegister] -= this->registers[secondRegister];
@@ -94,7 +94,7 @@ void rks::CPU::run() {
 			}
 
 			case 10: {
-				int firstRegister = bitset<PARAMETER/2>(parameter.substr(0, (PARAMETER)/2)).to_ulong();
+				int firstRegister = bitset<PARAMETER/2>(parameter.substr(1, (PARAMETER)/2)).to_ulong();
 				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
 				this->registers.updateFlags(this->registers[firstRegister] * this->registers[secondRegister]);
 				this->registers[firstRegister] *= this->registers[secondRegister];
@@ -102,7 +102,7 @@ void rks::CPU::run() {
 			}
 
 			case 11: {
-				int firstRegister = bitset<PARAMETER/2>(parameter.substr(0, (PARAMETER)/2)).to_ulong();
+				int firstRegister = bitset<PARAMETER/2>(parameter.substr(1, (PARAMETER)/2)).to_ulong();
 				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
 				this->registers.updateFlags(this->registers[firstRegister] / this->registers[secondRegister]);
 				this->registers[firstRegister] /= this->registers[secondRegister];
@@ -110,7 +110,7 @@ void rks::CPU::run() {
 			}
 
 			case 12: {
-				int firstRegister = bitset<PARAMETER/2>(parameter.substr(0, (PARAMETER)/2)).to_ulong();
+				int firstRegister = bitset<PARAMETER/2>(parameter.substr(1, (PARAMETER)/2)).to_ulong();
 				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
 				this->registers.updateFlags(this->registers[firstRegister] & this->registers[secondRegister]);
 				this->registers[firstRegister] &= this->registers[secondRegister];
@@ -118,7 +118,7 @@ void rks::CPU::run() {
 			}
 
 			case 13: {
-				int firstRegister = bitset<PARAMETER/2>(parameter.substr(0, (PARAMETER)/2)).to_ulong();
+				int firstRegister = bitset<PARAMETER/2>(parameter.substr(1, (PARAMETER)/2)).to_ulong();
 				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
 				this->registers.updateFlags(this->registers[firstRegister] | this->registers[secondRegister]);
 				this->registers[firstRegister] |= this->registers[secondRegister];
@@ -133,7 +133,7 @@ void rks::CPU::run() {
 			}
 
 			case 15: {
-				int firstRegister = bitset<PARAMETER/2>(parameter.substr(0, (PARAMETER)/2)).to_ulong();
+				int firstRegister = bitset<PARAMETER/2>(parameter.substr(1, (PARAMETER)/2)).to_ulong();
 				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
 				this->registers.updateFlags(this->registers[firstRegister] - this->registers[secondRegister]);
 				break;
