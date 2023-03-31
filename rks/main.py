@@ -1,9 +1,10 @@
-import os, sys
+import os
+import sys
 
 from error import Error
 from assembler import Assembler
 
-filename = os.path.abspath("../tests/test.rks")
+filename = os.path.abspath(sys.argv[-1])
 file = open(filename, 'r')
 bin_file = open(filename[:-4], 'w')
 
@@ -12,7 +13,7 @@ instructions = Assembler.clean(instructions)
 labels, instructions = Assembler.collect(instructions)
 Assembler.updateLabels(instructions, labels)
 
-print("Assembling...")
+print("\nAssembling...")
 for lineno in range(len(instructions)):
     if instructions[lineno] != "":
         error = Error(

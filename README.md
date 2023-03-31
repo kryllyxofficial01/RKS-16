@@ -66,9 +66,10 @@ Argument Types:
 ```
 
 ## I/O
-| Port     | RAM Address | Purpose           |
-|:--------:|:-----------:|:-----------------:|
-| Output   | 0xFFFF      | Print a character |
+| Port              | RAM Address | Purpose           |
+|:-----------------:|:-----------:|:-----------------:|
+| Output Character  | 0xFFFF      | Print a character |
+| Output Number     | 0xFFFE      | Print a number    |
 
 For all ports, all that is needed is to just store the value at the corresponding adress. The port(s) will then update if the address is the right one.
 

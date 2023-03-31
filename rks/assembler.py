@@ -41,7 +41,7 @@ class Assembler:
 	
 	def assemble(self) -> list[str]:
 		instruction = self.instruction.split(" ")
-		mneumonic = instruction[0]
+		mneumonic = instruction[0].lower()
 		args = instruction[1:]
 		opcode_width = len(bin(len(self.instructions))[2:])
 		noRegisterArgs = ("nop", "jmp", "jz" ,"jo", "jn", "hlt")
@@ -69,7 +69,7 @@ class Assembler:
 		for arg in args:
 			prefix = arg[0]
 			if prefix == "@":
-				try: register_id = self.registers.index(arg[1:])
+				try: register_id = self.registers.index(arg[1:].lower())
 				except ValueError: self.error.print_stacktrace(
 					"RegisterError",
 					f"Invalid register ID '{arg[1:]}'"
@@ -109,7 +109,7 @@ class Assembler:
 		elif mneumonic in noRegisterArgs:
 			try: binary.insert(1, "0"*(16-opcode_width))
 			except IndexError: binary.append("0"*(16-opcode_width))
-		
+
 		return [
 			compiled.replace("-", "0")
 			if "-" in compiled 
