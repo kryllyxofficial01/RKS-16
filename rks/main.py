@@ -10,8 +10,8 @@ bin_file = open(filename[:-4], 'w')
 
 instructions = file.readlines()
 instructions = Assembler.clean(instructions)
-labels, instructions = Assembler.collectLabels(instructions)
-variables = Assembler.resolveDirectives(instructions, filename)
+labels, instructions = Assembler.handleLabels(instructions)
+variables = Assembler.handleDirectives(instructions, filename)
 Assembler.updateLabels(instructions, labels)
 
 print("\nAssembling...")
