@@ -61,6 +61,10 @@ Argument Types:
     - Any user defined label.
     - See "docs/Branching.md" for more details.
 
+4. Variables
+    - Any user defined variable
+    - See "docs/Directives.md" for mroe details
+
 
 *Result is stored in first specified register
 ```

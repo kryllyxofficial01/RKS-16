@@ -10,7 +10,8 @@ bin_file = open(filename[:-4], 'w')
 
 instructions = file.readlines()
 instructions = Assembler.clean(instructions)
-labels, instructions = Assembler.collect(instructions)
+labels, instructions = Assembler.collectLabels(instructions)
+variables = Assembler.resolveDirectives(instructions, filename)
 Assembler.updateLabels(instructions, labels)
 
 print("\nAssembling...")
@@ -22,7 +23,7 @@ for lineno in range(len(instructions)):
             filename
         )
 
-        assembler = Assembler(instructions[lineno], labels, error)
+        assembler = Assembler(instructions[lineno], labels, variables, error)
         binary = assembler.assemble()
 
         bin_file.write("".join(binary) + "\n")

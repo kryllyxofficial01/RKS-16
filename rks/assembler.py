@@ -34,9 +34,10 @@ class Assembler:
 		"pc"
 	]
 	
-	def __init__(self, instruction: str, labels: dict, error: Error) -> None:
+	def __init__(self, instruction: str, labels: dict[str, int], variables: dict[str, int], error: Error) -> None:
 		self.instruction = instruction
 		self.labels = labels
+		self.variables = variables
 		self.error = error
 	
 	def assemble(self) -> list[str]:
@@ -46,7 +47,7 @@ class Assembler:
 		opcode_width = len(bin(len(self.instructions))[2:])
 		noRegisterArgs = ("nop", "jmp", "jz" ,"jo", "jn", "hlt")
 		binary = []
-		
+
 		try: opcode = list(self.instructions.keys()).index(mneumonic)
 		except ValueError: self.error.print_stacktrace(
 			"MneumonicError",
@@ -77,6 +78,27 @@ class Assembler:
 				
 				register_bin = bin(register_id)[2:]
 				binary.append("0"*((16-opcode_width)-len(register_bin)) + register_bin)
+			
+			elif prefix == "$":
+				try:
+					immediate_bin = bin(self.variables[arg[1:]])[2:]
+					binary.append("\n" +"0"*(16-len(immediate_bin)) + immediate_bin)
+				
+				except ValueError:
+					try: immediate_bin = bin(self.labels[arg])[2:]
+					except KeyError:
+						self.error.print_stacktrace(
+							"ArgError",
+							f"Invalid argument '{arg}'"
+						)
+
+					binary.append("\n" +"0"*(16-len(immediate_bin)) + immediate_bin)
+
+				except KeyError:
+					self.error.print_stacktrace(
+						"ArgError",
+						f"Unknown variable '{arg[1:]}'"
+					)
 	
 			else:
 				try:
@@ -127,7 +149,7 @@ class Assembler:
 		return [instruction for instruction in instructions if instruction != ""]
 	
 	@staticmethod
-	def collect(instructions: list[str]) -> dict:
+	def collectLabels(instructions: list[str]) -> dict[str, int]:
 		labels = {}
 
 		for i in range(len(instructions)):
@@ -146,3 +168,32 @@ class Assembler:
 				for label in labels:
 					if labels[label] > i:
 						labels[label] += 1
+
+	@staticmethod
+	def resolveDirectives(instructions: list[str], filename: str) -> dict[str, int]:
+		variables = {}
+
+		for i in range(len(instructions)):
+			if instructions[i].startswith("#"):
+				directive = instructions[i][1:].split(" ")
+				
+				if directive[0] == "define":
+					try: variables[directive[1]] = int(directive[2], base=0)
+					except ValueError: Error(instructions[i], i+1, filename).print_stacktrace(
+						"ArgError",
+						f"Invalid immediate '{directive[2]}'"
+					)
+					except IndexError: Error(instructions[i], i+1, filename).print_stacktrace(
+						"ArgError",
+						"Missing immediate value"
+					)
+			
+				else:
+					Error(instructions[i], i+1, filename).print_stacktrace(
+						"DirectiveError",
+						f"Unknown directive '{directive[0]}'"
+					)
+				
+				instructions[i] = ""
+
+		return variables
