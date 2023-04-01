@@ -1,3 +1,4 @@
-.test
-jz test
-ldi @a 10
+#define test 10
+
+ldi @a $test
+poke @a 0xfffe

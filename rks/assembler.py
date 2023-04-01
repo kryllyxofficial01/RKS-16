@@ -39,10 +39,10 @@ class Assembler:
 		"pc"
 	]
 
-	def __init__(self, instruction: str, labels: dict[str, int], variables: dict[str, int], error: Error) -> None:
+	def __init__(self, instruction: str, labels: dict[str, int], directives: dict, error: Error) -> None:
 		self.instruction = instruction
 		self.labels = labels
-		self.variables = variables
+		self.directives = directives
 		self.error = error
 
 	def assemble(self) -> list[str]:
@@ -85,7 +85,7 @@ class Assembler:
 
 			elif prefix == "$":
 				try:
-					immediate_bin = bin(self.variables[arg[1:]])[2:]
+					immediate_bin = bin(self.directives["variables"][arg[1:]])[2:]
 					binary.append("\n" +"0"*(BITWIDTH-len(immediate_bin)) + immediate_bin)
 
 				except ValueError:
@@ -173,15 +173,17 @@ class Assembler:
 						labels[label] += 1
 
 	@staticmethod
-	def handleDirectives(instructions: list[str], filename: str) -> dict[str, int]:
-		variables = {}
+	def handleDirectives(instructions: list[str], filename: str) -> dict:
+		directives = {
+			"variables": {}
+		}
 
 		for i in range(len(instructions)):
 			if instructions[i].startswith("#"):
 				directive = instructions[i][1:].split(" ")
 
 				if directive[0] == "define":
-					try: variables[directive[1]] = int(directive[2], base=0)
+					try: directives["variables"][directive[1]] = int(directive[2], base=0)
 					except ValueError: Error(instructions[i], i+1, filename).print_stacktrace(
 						"ArgError",
 						f"Invalid immediate '{directive[2]}'"
@@ -199,4 +201,4 @@ class Assembler:
 
 				instructions[i] = ""
 
-		return variables
+		return directives
