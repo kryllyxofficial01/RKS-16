@@ -9,12 +9,14 @@
 
 using namespace std;
 
-rks::CPU::CPU(Memory memory, Registers registers) {
+// Constructor for the CPU
+rks16::CPU::CPU(Memory memory, Registers registers) {
 	this->memory = memory;
 	this->registers = registers;
 }
 
-void rks::CPU::run() {
+// Starts the CPU and executes the instructions stored in Program ROM
+void rks16::CPU::run() {
 	while (this->memory.ProgramROM.at(this->registers.PC) != "" && this->registers.PC != UINT16_MAX) {
 		string instruction = this->memory.ProgramROM.at(this->registers.PC);
 		string opcode = instruction.substr(0, OPCODE);
@@ -49,7 +51,7 @@ void rks::CPU::run() {
 				string immediate = this->memory.ProgramROM.at(++this->registers.PC);
 				this->memory.RAM[bitset<BITS>(immediate).to_ulong()] = this->registers[registerID];
 
-				rks::ports::IO::output(
+				rks16::ports::IO::output(
 					bitset<BITS>(immediate).to_ulong(),
 					this->memory.RAM[bitset<BITS>(immediate).to_ulong()]
 				);
@@ -177,11 +179,13 @@ void rks::CPU::run() {
 	}
 }
 
-inline uint16_t &rks::Registers::operator[](const int index) {
+// Allows indexing into the Register struct (yes I know this is cursed by hey, it works)
+inline uint16_t &rks16::Registers::operator[](const int index) {
 	return (&this->A)[index];
 }
 
-void rks::Registers::updateFlags(const int result) {
+// Update the flag register based off of the operation result
+void rks16::Registers::updateFlags(const int result) {
 	string flags = bitset<FLAGS>(this->F).to_string();
 	flags[0] = result == 0 ? '1' : '0'; // Zero Flag
 	flags[1] = result > UINT16_MAX ? '1' : '0'; // Overflow
@@ -189,7 +193,8 @@ void rks::Registers::updateFlags(const int result) {
 	this->F = bitset<FLAGS>(flags).to_ulong();
 }
 
-void rks::ports::IO::output(const uint16_t address, const uint16_t value) {
+// Update the output port
+void rks16::ports::IO::output(const uint16_t address, const uint16_t value) {
 	if (address == 0xFFFF) {
 		cout << char(value);
 	}
@@ -198,9 +203,10 @@ void rks::ports::IO::output(const uint16_t address, const uint16_t value) {
 	}
 }
 
+// Entry point
 int main(int argc, char* argv[]) {
-	rks::Registers registers;
-	rks::Memory memory;
+	rks16::Registers registers;
+	rks16::Memory memory;
 	memory.RAM = vector<uint16_t>(65536, 0);
     memory.ProgramROM = vector<string>(65536, "");
 
@@ -216,6 +222,6 @@ int main(int argc, char* argv[]) {
 	}
 
 	cout << "Executing instructions...\n" << endl;
-	rks::CPU cpu(memory, registers);
+	rks16::CPU cpu(memory, registers);
 	cpu.run();
 }

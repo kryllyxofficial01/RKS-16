@@ -7,7 +7,8 @@
 
 #include "RKS-16.hpp"
 
-struct rks::Memory {
+// Container for all memory
+struct rks16::Memory {
     std::vector<uint16_t> RAM;
     std::vector<std::string> ProgramROM;
     std::stack<uint16_t> stack;

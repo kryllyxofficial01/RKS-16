@@ -1,7 +1,8 @@
-#ifndef RKS
-#define RKS
+#ifndef RKS16
+#define RKS16
 
-namespace rks {
+// Quite literally everything
+namespace rks16 {
     class CPU;
     struct Memory;
     struct Registers;

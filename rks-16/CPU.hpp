@@ -8,7 +8,8 @@
 #include "Memory.hpp"
 #include "Registers.hpp"
 
-class rks::CPU {
+// Main CPU class
+class rks16::CPU {
 	public:
 		CPU(Memory, Registers);
 		void run();

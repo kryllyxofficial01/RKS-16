@@ -5,7 +5,8 @@
 
 #include "RKS-16.hpp"
 
-struct rks::Registers {
+// Container for all registers
+struct rks16::Registers {
 	uint16_t A;
 	uint16_t B;
 	uint16_t C;
