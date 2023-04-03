@@ -1,15 +1,19 @@
 ; Program that calculates the remainder
 
+; Starting values
 #define dividend 13
 #define divisor 6
 
 ldi @a $dividend
 ldi @b $divisor
 
+; Calculates the remainder
+; Uses the formula "a - ((a / b) * b)"
 div @a @b
 mul @a @b
 swp @a @b
 ldi @a $dividend
 sub @a @b
 
+; Output the result
 poke @a 0xfffe
