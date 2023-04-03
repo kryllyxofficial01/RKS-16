@@ -1,0 +1,15 @@
+; Program that calculates the remainder
+
+#define dividend 13
+#define divisor 6
+
+ldi @a $dividend
+ldi @b $divisor
+
+div @a @b
+mul @a @b
+swp @a @b
+ldi @a $dividend
+sub @a @b
+
+poke @a 0xfffe
