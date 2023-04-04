@@ -5,6 +5,7 @@ BITWIDTH = 16
 NOREGS = ("nop", "jmp", "jz", "jo", "jn", "hlt")
 HASIMM = ("ldi", "poke", "peek", "jmp", "jz", "jo", "jn")
 
+# Assembler class
 class Assembler:
 	instructions = {
 		"nop": 0,
@@ -45,6 +46,7 @@ class Assembler:
 		self.directives = directives
 		self.error = error
 
+	# Assembles the current instruction
 	def assemble(self) -> list[str]:
 		instruction = self.instruction.split(" ")
 		mneumonic = instruction[0].lower()
@@ -143,6 +145,7 @@ class Assembler:
 			for compiled in binary
 		]
 
+	# Strip the instructions of all padded whitespace
 	@staticmethod
 	def clean(instructions: list[str]) -> list[str]:
 		for i in range(len(instructions)):
@@ -152,6 +155,7 @@ class Assembler:
 
 		return [instruction for instruction in instructions if instruction != ""]
 
+	# Get all labels and save their location
 	@staticmethod
 	def handleLabels(instructions: list[str]) -> dict[str, int]:
 		labels = {}
@@ -163,6 +167,7 @@ class Assembler:
 
 		return labels, [instruction for instruction in instructions if instruction != ""]
 
+	# Update the label locations according to the immediate bytes
 	@staticmethod
 	def updateLabels(instructions: list[str], labels: dict[str, int]) -> None:
 		for i in range(len(instructions)):
@@ -172,6 +177,7 @@ class Assembler:
 					if labels[label] > i:
 						labels[label] += 1
 
+	# Expand all the directives
 	@staticmethod
 	def handleDirectives(instructions: list[str], filename: str) -> dict:
 		directives = {
