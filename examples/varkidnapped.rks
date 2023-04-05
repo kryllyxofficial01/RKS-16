@@ -14,3 +14,18 @@ poke @a 0xFFFE
 ;Newline
 ldi @a 10
 poke @a 0xFFFF
+
+;Scenario 2
+#define tankCapacity 8
+#define milePerGallon 9
+
+ldi @a $tankCapacity
+ldi @b $milePerGallon
+
+mul @a @b
+
+;Output 72
+poke @a 0xFFFE
+;Newline
+ldi @a 10
+poke @a 0xFFFF
