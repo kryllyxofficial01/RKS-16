@@ -5,24 +5,19 @@ echo -n "Enter filepath: "
 read filepath
 
 assemble() {
-    cd rks
-    python main.py $filepath
-    cd ..
+    python rks/main.py $filepath
 }
 
 emulate() {
     rom=${filepath%""."$(echo $filepath | awk -F "." '{print $NF}')"}
-    cd "rks-16"
-    g++ -std=c++17 -o "build/main" main.cpp
-    ./build/main $rom
+    g++ -std=c++17 -o rks-16/build/main rks-16/main.cpp
+    rks-16/build/main $rom
     cd ..
 }
 
 clean() {
-    cd "rks-16"
-    if [ ! -d "build" ]; then mkdir build; fi
-	find "build/" -mindepth 1 -delete
-    cd ..
+    if [ ! -d "rks-16/build" ]; then mkdir build; fi
+	find "rks-16/build/" -mindepth 1 -delete
 }
 
 assemble

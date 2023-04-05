@@ -36,7 +36,7 @@ sub* <reg> <reg>   : Subtract a register from another
 mul* <reg> <reg>   : Multiply two registers together
 div* <reg> <reg>   : Subtract a register by another
 and* <reg> <reg>   : Bitwise AND two registers
-and* <reg> <reg>   : Bitwise OR two registers
+or* <reg> <reg>   : Bitwise OR two registers
 not <reg>          : Bitwise NOT a register
 cmp <reg> <reg>    : Performs subtraction, but only updates flags
 jmp <label>        : Unconditional jump
@@ -63,7 +63,7 @@ Argument Types:
 
 4. Variables
     - Any user defined variable
-    - See "docs/Directives.md" for mroe details
+    - See "docs/Directives.md" for more details
 
 
 *Result is stored in first specified register
