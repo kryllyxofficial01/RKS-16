@@ -12,7 +12,6 @@ emulate() {
     rom=${filepath%""."$(echo $filepath | awk -F "." '{print $NF}')"}
     g++ -std=c++17 -o rks-16/build/main rks-16/main.cpp
     rks-16/build/main $rom
-    cd ..
 }
 
 clean() {
