@@ -44,3 +44,18 @@ poke @a 0xFFFE
 ;Newline
 ldi @a 10
 poke @a 0xFFFF
+
+;Scenario 4
+#define costPerGallon 1
+#define gallons 9
+
+ldi @a $costPerGallon
+ldi @b $gallons
+
+mul @a @b
+
+;Output 9
+poke @a 0xFFFE
+;Newline
+ldi @a 10
+poke @a 0xFFFF
