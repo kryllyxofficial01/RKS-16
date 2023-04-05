@@ -59,3 +59,26 @@ poke @a 0xFFFE
 ;Newline
 ldi @a 10
 poke @a 0xFFFF
+
+;Scenario 5
+#define hours 6
+#define minutes 2
+#define seconds 9
+
+ldi @a $hours 
+ldi @b $minutes
+ldi @c $seconds
+
+ldi @d 3600
+;6 * 3,600 = 21,600
+mul @a @d
+ldi @d 60
+mul @b @d
+add @a @b
+add @a @c
+
+;Output 21,729
+poke @a 0xFFFE
+;Newline
+ldi @a 10
+poke @a 0xFFFF
