@@ -34,7 +34,7 @@ void rks16::CPU::run() {
 
 			case 2: {
 				int copiedRegister = bitset<PARAMETER/2>(parameter.substr(1, (PARAMETER)/2)).to_ulong();
-				int destinationRegister = bitset<(PARAMETER)/2>(parameter.substr((PARAMETER)/2)).to_ulong();
+				int destinationRegister = bitset<(PARAMETER)/2>(parameter.substr((PARAMETER)/2 + 1)).to_ulong();
 				this->registers[destinationRegister] = this->registers[copiedRegister];
 				break;
 			}
