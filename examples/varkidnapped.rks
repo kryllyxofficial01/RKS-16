@@ -1,0 +1,160 @@
+;VAR-Kidnapped
+
+;Scenario One
+#define length 2
+#define width 10
+
+ldi @a $length
+ldi @b $width
+
+mul @a @b
+
+;Output 20
+poke @a 0xFFFE
+;Newline
+ldi @a 10
+poke @a 0xFFFF
+
+;Scenario 2
+#define tankCapacity 8
+#define milePerGallon 9
+
+ldi @a $tankCapacity
+ldi @b $milePerGallon
+
+mul @a @b
+
+;Output 72
+poke @a 0xFFFE
+;Newline
+ldi @a 10
+poke @a 0xFFFF
+
+;Scenario 3
+#define payRecieved 10
+#define hoursWorked 5
+
+ldi @a $payRecieved
+ldi @b $hoursWorked
+
+div @a @b
+
+;Output 2
+poke @a 0xFFFE
+;Newline
+ldi @a 10
+poke @a 0xFFFF
+
+;Scenario 4
+#define costPerGallon 1
+#define gallons 9
+
+ldi @a $costPerGallon
+ldi @b $gallons
+
+mul @a @b
+
+;Output 9
+poke @a 0xFFFE
+;Newline
+ldi @a 10
+poke @a 0xFFFF
+
+;Scenario 5
+#define hours 6
+#define minutes 2
+#define seconds 9
+
+ldi @a $hours 
+ldi @b $minutes
+ldi @c $seconds
+
+ldi @d 3600
+;6 * 3,600 = 21,600
+mul @a @d
+ldi @d 60
+mul @b @d
+add @a @b
+add @a @c
+
+;Output 21,729
+poke @a 0xFFFE
+;Newline
+ldi @a 10
+poke @a 0xFFFF
+
+;Scenario 6
+#define actionFigures 965
+#define divisor 20
+
+ldi @a $actionFigures
+ldi @b $divisor
+;Crates needed (48)
+div @a @b
+poke @a 0xFFFE
+mov @a @c
+;Newline
+ldi @a 10
+poke @a 0xFFFF
+
+;Remainder (5)
+ldi @a $actionFigures
+div @a @b
+mul @a @b
+swp @a @b
+ldi @a $actionFigures
+sub @a @b
+poke @a 0xFFFE
+;Newline
+ldi @a 10
+poke @a 0xFFFF
+
+;Scenario 7
+#define seconds 423
+
+ldi @a $seconds
+ldi @b 3600
+ldi @c 60
+
+;Hours 
+div @a @b
+
+;Output 0
+poke @a 0xFFFE
+;Newline
+ldi @a 10
+poke @a 0xFFFF
+
+;Minutes
+div @a @b
+mul @a @b
+swp @a @b
+ldi @a $seconds
+sub @a @b
+div @a @c
+
+;Output 7
+poke @a 0xFFFE
+;Newline
+ldi @a 10
+poke @a 0xFFFF
+
+;Seconds
+ldi @a $seconds
+ldi @b 3600
+div @a @b
+mul @a @b
+swp @a @b
+ldi @a $seconds
+sub @a @b
+div @a @c
+mul @a @c
+swp @a @c
+ldi @a $seconds
+sub @a @c
+
+;Output 3
+poke @a 0xFFFE
+;Newline
+ldi @a 10
+poke @a 0xFFFF
