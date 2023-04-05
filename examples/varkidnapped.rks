@@ -29,3 +29,18 @@ poke @a 0xFFFE
 ;Newline
 ldi @a 10
 poke @a 0xFFFF
+
+;Scenario 3
+#define payRecieved 10
+#define hoursWorked 5
+
+ldi @a $payRecieved
+ldi @b $hoursWorked
+
+div @a @b
+
+;Output 2
+poke @a 0xFFFE
+;Newline
+ldi @a 10
+poke @a 0xFFFF
