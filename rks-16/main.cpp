@@ -41,7 +41,7 @@ void rks16::CPU::run() {
 
 			case 3: {
 				int firstRegister = bitset<PARAMETER/2>(parameter.substr(1, (PARAMETER)/2)).to_ulong();
-				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
+				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2 + 1)).to_ulong();
 				std::swap(this->registers[firstRegister], this->registers[secondRegister]);
 				break;
 			}
@@ -81,7 +81,7 @@ void rks16::CPU::run() {
 
 			case 8: {
 				int firstRegister = bitset<PARAMETER/2>(parameter.substr(1, (PARAMETER)/2)).to_ulong();
-				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
+				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2 + 1)).to_ulong();
 				this->registers.updateFlags(this->registers[firstRegister] + this->registers[secondRegister]);
 				this->registers[firstRegister] += this->registers[secondRegister];
 				break;
@@ -89,7 +89,7 @@ void rks16::CPU::run() {
 
 			case 9: {
 				int firstRegister = bitset<PARAMETER/2>(parameter.substr(1, (PARAMETER)/2)).to_ulong();
-				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
+				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2 + 1)).to_ulong();
 				this->registers.updateFlags(this->registers[firstRegister] - this->registers[secondRegister]);
 				this->registers[firstRegister] -= this->registers[secondRegister];
 				break;
@@ -97,7 +97,7 @@ void rks16::CPU::run() {
 
 			case 10: {
 				int firstRegister = bitset<PARAMETER/2>(parameter.substr(1, (PARAMETER)/2)).to_ulong();
-				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
+				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2 + 1)).to_ulong();
 				this->registers.updateFlags(this->registers[firstRegister] * this->registers[secondRegister]);
 				this->registers[firstRegister] *= this->registers[secondRegister];
 				break;
@@ -105,7 +105,7 @@ void rks16::CPU::run() {
 
 			case 11: {
 				int firstRegister = bitset<PARAMETER/2>(parameter.substr(1, (PARAMETER)/2)).to_ulong();
-				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
+				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2 + 1)).to_ulong();
 				this->registers.updateFlags(this->registers[firstRegister] / this->registers[secondRegister]);
 				this->registers[firstRegister] /= this->registers[secondRegister];
 				break;
@@ -113,7 +113,7 @@ void rks16::CPU::run() {
 
 			case 12: {
 				int firstRegister = bitset<PARAMETER/2>(parameter.substr(1, (PARAMETER)/2)).to_ulong();
-				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
+				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2 + 1)).to_ulong();
 				this->registers.updateFlags(this->registers[firstRegister] & this->registers[secondRegister]);
 				this->registers[firstRegister] &= this->registers[secondRegister];
 				break;
@@ -121,7 +121,7 @@ void rks16::CPU::run() {
 
 			case 13: {
 				int firstRegister = bitset<PARAMETER/2>(parameter.substr(1, (PARAMETER)/2)).to_ulong();
-				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
+				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2 + 1)).to_ulong();
 				this->registers.updateFlags(this->registers[firstRegister] | this->registers[secondRegister]);
 				this->registers[firstRegister] |= this->registers[secondRegister];
 				break;
@@ -136,7 +136,7 @@ void rks16::CPU::run() {
 
 			case 15: {
 				int firstRegister = bitset<PARAMETER/2>(parameter.substr(1, (PARAMETER)/2)).to_ulong();
-				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2)).to_ulong();
+				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2 + 1)).to_ulong();
 				this->registers.updateFlags(this->registers[firstRegister] - this->registers[secondRegister]);
 				break;
 			}
@@ -169,7 +169,7 @@ void rks16::CPU::run() {
 			}
 
 			case 20: {
-				cout << "\u001b[33mHalted CPU." << std::endl; 
+				cout << "\u001b[33mHalted CPU." << std::endl;
 				std::exit(0);
 				break;
 			}
