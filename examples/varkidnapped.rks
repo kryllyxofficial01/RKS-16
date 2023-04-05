@@ -82,3 +82,79 @@ poke @a 0xFFFE
 ;Newline
 ldi @a 10
 poke @a 0xFFFF
+
+;Scenario 6
+#define actionFigures 965
+#define divisor 20
+
+ldi @a $actionFigures
+ldi @b $divisor
+;Crates needed (48)
+div @a @b
+poke @a 0xFFFE
+mov @a @c
+;Newline
+ldi @a 10
+poke @a 0xFFFF
+
+;Remainder (5)
+ldi @a $actionFigures
+div @a @b
+mul @a @b
+swp @a @b
+ldi @a $actionFigures
+sub @a @b
+poke @a 0xFFFE
+;Newline
+ldi @a 10
+poke @a 0xFFFF
+
+;Scenario 7
+#define seconds 423
+
+ldi @a $seconds
+ldi @b 3600
+ldi @c 60
+
+;Hours 
+div @a @b
+
+;Output 0
+poke @a 0xFFFE
+;Newline
+ldi @a 10
+poke @a 0xFFFF
+
+;Minutes
+div @a @b
+mul @a @b
+swp @a @b
+ldi @a $seconds
+sub @a @b
+div @a @c
+
+;Output 7
+poke @a 0xFFFE
+;Newline
+ldi @a 10
+poke @a 0xFFFF
+
+;Seconds
+ldi @a $seconds
+ldi @b 3600
+div @a @b
+mul @a @b
+swp @a @b
+ldi @a $seconds
+sub @a @b
+div @a @c
+mul @a @c
+swp @a @c
+ldi @a $seconds
+sub @a @c
+
+;Output 3
+poke @a 0xFFFE
+;Newline
+ldi @a 10
+poke @a 0xFFFF
