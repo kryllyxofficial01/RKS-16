@@ -1,5 +1,13 @@
 # RKS-16
 
+## Running the CPU
+Run the following command:
+```
+make
+```
+
+#
+
 ## Details
 - 16-Bit Architecture
 - 21 Total Instructions
@@ -20,9 +28,12 @@
     - Negative
 - Memory-mapped I/O
 
+#
 
 ## Instruction Set
 ```
+* Result is stored in first specified register
+
 nop                : No operation
 ldi <reg> <imm16>  : Load a 16 bit immediate into a register
 mov <reg> <reg>    : Copy the value from a register to another
@@ -64,10 +75,9 @@ Argument Types:
 4. Variables
     - Any user defined variable
     - See "docs/Directives.md" for more details
-
-
-*Result is stored in first specified register
 ```
+
+#
 
 ## I/O
 | Port              | RAM Address | Purpose           |
