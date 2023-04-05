@@ -1,1 +1,16 @@
 ;VAR-Kidnapped
+
+;Scenario One
+#define length 2
+#define width 10
+
+ldi @a $length
+ldi @b $width
+
+mul @a @b
+
+;Output 20
+poke @a 0xFFFE
+;Newline
+ldi @a 10
+poke @a 0xFFFF
