@@ -23,3 +23,20 @@ poke @a 0xFFFE
 ;Newline
 ldi @a 10
 poke @a 0xFFFF
+
+;Area of a Trapezoid
+#define $dimensionThree
+
+ldi @a $dimensionOne
+ldi @b $dimensionTwo
+
+mul @a @b
+ldi @b 2
+div @a @b
+ldi @b $dimensionThree
+mul @a @b
+
+poke @a 0xFFFE
+;Newline
+ldi @a 10
+poke @a 0xFFFF
