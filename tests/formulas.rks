@@ -25,12 +25,12 @@ ldi @a 10
 poke @a 0xFFFF
 
 ;Area of a Trapezoid
-#define $dimensionThree
+#define dimensionThree 10
 
 ldi @a $dimensionOne
 ldi @b $dimensionTwo
 
-mul @a @b
+add @a @b
 ldi @b 2
 div @a @b
 ldi @b $dimensionThree
