@@ -14,13 +14,12 @@ poke @a 0xFFFF
 ;Area of a Triangle
 ldi @a $dimensionOne
 ldi @b $dimensionTwo
-ldi @c 2
 
 mul @a @b
-div @a @c
+ldi @b 2
+div @a @b
 
 poke @a 0xFFFE
 ;Newline
 ldi @a 10
 poke @a 0xFFFF
-
