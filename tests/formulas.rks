@@ -1,1 +1,14 @@
 ;Formulas
+;Area of Square
+#define length 10
+#define width 10
+
+ldi @a $length
+ldi @b $width
+
+mul @a @b
+poke @a 0xFFFE
+;Newline
+ldi @a 10
+poke @a 0xFFFF
+
