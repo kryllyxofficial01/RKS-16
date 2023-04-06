@@ -1,12 +1,24 @@
-;Formulas
-;Area of Square
-#define length 10
-#define width 10
+;Area of a Square
+#define dimensionOne 10
+#define dimensionTwo 10
 
-ldi @a $length
-ldi @b $width
+ldi @a $dimensionOne
+ldi @b $dimensionTwo
 
 mul @a @b
+poke @a 0xFFFE
+;Newline
+ldi @a 10
+poke @a 0xFFFF
+
+;Area of a Triangle
+ldi @a $dimensionOne
+ldi @b $dimensionTwo
+ldi @c 2
+
+mul @a @b
+div @a @c
+
 poke @a 0xFFFE
 ;Newline
 ldi @a 10
