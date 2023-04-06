@@ -40,3 +40,16 @@ poke @a 0xFFFE
 ;Newline
 ldi @a 10
 poke @a 0xFFFF
+
+;Area of a Regular Polygon
+ldi @a $dimensionOne
+
+ldi @b 2
+div @a @b
+ldi @b $dimensionTwo
+mul @a @b
+
+poke @a 0xFFFE
+;Newline
+ldi @a 10
+poke @a 0xFFFF
