@@ -197,7 +197,7 @@ void rks16::CPU::run() {
 	}
 }
 
-// Allows indexing into the Register struct (yes I know this is cursed by hey, it works)
+// Allows indexing into the Register struct (yes I know this is cursed but hey, it works)
 inline uint16_t &rks16::Registers::operator[](const int index) {
 	return (&this->A)[index];
 }
