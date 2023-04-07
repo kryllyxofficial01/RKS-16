@@ -14,7 +14,6 @@ instructions = file.readlines()
 instructions = Assembler.clean(instructions)
 labels, instructions = Assembler.handleLabels(instructions)
 directives = Assembler.handleDirectives(instructions, filename)
-Assembler.updateLabels(instructions, labels)
 
 # Assemble the program and write the machine code to the bin file
 print("\nAssembling...")

@@ -167,16 +167,6 @@ class Assembler:
 
 		return labels, [instruction for instruction in instructions if instruction != ""]
 
-	# Update the label locations according to the immediate bytes
-	@staticmethod
-	def updateLabels(instructions: list[str], labels: dict[str, int]) -> None:
-		for i in range(len(instructions)):
-			mneumonic = instructions[i].split(" ")[0]
-			if mneumonic in HASIMM:
-				for label in labels:
-					if labels[label] > i:
-						labels[label] += 1
-
 	# Expand all the directives
 	@staticmethod
 	def handleDirectives(instructions: list[str], filename: str) -> dict:
