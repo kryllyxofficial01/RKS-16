@@ -1,10 +1,5 @@
-jmp main
+ldi @a 10
+ldi @b 4
+xor @a @b
 
-.print
 poke @a 0xfffe
-ret
-
-.main
-ldi @a 19
-jmp print
-hlt

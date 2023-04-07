@@ -22,6 +22,7 @@ class Assembler:
 		"div": 2,
 		"and": 2,
 		"or": 2,
+		"xor": 2,
 		"not": 2,
 		"cmp": 2,
 		"jmp": 1,
@@ -37,8 +38,7 @@ class Assembler:
 		"b",
 		"c",
 		"d",
-		"f",
-		"pc"
+		"f"
 	]
 
 	def __init__(self, instruction: str, labels: dict[str, int], directives: dict, error: Error) -> None:

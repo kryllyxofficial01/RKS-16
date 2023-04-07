@@ -6,11 +6,11 @@ Run the following command:
 make
 ```
 
-#
+<br>
 
 ## Details
 - 16-Bit Architecture
-- 21 Total Instructions
+- 23 Total Instructions
 - 262.144 KB Total Memory
     - 131.07 KB of RAM
     - 131.07 KB of Program Memory (ROM)
@@ -28,7 +28,7 @@ make
     - Negative
 - Memory-mapped I/O
 
-#
+<br>
 
 ## Instruction Set
 ```
@@ -48,6 +48,7 @@ mul* <reg> <reg>   : Multiply two registers together
 div* <reg> <reg>   : Subtract a register by another
 and* <reg> <reg>   : Bitwise AND two registers
 or* <reg> <reg>    : Bitwise OR two registers
+xor* <reg> <reg>   : Bitwise XOR two registers
 not <reg>          : Bitwise NOT a register
 cmp <reg> <reg>    : Performs subtraction, but only updates flags
 jmp <label>        : Unconditional jump
@@ -56,37 +57,7 @@ jo <label>         : Jump if Overflow Flag is 1
 jn <label>         : Jump if Negative Flag is 1
 ret                : Return to the last jump
 hlt                : Halt the CPU
-
-Argument Types:
-1. Registers
-    - Format is the name of the register preceded by an "@"
-    - @a, @b, etc.
-
-2. 16-Bit Immediate
-    - Can be either an integer, hexadecimal, or binary.
-    - If not base-10, it must be preceded by the corresponding prefix
-        - 0x for hexadecimal
-        - 0b for binary
-    - Max value is 65535/0xFFFF/0b1111111111111111
-
-3. Label
-    - Any user defined label.
-    - See "docs/Branching.md" for more details.
-
-4. Variables
-    - Any user defined variable
-    - See "docs/Directives.md" for more details
 ```
-
-#
-
-## I/O
-| Port              | RAM Address | Purpose           |
-|:-----------------:|:-----------:|:-----------------:|
-| Output Character  | 0xFFFF      | Print a character |
-| Output Number     | 0xFFFE      | Print a number    |
-
-For all ports, all that is needed is to just store the value at the corresponding adress. The port(s) will then update if the address is the right one.
 
 ---
 ## Credits

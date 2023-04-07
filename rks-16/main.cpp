@@ -128,31 +128,31 @@ void rks16::CPU::run() {
 			}
 
 			case 14: {
+				int firstRegister = bitset<PARAMETER/2>(parameter.substr(1, (PARAMETER)/2)).to_ulong();
+				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2 + 1)).to_ulong();
+				this->registers.updateFlags(this->registers[firstRegister] ^ this->registers[secondRegister]);
+				this->registers[firstRegister] ^= this->registers[secondRegister];
+				break;
+			}
+
+			case 15: {
 				int registerID = bitset<PARAMETER>(parameter).to_ulong();
 				this->registers.updateFlags(~this->registers[registerID]);
 				this->registers[registerID] = ~this->registers[registerID];
 				break;
 			}
 
-			case 15: {
+			case 16: {
 				int firstRegister = bitset<PARAMETER/2>(parameter.substr(1, (PARAMETER)/2)).to_ulong();
 				int secondRegister = bitset<PARAMETER/2>(parameter.substr((PARAMETER)/2 + 1)).to_ulong();
 				this->registers.updateFlags(this->registers[firstRegister] - this->registers[secondRegister]);
 				break;
 			}
 
-			case 16: {
-				string immediate = this->memory.ProgramROM.at(++this->registers.PC);
-				this->memory.CallStack.push(this->registers.PC);
-				this->registers.PC = bitset<16>(immediate).to_ulong();
-				break;
-			}
-
 			case 17: {
 				string immediate = this->memory.ProgramROM.at(++this->registers.PC);
 				this->memory.CallStack.push(this->registers.PC);
-				string flags = bitset<3>(this->registers.F).to_string();
-				this->registers.PC = flags[0] == '1' ? bitset<16>(immediate).to_ulong() : this->registers.PC;
+				this->registers.PC = bitset<16>(immediate).to_ulong();
 				break;
 			}
 
@@ -160,7 +160,7 @@ void rks16::CPU::run() {
 				string immediate = this->memory.ProgramROM.at(++this->registers.PC);
 				this->memory.CallStack.push(this->registers.PC);
 				string flags = bitset<3>(this->registers.F).to_string();
-				this->registers.PC = flags[1] == '1' ? bitset<16>(immediate).to_ulong() : this->registers.PC;
+				this->registers.PC = flags[0] == '1' ? bitset<16>(immediate).to_ulong() : this->registers.PC;
 				break;
 			}
 
@@ -168,17 +168,25 @@ void rks16::CPU::run() {
 				string immediate = this->memory.ProgramROM.at(++this->registers.PC);
 				this->memory.CallStack.push(this->registers.PC);
 				string flags = bitset<3>(this->registers.F).to_string();
-				this->registers.PC = flags[2] == '1' ? bitset<16>(immediate).to_ulong() : this->registers.PC;
+				this->registers.PC = flags[1] == '1' ? bitset<16>(immediate).to_ulong() : this->registers.PC;
 				break;
 			}
 
 			case 20: {
+				string immediate = this->memory.ProgramROM.at(++this->registers.PC);
+				this->memory.CallStack.push(this->registers.PC);
+				string flags = bitset<3>(this->registers.F).to_string();
+				this->registers.PC = flags[2] == '1' ? bitset<16>(immediate).to_ulong() : this->registers.PC;
+				break;
+			}
+
+			case 21: {
 				this->registers.PC = this->memory.CallStack.top();
 				this->memory.CallStack.pop();
 				break;
 			}
 
-			case 21: {
+			case 22: {
 				cout << "\u001b[33mHalted CPU." << std::endl;
 				std::exit(0);
 				break;
