@@ -11,7 +11,8 @@
 struct rks16::Memory {
     std::vector<uint16_t> RAM;
     std::vector<std::string> ProgramROM;
-    std::stack<uint16_t> stack;
+    std::stack<uint16_t> Stack;
+    std::stack<uint16_t> CallStack;
 };
 
 #endif

@@ -2,7 +2,7 @@ from error import Error
 
 # Hardcoded constants I'm not entirely sure how to get rid of
 BITWIDTH = 16
-NOREGS = ("nop", "jmp", "jz", "jo", "jn", "hlt")
+NOREGS = ("nop", "jmp", "jz", "jo", "jn", "ret", "hlt")
 HASIMM = ("ldi", "poke", "peek", "jmp", "jz", "jo", "jn")
 
 # Assembler class
@@ -28,6 +28,7 @@ class Assembler:
 		"jz": 1,
 		"jo": 1,
 		"jn": 1,
+		"ret": 0,
 		"hlt": 0
 	}
 

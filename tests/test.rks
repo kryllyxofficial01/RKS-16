@@ -1,0 +1,10 @@
+jmp main
+
+.print
+poke @a 0xfffe
+ret
+
+.main
+ldi @a 19
+jmp print
+hlt

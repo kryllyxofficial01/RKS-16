@@ -54,6 +54,7 @@ jmp <label>        : Unconditional jump
 jz <label>         : Jump if Zero Flag is 1
 jo <label>         : Jump if Overflow Flag is 1
 jn <label>         : Jump if Negative Flag is 1
+ret                : Return to the last jump
 hlt                : Halt the CPU
 
 Argument Types:
