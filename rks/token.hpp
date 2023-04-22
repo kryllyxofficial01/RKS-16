@@ -4,14 +4,14 @@
 #include <iostream>
 
 enum TokenTypes {
-	MNEUMONIC = 0x0,
-	REGISTER = 0x1,
-	IMM16 = 0x2,
-	POINTER = 0x3
+	MNEUMONIC,
+	REGISTER,
+	IMM16,
+	POINTER
 };
 
 typedef struct {
-	uint8_t type;
+	TokenTypes type;
 	std::string value;
 } Token;
 
