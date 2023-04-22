@@ -1,5 +1,0 @@
-ldi @a 10
-ldi @b 4
-xor @a @b
-
-poke @a 0xfffe

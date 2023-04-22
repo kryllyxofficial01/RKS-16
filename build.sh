@@ -1,25 +1,11 @@
-#!/bin/bash
-
-set -o errexit
-echo -n "Enter filepath: "
-read filepath
+BUILD=build
 
 assemble() {
-    python rks/main.py $filepath
-}
+	mkdir -p $BUILD
+	mkdir -p $BUILD/rks
 
-emulate() {
-    rom=${filepath%""."$(echo $filepath | awk -F "." '{print $NF}')"}
-    g++ -std=c++17 -o rks-16/build/main rks-16/main.cpp
-    rks-16/build/main $rom
-}
-
-clean() {
-    if [ ! -d "rks-16/build" ]; then mkdir build; fi
-	find "rks-16/build/" -mindepth 1 -delete
+	g++ rks/main.cpp -o $BUILD/rks/main
+	./$BUILD/rks/main
 }
 
 assemble
-clean
-echo -e "\n========================================\n"
-emulate
