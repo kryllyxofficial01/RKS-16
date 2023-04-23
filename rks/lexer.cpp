@@ -2,7 +2,10 @@
 #include <vector>
 #include <map>
 #include <cstring>
+#include <algorithm>
 
+#include "rks.hpp"
+#include "error.hpp"
 #include "token.hpp"
 
 const std::map<std::string, int> INSTRUCTIONS = {
@@ -20,8 +23,11 @@ const std::map<std::string, int> INSTRUCTIONS = {
 };
 std::string REGISTERS[] = {"a", "b", "c", "d", "f", "sp"};
 
-std::vector<Token> lex(const std::string line) {
+std::vector<Token> lex(const Instruction instruction, Error error) {
 	std::vector<Token> tokens;
+
+	std::string line = instruction.line;
+	transform(line.begin(), line.end(), line.begin(), ::tolower);
 
 	std::string mneumonic = line.substr(0, line.find(" "));
 
@@ -32,19 +38,22 @@ std::vector<Token> lex(const std::string line) {
 		});
 	}
 	else {
-
+		error.print_stacktrace(
+			"MneumonicError",
+			"Unknown instruction '" + instruction.line.substr(0, line.find(" ")) + "'"
+		);
 	}
 
 	std::string args[INSTRUCTIONS.find(mneumonic)->second];
 
 	std::string params = line.substr(line.find(" ")+1);
-	int arg = 0;
+	int argp = 0;
 	for (int i = 0; i < params.length(); i++) {
 		if (params.at(i) != ' ') {
-			args[arg] += params.at(i);
+			args[argp] += params.at(i);
 		}
 		else {
-			arg += 1;
+			argp += 1;
 		}
 	}
 
@@ -60,7 +69,10 @@ std::vector<Token> lex(const std::string line) {
 				});
 			}
 			else {
-
+				error.print_stacktrace(
+					"RegisterError",
+					"Unknown register '" +  + "'"
+				);
 			}
 		}
 		else if (!(*ptr)) {

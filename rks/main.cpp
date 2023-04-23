@@ -2,8 +2,11 @@
 #include <vector>
 #include <fstream>
 #include <algorithm>
+#include <filesystem>
 
+#include "rks.hpp"
 #include "lexer.hpp"
+#include "error.hpp"
 #include "token.hpp"
 
 #define WHITESPACE " \n\r\t\f\v"
@@ -20,12 +23,28 @@ string trim(const string &str) {
 
 int main() {
 	string filepath = "tests/test.rks";
+	vector<Instruction> instructions;
 
 	ifstream reader(filepath);
 	string line;
+	int lineno = 1;
 	while (getline(reader, line)) {
-		transform(line.begin(), line.end(), line.begin(), ::tolower);
-		vector<Token> tokens = lex(trim(line));
+		instructions.push_back((Instruction) {
+			.line = trim(line),
+			.lineno = lineno,
+			.file = filesystem::absolute(filepath)
+		});
+
+		lineno++;
+	}
+
+	for (Instruction instruction: instructions) {
+		Error error(
+			instruction.line,
+			instruction.lineno,
+			instruction.file
+		);
+		vector<Token> tokens = lex(instruction, error);
 
 		for (Token token: tokens) {
 			cout << "Token Type: " << token.type << "\nValue: " << token.value << endl << endl;;

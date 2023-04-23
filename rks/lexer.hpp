@@ -4,8 +4,10 @@
 #include <iostream>
 #include <vector>
 
+#include "rks.hpp"
+#include "error.hpp"
 #include "token.hpp"
 
-std::vector<Token> lex(const std::string line);
+std::vector<Token> lex(const Instruction instruction, Error error);
 
 #endif
