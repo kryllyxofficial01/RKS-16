@@ -4,10 +4,10 @@
 #include <algorithm>
 #include <filesystem>
 
-#include "rks.hpp"
 #include "lexer.hpp"
-#include "error.hpp"
 #include "token.hpp"
+#include "error.hpp"
+#include "rks.hpp"
 
 #define WHITESPACE " \n\r\t\f\v"
 
