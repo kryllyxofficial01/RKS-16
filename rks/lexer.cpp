@@ -69,10 +69,7 @@ std::vector<Token> lex(const Instruction instruction, Error error) {
 				});
 			}
 			else {
-				error.print_stacktrace(
-					"RegisterError",
-					"Unknown register '" +  + "'"
-				);
+				
 			}
 		}
 		else if (!(*ptr)) {
