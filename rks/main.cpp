@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <algorithm>
 
 #include "lexer.hpp"
 #include "token.hpp"
@@ -23,6 +24,7 @@ int main() {
 	ifstream reader(filepath);
 	string line;
 	while (getline(reader, line)) {
+		transform(line.begin(), line.end(), line.begin(), ::tolower);
 		vector<Token> tokens = lex(trim(line));
 
 		for (Token token: tokens) {

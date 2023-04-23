@@ -6,6 +6,6 @@
 
 #include "token.hpp"
 
-std::vector<Token> lex(std::string line);
+std::vector<Token> lex(const std::string line);
 
 #endif
