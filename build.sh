@@ -8,4 +8,5 @@ assemble() {
 	./$BUILD/rks/main
 }
 
+set -e
 assemble
