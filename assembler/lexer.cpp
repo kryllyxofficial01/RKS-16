@@ -76,7 +76,10 @@ std::vector<Token> lex(const Instruction instruction, Error error) {
 			});
 		}
 		else {
-
+			error.print_stacktrace(
+				"ArgError",
+				"Invalid immediate '" + instruction.line.substr(arg_idxs[i], arg.length()) + "'"
+			);
 		}
 
 		i++;
