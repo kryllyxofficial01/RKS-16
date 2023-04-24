@@ -1,6 +1,6 @@
 BUILD=build
 
-ASM_SOURCES=$(find . -type f -name "*.cpp")
+ASM_SOURCES=$(find ./assembler -type f -name "*.cpp")
 
 assemble() {
 	mkdir -p $BUILD
