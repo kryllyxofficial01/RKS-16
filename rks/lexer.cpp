@@ -30,19 +30,28 @@ std::vector<Token> lex(const Instruction instruction, Error error) {
 	}
 
 	std::string args[INSTRUCTIONS.find(mneumonic)->second];
+	int arg_idxs[INSTRUCTIONS.find(mneumonic)->second];
 
 	std::string params = line.substr(line.find(" ")+1);
 	int argp = 0;
+	int idx = 0;
 	for (int i = 0; i < params.length(); i++) {
-		if (params.at(i) != ' ') {
+		if (params.at(i) != ' ' && params.at(i) != '\0') {
 			args[argp] += params.at(i);
+
+			if (instruction.line.at(line.find(" ")+idx) == ' ') {
+				arg_idxs[argp] = line.find(" ")+idx+1;
+			}
 		}
 		else {
 			argp += 1;
 		}
+
+		idx++;
 	}
 
 	char* ptr;
+	int i = 0;
 	for (std::string arg: args) {
 		long immediate = std::strtol(arg.c_str(), &ptr, 0);
 
@@ -54,7 +63,10 @@ std::vector<Token> lex(const Instruction instruction, Error error) {
 				});
 			}
 			else {
-
+				error.print_stacktrace(
+					"ArgError",
+					"Unknown register '" + instruction.line.substr(arg_idxs[i]+1, arg.length()-1) + "'"
+				);
 			}
 		}
 		else if (!(*ptr)) {
@@ -66,6 +78,8 @@ std::vector<Token> lex(const Instruction instruction, Error error) {
 		else {
 
 		}
+
+		i++;
 	}
 
 	return tokens;
