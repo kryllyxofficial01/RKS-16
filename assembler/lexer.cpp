@@ -6,7 +6,7 @@
 #include "lexer.hpp"
 #include "token.hpp"
 #include "error.hpp"
-#include "rks.hpp"
+#include "instruction.hpp"
 
 std::vector<Token> lex(const Instruction instruction, Error error) {
 	std::vector<Token> tokens;

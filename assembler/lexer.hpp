@@ -7,7 +7,7 @@
 
 #include "token.hpp"
 #include "error.hpp"
-#include "rks.hpp"
+#include "instruction.hpp"
 
 inline const std::map<std::string, int> INSTRUCTIONS = {
     {"nop", 0},

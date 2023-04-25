@@ -5,9 +5,10 @@
 #include <filesystem>
 
 #include "lexer.hpp"
+#include "assembler.hpp"
 #include "token.hpp"
 #include "error.hpp"
-#include "rks.hpp"
+#include "instruction.hpp"
 
 #define WHITESPACE " \n\r\t\f\v"
 
@@ -46,9 +47,7 @@ int main() {
 		);
 		vector<Token> tokens = lex(instruction, error);
 
-		for (Token token: tokens) {
-			cout << "Token Type: " << token.type << "\nValue: " << token.value << endl << endl;;
-		}
+		assemble(tokens, instruction.file, error);
 	}
 
 	return 0;
