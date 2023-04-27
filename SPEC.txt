@@ -1,0 +1,38 @@
+===== Overview =====
+- 16-bit
+- 11 unique instructions
+	- RISC architecture
+- 6 registers
+- 131 KB of RAM
+- 131 KB of Program Memory (PROM)
+- 128x128 px screen
+
+====== Instruction Set =====
+nop                           : No operation
+mov <reg> <imm16/reg/pointer> : Move a value from one location to another
+ldw <reg> <pointer>           : Load a value from memory
+psh <imm16/reg>               : Push a value onto the stack
+pop <reg>                     : Pop a value off of the stack
+add <reg> <imm16/reg>         : Add two values together
+and <reg> <imm16/reg>         : Bitwise AND two values together
+or <reg> <imm16/reg>          : Bitwise OR two values together
+not <reg>                     : Bitwise NOT a value
+jnz <label>                   : Jump to a label if the Zero flag is high
+hlt                           : Halt the CPU
+
+===== Registers =====
+- 4 16-bit General Purpose Registers
+	- a, b, c, d
+- 2 8-bit System Registers
+	- Flags (f)
+	- Stack Pointer (sp)
+
+===== Memory Layout =====
+0x0000...0x3fff -> VRAM (Video Memory)
+0x4000...0x40ff -> Stack
+0x4100...0xffff -> General Use
+
+===== Flags =====
+1. Zero
+2. Negative
+3. Overflow
