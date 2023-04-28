@@ -4,11 +4,10 @@
 #include <algorithm>
 #include <filesystem>
 
+#include "rks.hpp"
 #include "lexer.hpp"
-#include "assembler.hpp"
 #include "token.hpp"
 #include "error.hpp"
-#include "instruction.hpp"
 
 #define WHITESPACE " \n\r\t\f\v"
 
@@ -24,30 +23,32 @@ string trim(const string &str) {
 
 int main() {
 	string filepath = "tests/test.rks";
-	vector<Instruction> instructions;
+	vector<Line> lines;
 
 	ifstream reader(filepath);
 	string line;
 	int lineno = 1;
 	while (getline(reader, line)) {
-		instructions.push_back((Instruction) {
+		lines.push_back((Line) {
 			.line = trim(line),
 			.lineno = lineno,
 			.file = filesystem::absolute(filepath)
 		});
-
-		lineno++;
 	}
 
-	for (Instruction instruction: instructions) {
+	for (Line line: lines) {
 		Error error(
-			instruction.line,
-			instruction.lineno,
-			instruction.file
+			line.line,
+			line.lineno,
+			line.file
 		);
-		vector<Token> tokens = lex(instruction, error);
 
-		assemble(tokens, instruction.file, error);
+		vector<Token> tokens = lex(line.line, error);
+
+		for (Token token: tokens) {
+			cout << "Token Type: " << token.type
+			<< "\nValue: " << token.value << std::endl << std::endl;
+		}
 	}
 
 	return 0;
