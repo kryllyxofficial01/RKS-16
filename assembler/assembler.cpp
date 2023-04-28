@@ -3,9 +3,10 @@
 Instruction assemble(std::vector<Token> tokens, Error error) {
     Instruction instruction;
 
+    int argp = 0;
     for (Token token: tokens) {
         switch (token.type) {
-            case MNEUMONIC:
+            case MNEUMONIC: {
                 auto index = std::find(INSTRUCTIONS.begin(), INSTRUCTIONS.end(), token.value);
                 if (index != INSTRUCTIONS.end()) {
                     instruction.opcode = index - INSTRUCTIONS.begin();
@@ -18,12 +19,30 @@ Instruction assemble(std::vector<Token> tokens, Error error) {
                 }
 
                 break;
+            }
 
-            case REGISTER:
-                break;
+            case REGISTER: {
+                auto index = std::find(REGISTERS.begin(), REGISTERS.end(), token.value);
+                if (index != REGISTERS.end()) {
+                    instruction.args[argp] = index - REGISTERS.begin();
+                }
+                else {
+                    error.print_stacktrace(
+                        "ArgError",
+                        "Unknown register '" + token.value + "'"
+                    );
+                }
 
-            case IMM16:
+                argp++;
+
                 break;
+            }
+
+            case IMM16: {
+                argp++;
+
+                break;
+            }
         }
     }
 
