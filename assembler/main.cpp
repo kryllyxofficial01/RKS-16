@@ -6,6 +6,7 @@
 
 #include "rks.hpp"
 #include "lexer.hpp"
+#include "assembler.hpp"
 #include "token.hpp"
 #include "error.hpp"
 
@@ -45,10 +46,13 @@ int main() {
 
 		vector<Token> tokens = lex(line.line, error);
 
-		for (Token token: tokens) {
-			cout << "Token Type: " << token.type
-			<< "\nValue: " << token.value << std::endl << std::endl;
+		Instruction instruction = assemble(tokens, error);
+
+		std::cout << "Opcode: " << instruction.opcode << "\nArgs: [";
+		for (int arg: instruction.args) {
+			std::cout << arg << " ";
 		}
+		std::cout << "\b]" << std::endl;
 	}
 
 	return 0;

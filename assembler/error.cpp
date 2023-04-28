@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "error.hpp"
 
 Error::Error(std::string line, int lineno, std::string filepath) {

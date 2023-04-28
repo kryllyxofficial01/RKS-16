@@ -1,12 +1,8 @@
-#include <iostream>
-#include <vector>
 #include <algorithm>
 #include <cstring>
 
 #include "rks.hpp"
 #include "lexer.hpp"
-#include "token.hpp"
-#include "error.hpp"
 
 std::vector<Token> lex(std::string line, Error error) {
 	std::vector<Token> tokens;
