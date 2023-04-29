@@ -39,6 +39,10 @@ Instruction assemble(std::vector<Token> tokens, Error error) {
             }
 
             case IMM16: {
+                char* ptr;
+                short immediate = (short) std::strtol(token.value.c_str(), &ptr, 0);
+                instruction.args[argp] = immediate;
+
                 argp++;
 
                 break;
