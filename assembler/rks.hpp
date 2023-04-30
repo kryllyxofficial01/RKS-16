@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <bitset>
 
 struct Line {
     std::string line;
@@ -15,7 +16,12 @@ inline const std::vector<std::string> INSTRUCTIONS = {
     "add", "and", "or", "not", "jnz", "hlt"
 };
 
-inline const int ARG_COUNTS[] = {
+const inline int opcode_len = (
+    (INSTRUCTIONS.back().find_first_not_of("0") == std::string::npos)
+    ? "" : INSTRUCTIONS.back().substr(INSTRUCTIONS.back().find_first_not_of("0"))
+).length();
+
+const inline int ARG_COUNTS[] = {
     0, 2, 2, 1, 1, 2, 2, 2, 1, 1, 0
 };
 
@@ -24,17 +30,13 @@ struct Instruction {
     int args[2];
 };
 
-inline const std::vector<std::string> REGISTERS = {
+const inline std::vector<std::string> REGISTERS = {
     "a", "b", "c", "d", "f", "sp"
 };
 
-enum Register {
-    A = 0x00,
-    B = 0x01,
-    C = 0x02,
-    D = 0x03,
-    F = 0x04,
-    SP = 0x05
-};
+const inline int registerID_len = (
+    (REGISTERS.back().find_first_not_of("0") == std::string::npos)
+    ? "" : REGISTERS.back().substr(REGISTERS.back().find_first_not_of("0"))
+).length();
 
 #endif

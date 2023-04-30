@@ -22,6 +22,22 @@ string trim(const string &str) {
     return (end == string::npos) ? "" : lstripped.substr(0, end + 1);
 }
 
+string dectobin(int integer, int width) {
+	string binary;
+
+	for (int i = width-1; i >= 0; i--) {
+		int bit = integer >> i;
+		if (bit & 1) {
+			binary += "1";
+		}
+		else {
+			binary += "0";
+		}
+	}
+
+	return binary;
+}
+
 int main() {
 	string filepath = "tests/test.rks";
 	vector<Line> lines;
@@ -37,6 +53,7 @@ int main() {
 		});
 	}
 
+	ofstream binfile(filepath.substr(0, filepath.find_last_of(".")));
 	for (Line line: lines) {
 		Error error(
 			line.line,
@@ -45,14 +62,11 @@ int main() {
 		);
 
 		vector<Token> tokens = lex(line.line, error);
-
 		Instruction instruction = assemble(tokens, error);
 
-		std::cout << "Opcode: " << instruction.opcode << "\nArgs: [";
-		for (int arg: instruction.args) {
-			std::cout << arg << " ";
-		}
-		std::cout << "\b]" << std::endl;
+		string opcode = dectobin(instruction.opcode, opcode_len);
+
+		binfile << opcode;
 	}
 
 	return 0;
