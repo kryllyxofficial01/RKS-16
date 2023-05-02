@@ -34,8 +34,13 @@ int main() {
 			line.file
 		);
 
-		vector<Token> tokens = lex(line.line, error);
+		vector<Token> tokens = lex(line.line);
 		Instruction instruction = assemble(tokens, error);
+
+		cout << "Opcode: " << instruction.opcode << endl;
+		for (int arg: instruction.args) {
+			cout << arg << endl;
+		}
 	}
 
 	return 0;

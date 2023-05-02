@@ -1,6 +1,6 @@
 #include "lexer.hpp"
 
-std::vector<Token> lex(std::string line, Error error) {
+std::vector<Token> lex(std::string line) {
 	std::vector<Token> tokens;
 
 	std::string mneumonic;
@@ -26,7 +26,18 @@ std::vector<Token> lex(std::string line, Error error) {
 	}
 
 	for (std::string arg: args) {
-
+		if (arg.at(0) == '@') {
+			tokens.push_back((Token) {
+				.type = REGISTER,
+				.value = arg.substr(1)
+			});
+		}
+		else {
+			tokens.push_back((Token) {
+				.type = IMM16,
+				.value = arg
+			});
+		}
 	}
 
 	return tokens;
