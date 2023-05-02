@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <filesystem>
 
-#include "rks.hpp"
+#include "utils.hpp"
 #include "lexer.hpp"
 #include "assembler.hpp"
 #include "token.hpp"

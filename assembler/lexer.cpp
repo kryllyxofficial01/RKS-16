@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <cstring>
 
-#include "rks.hpp"
+#include "utils.hpp"
 #include "lexer.hpp"
 
 std::vector<Token> lex(std::string line, Error error) {
