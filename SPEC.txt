@@ -28,7 +28,7 @@ B -> 1 if first argument is a register, 0 if immediate
 C -> Register ID
 
 NOTES:
-- The first byte of an instruction is unused because immediates are placed in bytes following the instruction.
+- The first byte of an instruction is unused because immediates are placed in the bytes following the instruction.
 - Not all instructions utilize the B and C arguments.
 
 ===== Registers =====
