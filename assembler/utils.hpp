@@ -10,13 +10,13 @@ struct Line {
     std::string file;
 };
 
-inline const std::vector<std::string> INSTRUCTIONS = {
+const inline std::vector<std::string> INSTRUCTIONS = {
     "nop", "mov", "stw", "ldw", "psh", "pop",
     "add", "and", "or", "not", "jnz", "hlt"
 };
 
 const inline int ARG_COUNTS[] = {
-    0, 2, 2, 1, 1, 2, 2, 2, 1, 1, 0
+    0, 2, 2, 2, 1, 1, 2, 2, 2, 1, 1, 0
 };
 
 struct Instruction {

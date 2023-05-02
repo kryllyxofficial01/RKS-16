@@ -52,5 +52,22 @@ Instruction assemble(std::vector<Token> tokens, Error error) {
         }
     }
 
+    if (instruction.args.size() > ARG_COUNTS[instruction.opcode]) {
+        error.print_stacktrace(
+            "ArgError",
+            "Too many arguments passed. Found "
+            + std::to_string(instruction.args.size())
+            + ", expected " + std::to_string(ARG_COUNTS[instruction.opcode])
+        );
+    }
+    else if (instruction.args.size() < ARG_COUNTS[instruction.opcode]) {
+        error.print_stacktrace(
+            "ArgError",
+            "Too few arguments passed. Found "
+            + std::to_string(instruction.args.size())
+            + ", expected " + std::to_string(ARG_COUNTS[instruction.opcode])
+        );
+    }
+
     return instruction;
 }

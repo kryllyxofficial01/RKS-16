@@ -24,7 +24,7 @@ hlt                       : Halt the CPU
 ===== Instruction Layout =====
 Layout: AAAABCCC
 A -> Opcode
-B -> 1 if first argument is a register, 0 if immediate
+B -> 0 for version one of the instruction, 1 for version two
 C -> Register ID
 
 NOTES:
