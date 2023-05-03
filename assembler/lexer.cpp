@@ -5,7 +5,7 @@ std::vector<Token> lex(std::string line) {
 
 	std::string mneumonic;
 	int i = 0;
-	while (line.at(i) != ' ') {
+	while (!(i == line.length() || line.at(i) == ' ')) {
 		mneumonic += line.at(i);
 		i++;
 	}

@@ -23,3 +23,8 @@ std::string trim(const std::string &str) {
 	size_t end = lstripped.find_last_not_of(WHITESPACE);
     return (end == std::string::npos) ? "" : lstripped.substr(0, end + 1);
 }
+
+std::string lstrip(const std::string &str, std::string trimmed) {
+	size_t start = str.find_first_not_of(trimmed);
+    return (start == std::string::npos) ? "" : str.substr(start);
+}

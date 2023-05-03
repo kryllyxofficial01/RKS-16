@@ -23,7 +23,10 @@ Instruction assemble(std::vector<Token> tokens, Error error) {
             case REGISTER: {
                 auto index = std::find(REGISTERS.begin(), REGISTERS.end(), token.value);
                 if (index != REGISTERS.end()) {
-                    instruction.args.push_back(index - REGISTERS.begin());
+                    instruction.args.push_back((Arg) {
+                        .type = REG,
+                        .value = index - REGISTERS.begin()
+                    });
                 }
                 else {
                     error.print_stacktrace(
@@ -40,7 +43,10 @@ Instruction assemble(std::vector<Token> tokens, Error error) {
                 int immediate = std::strtol(token.value.c_str(), &ptr, 0);
 
                 if (!(*ptr)) {
-                    instruction.args.push_back(immediate);
+                    instruction.args.push_back((Arg) {
+                        .type = IMM,
+                        .value = immediate
+                    });
                 }
                 else {
                     error.print_stacktrace(

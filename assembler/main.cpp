@@ -37,9 +37,19 @@ int main() {
 		vector<Token> tokens = lex(line.line);
 		Instruction instruction = assemble(tokens, error);
 
-		cout << "Opcode: " << instruction.opcode << endl;
-		for (int arg: instruction.args) {
-			cout << arg << endl;
+		int opcode_len = lstrip(dectobin(INSTRUCTIONS.size(), 8), "0").length();
+		switch (instruction.opcode) {
+			case 0:
+			case 11: {
+				binfile << "00000000";
+
+				binfile << dectobin(
+					instruction.opcode,
+					opcode_len
+				) + string(8-opcode_len, '0');
+
+				break;
+			}
 		}
 	}
 
