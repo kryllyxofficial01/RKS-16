@@ -38,15 +38,33 @@ int main() {
 		Instruction instruction = assemble(tokens, error);
 
 		int opcode_len = lstrip(dectobin(INSTRUCTIONS.size(), 8), "0").length();
+
+		binfile << "00000000";
+		binfile << dectobin(
+			instruction.opcode,
+			opcode_len
+		);
+
 		switch (instruction.opcode) {
 			case 0:
 			case 11: {
-				binfile << "00000000";
+				binfile << string(8-opcode_len, '0') + "\n";
+				break;
+			}
 
-				binfile << dectobin(
-					instruction.opcode,
-					opcode_len
-				) + string(8-opcode_len, '0');
+			case 1:
+			case 6:
+			case 7:
+			case 8: {
+				if (instruction.args.back().type == 0) {
+					binfile << "0";
+				}
+				else if (instruction.args.back().type == 1) {
+					binfile << "1";
+				}
+
+				binfile << dectobin(instruction.args.front().value, 7-opcode_len) + "\n";
+				binfile << dectobin(instruction.args.back().value, 16);
 
 				break;
 			}
