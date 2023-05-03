@@ -39,36 +39,67 @@ int main() {
 
 		int opcode_len = lstrip(dectobin(INSTRUCTIONS.size(), 8), "0").length();
 
-		binfile << "00000000";
+		binfile << string(8, '0');
 		binfile << dectobin(
 			instruction.opcode,
 			opcode_len
 		);
 
-		switch (instruction.opcode) {
-			case 0:
-			case 11: {
-				binfile << string(8-opcode_len, '0') + "\n";
-				break;
-			}
+		if (instruction.args.size() == 0) {
+			binfile << string(8-opcode_len, '0');
+		}
+		else if (instruction.args.size() == 1) {
+			switch (instruction.opcode) {
+				case 4: {
+					if (instruction.args.front().type == 0) {
+						binfile << "0";
+						binfile << dectobin(instruction.args.front().value, 7-opcode_len);
+					}
+					else if (instruction.args.front().type == 1) {
+						binfile << "1";
+						binfile << string(7-opcode_len, '0') + "\n";
+						binfile << dectobin(instruction.args.front().value, 16);
+					}
 
-			case 1:
-			case 6:
-			case 7:
-			case 8: {
-				if (instruction.args.back().type == 0) {
-					binfile << "0";
+					break;
 				}
-				else if (instruction.args.back().type == 1) {
-					binfile << "1";
+
+				case 10: {
+					binfile << string(8-opcode_len, '0') + "\n";
+					binfile << dectobin(instruction.args.front().value, 16);
+
+					break;
 				}
 
-				binfile << dectobin(instruction.args.front().value, 7-opcode_len) + "\n";
-				binfile << dectobin(instruction.args.back().value, 16);
-
-				break;
+				case 5:
+				case 9: {
+					binfile << dectobin(instruction.args.front().value, 8-opcode_len);
+					break;
+				}
 			}
 		}
+		else if (instruction.args.size() == 2) {
+			switch (instruction.opcode) {
+				case 1:
+				case 6:
+				case 7:
+				case 8: {
+					if (instruction.args.front().type == 0) {
+						binfile << "0";
+					}
+					else if (instruction.args.front().type == 1) {
+						binfile << "1";
+					}
+
+					binfile << dectobin(instruction.args.front().value, 7-opcode_len) + "\n";
+					binfile << dectobin(instruction.args.back().value, 16);
+
+					break;
+				}
+			}
+		}
+
+		binfile << "\n";
 	}
 
 	return 0;

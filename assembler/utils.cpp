@@ -5,12 +5,7 @@ std::string dectobin(int integer, int width) {
 
 	for (int i = width-1; i >= 0; i--) {
 		int bit = integer >> i;
-		if (bit & 1) {
-			binary += "1";
-		}
-		else {
-			binary += "0";
-		}
+		binary += bit & 1 ? "1" : "0";
 	}
 
 	return binary;
