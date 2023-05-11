@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <vector>
-#include <bitset>
 
 struct Line {
     std::string line;
@@ -11,32 +10,38 @@ struct Line {
     std::string file;
 };
 
-inline const std::vector<std::string> INSTRUCTIONS = {
-    "nop", "mov", "stw", "ldw", "psh", "pop",
-    "add", "and", "or", "not", "jnz", "hlt"
+enum ArgTypes {
+    REG,
+    IMM
 };
 
-const inline int opcode_len = (
-    (INSTRUCTIONS.back().find_first_not_of("0") == std::string::npos)
-    ? "" : INSTRUCTIONS.back().substr(INSTRUCTIONS.back().find_first_not_of("0"))
-).length();
-
-const inline int ARG_COUNTS[] = {
-    0, 2, 2, 1, 1, 2, 2, 2, 1, 1, 0
+struct Arg {
+    ArgTypes type;
+    long value;
 };
 
 struct Instruction {
     int opcode;
-    int args[2];
+    std::vector<Arg> args;
+};
+
+const inline std::vector<std::string> INSTRUCTIONS = {
+    "nop", "mov", "stw", "ldw", "psh", "pop",
+    "add", "and", "or", "not", "jnz", "hlt"
 };
 
 const inline std::vector<std::string> REGISTERS = {
     "a", "b", "c", "d", "f", "sp"
 };
 
-const inline int registerID_len = (
-    (REGISTERS.back().find_first_not_of("0") == std::string::npos)
-    ? "" : REGISTERS.back().substr(REGISTERS.back().find_first_not_of("0"))
-).length();
+const inline int ARG_COUNTS[] = {
+    0, 2, 2, 2, 1, 1, 2, 2, 2, 1, 1, 0
+};
+
+#define WHITESPACE " \n\r\t\f\v"
+
+std::string dectobin(int integer, int width);
+std::string trim(const std::string &str);
+std::string lstrip(const std::string &str, std::string trimmed);
 
 #endif

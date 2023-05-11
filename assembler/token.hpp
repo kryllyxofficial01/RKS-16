@@ -6,8 +6,7 @@
 enum TokenTypes {
 	MNEUMONIC,
 	REGISTER,
-	IMM16,
-	POINTER
+	IMM16
 };
 
 typedef struct {

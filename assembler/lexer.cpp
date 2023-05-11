@@ -1,15 +1,11 @@
-#include <algorithm>
-#include <cstring>
-
-#include "utils.hpp"
 #include "lexer.hpp"
 
-std::vector<Token> lex(std::string line, Error error) {
+std::vector<Token> lex(std::string line) {
 	std::vector<Token> tokens;
 
 	std::string mneumonic;
 	int i = 0;
-	while (line.at(i) != ' ') {
+	while (!(i == line.length() || line.at(i) == ' ')) {
 		mneumonic += line.at(i);
 		i++;
 	}
@@ -36,17 +32,11 @@ std::vector<Token> lex(std::string line, Error error) {
 				.value = arg.substr(1)
 			});
 		}
-		else if (std::isdigit(arg.at(0))) {
+		else {
 			tokens.push_back((Token) {
 				.type = IMM16,
 				.value = arg
 			});
-		}
-		else {
-			error.print_stacktrace(
-				"ArgError",
-				"Invalid argument '" + arg + "'"
-			);
 		}
 	}
 

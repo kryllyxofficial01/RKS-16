@@ -10,8 +10,8 @@
 ====== Instruction Set =====
 nop                       : No operation
 mov <reg> <imm16/reg>     : Move a value into a register
-stw <pointer> <reg/imm16> : Store a value in memory
-ldw <reg> <pointer>       : Load a value from memory
+stw <imm16> <reg/imm16>   : Store a value in memory
+ldw <reg> <imm16>         : Load a value from memory
 psh <imm16/reg>           : Push a value onto the stack
 pop <reg>                 : Pop a value off of the stack
 add <reg> <imm16/reg>     : Add two values together
@@ -20,6 +20,16 @@ or <reg> <imm16/reg>      : Bitwise OR two values together
 not <reg>                 : Bitwise NOT a value
 jnz <label>               : Jump to a label if the Zero flag is high
 hlt                       : Halt the CPU
+
+===== Instruction Layout =====
+Layout: AAAABCCC
+A -> Opcode
+B -> 0 for version one of the instruction, 1 for version two
+C -> Register ID
+
+NOTES:
+- The first byte of an instruction is unused because immediates are placed in the bytes following the instruction.
+- Not all instructions utilize the B and C arguments.
 
 ===== Registers =====
 - 4 16-bit General Purpose Registers

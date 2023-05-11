@@ -3,7 +3,6 @@
 Instruction assemble(std::vector<Token> tokens, Error error) {
     Instruction instruction;
 
-    int argp = 0;
     for (Token token: tokens) {
         switch (token.type) {
             case MNEUMONIC: {
@@ -14,7 +13,7 @@ Instruction assemble(std::vector<Token> tokens, Error error) {
                 else {
                     error.print_stacktrace(
                         "MneumonicError",
-                        "Unknown mneumonic '" + token.value + "'"
+                        "Unknown instruction '" + token.value + "'"
                     );
                 }
 
@@ -24,7 +23,10 @@ Instruction assemble(std::vector<Token> tokens, Error error) {
             case REGISTER: {
                 auto index = std::find(REGISTERS.begin(), REGISTERS.end(), token.value);
                 if (index != REGISTERS.end()) {
-                    instruction.args[argp] = index - REGISTERS.begin();
+                    instruction.args.push_back((Arg) {
+                        .type = REG,
+                        .value = index - REGISTERS.begin()
+                    });
                 }
                 else {
                     error.print_stacktrace(
@@ -33,21 +35,44 @@ Instruction assemble(std::vector<Token> tokens, Error error) {
                     );
                 }
 
-                argp++;
-
                 break;
             }
 
             case IMM16: {
                 char* ptr;
-                short immediate = (short) std::strtol(token.value.c_str(), &ptr, 0);
-                instruction.args[argp] = immediate;
+                int immediate = std::strtol(token.value.c_str(), &ptr, 0);
 
-                argp++;
-
-                break;
+                if (!(*ptr)) {
+                    instruction.args.push_back((Arg) {
+                        .type = IMM,
+                        .value = immediate
+                    });
+                }
+                else {
+                    error.print_stacktrace(
+                        "ArgError",
+                        "Invalid immediate '" + token.value + "'"
+                    );
+                }
             }
         }
+    }
+
+    if (instruction.args.size() > ARG_COUNTS[instruction.opcode]) {
+        error.print_stacktrace(
+            "ArgError",
+            "Too many arguments passed. Found "
+            + std::to_string(instruction.args.size())
+            + ", expected " + std::to_string(ARG_COUNTS[instruction.opcode])
+        );
+    }
+    else if (instruction.args.size() < ARG_COUNTS[instruction.opcode]) {
+        error.print_stacktrace(
+            "ArgError",
+            "Too few arguments passed. Found "
+            + std::to_string(instruction.args.size())
+            + ", expected " + std::to_string(ARG_COUNTS[instruction.opcode])
+        );
     }
 
     return instruction;

@@ -1,6 +1,7 @@
 # Replit Files
 .replit
 replit.nix
+.ccls-cache/**
 
 # Prerequisites
 *.d

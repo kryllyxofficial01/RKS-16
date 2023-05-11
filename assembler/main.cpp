@@ -1,42 +1,15 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
-#include <algorithm>
 #include <filesystem>
 
-#include "utils.hpp"
 #include "lexer.hpp"
 #include "assembler.hpp"
 #include "token.hpp"
 #include "error.hpp"
-
-#define WHITESPACE " \n\r\t\f\v"
+#include "utils.hpp"
 
 using namespace std;
-
-string trim(const string &str) {
-	size_t start = str.find_first_not_of(WHITESPACE);
-	string lstripped = (start == string::npos) ? "" : str.substr(start);
-
-	size_t end = lstripped.find_last_not_of(WHITESPACE);
-    return (end == string::npos) ? "" : lstripped.substr(0, end + 1);
-}
-
-string dectobin(int integer, int width) {
-	string binary;
-
-	for (int i = width-1; i >= 0; i--) {
-		int bit = integer >> i;
-		if (bit & 1) {
-			binary += "1";
-		}
-		else {
-			binary += "0";
-		}
-	}
-
-	return binary;
-}
 
 int main() {
 	string filepath = "tests/test.rks";
@@ -53,7 +26,7 @@ int main() {
 		});
 	}
 
-	ofstream binfile(filepath.substr(0, filepath.find_last_of(".")));
+	ofstream binfile(filepath.substr(0, filepath.find_last_of(".")) + ".bin");
 	for (Line line: lines) {
 		Error error(
 			line.line,
@@ -61,12 +34,72 @@ int main() {
 			line.file
 		);
 
-		vector<Token> tokens = lex(line.line, error);
+		vector<Token> tokens = lex(line.line);
 		Instruction instruction = assemble(tokens, error);
 
-		string opcode = dectobin(instruction.opcode, opcode_len);
+		int opcode_len = lstrip(dectobin(INSTRUCTIONS.size(), 8), "0").length();
 
-		binfile << opcode;
+		binfile << string(8, '0');
+		binfile << dectobin(
+			instruction.opcode,
+			opcode_len
+		);
+
+		if (instruction.args.size() == 0) {
+			binfile << string(8-opcode_len, '0');
+		}
+		else if (instruction.args.size() == 1) {
+			switch (instruction.opcode) {
+				case 4: {
+					if (instruction.args.front().type == 0) {
+						binfile << "0";
+						binfile << dectobin(instruction.args.front().value, 7-opcode_len);
+					}
+					else if (instruction.args.front().type == 1) {
+						binfile << "1";
+						binfile << string(7-opcode_len, '0') + "\n";
+						binfile << dectobin(instruction.args.front().value, 16);
+					}
+
+					break;
+				}
+
+				case 10: {
+					binfile << string(8-opcode_len, '0') + "\n";
+					binfile << dectobin(instruction.args.front().value, 16);
+
+					break;
+				}
+
+				case 5:
+				case 9: {
+					binfile << dectobin(instruction.args.front().value, 8-opcode_len);
+					break;
+				}
+			}
+		}
+		else if (instruction.args.size() == 2) {
+			switch (instruction.opcode) {
+				case 1:
+				case 6:
+				case 7:
+				case 8: {
+					if (instruction.args.front().type == 0) {
+						binfile << "0";
+					}
+					else if (instruction.args.front().type == 1) {
+						binfile << "1";
+					}
+
+					binfile << dectobin(instruction.args.front().value, 7-opcode_len) + "\n";
+					binfile << dectobin(instruction.args.back().value, 16);
+
+					break;
+				}
+			}
+		}
+
+		binfile << "\n";
 	}
 
 	return 0;
