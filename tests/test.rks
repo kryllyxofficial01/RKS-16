@@ -1,1 +1,3 @@
-not @a
+; test
+
+mov @a 19

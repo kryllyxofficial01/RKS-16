@@ -19,11 +19,13 @@ int main() {
 	string line;
 	int lineno = 1;
 	while (getline(reader, line)) {
-		lines.push_back((Line) {
-			.line = trim(line),
-			.lineno = lineno,
-			.file = filesystem::absolute(filepath)
-		});
+		if (line != "" && line.front() != ';') {
+			lines.push_back((Line) {
+				.line = trim(line),
+				.lineno = lineno,
+				.file = filesystem::absolute(filepath)
+			});
+		}
 	}
 
 	ofstream binfile(filepath.substr(0, filepath.find_last_of(".")) + ".bin");
