@@ -1,2 +1,1 @@
-mov @a 19
-psh @a
+not @a
