@@ -2,22 +2,34 @@
 #include <vector>
 #include <fstream>
 
+#include "emulator.hpp"
 #include "memory.hpp"
 
 using namespace std;
 
-int main() {
-    Memory memory;
-    memory.main = vector<u_int16_t>(65536, 0);
-    memory.program_rom = vector<string>(65536, "");
+vector<u_int16_t> Memory::main = vector<u_int16_t>(65536, 0);
+vector<string> Memory::program_rom = vector<string>(65536, "");
 
+u_int16_t Registers::A = 0;
+u_int16_t Registers::B = 0;
+u_int16_t Registers::C = 0;
+u_int16_t Registers::D = 0;
+u_int8_t Registers::F = 0;
+u_int8_t Registers::SP = 0;
+u_int16_t Registers::PC = 0;
+
+int main() {
     string filepath = "tests/test.bin";
     ifstream reader(filepath);
 
     string line;
+    int lineno = 0;
     while(getline(reader, line)) {
-        memory.program_rom.push_back(line);
+        Memory::program_rom.at(lineno) = line;
+        lineno++;
     }
+
+    emulate();
 
     return 0;
 }

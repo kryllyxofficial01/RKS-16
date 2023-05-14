@@ -30,12 +30,12 @@ const inline std::vector<std::string> INSTRUCTIONS = {
     "add", "and", "or", "not", "jnz", "hlt"
 };
 
-const inline std::vector<std::string> REGISTERS = {
-    "a", "b", "c", "d", "f", "sp"
-};
-
 const inline int ARG_COUNTS[] = {
     0, 2, 2, 2, 1, 1, 2, 2, 2, 1, 1, 0
+};
+
+const inline std::vector<std::string> REGISTERS = {
+    "a", "b", "c", "d", "f", "sp", "pc"
 };
 
 #define WHITESPACE " \n\r\t\f\v"

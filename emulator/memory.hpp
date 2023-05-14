@@ -4,9 +4,10 @@
 #include <iostream>
 #include <vector>
 
-struct Memory {
-    std::vector<u_int16_t> main;
-    std::vector<std::string> program_rom;
+class Memory {
+    public:
+        static std::vector<u_int16_t> main;
+        static std::vector<std::string> program_rom;
 };
 
 #endif

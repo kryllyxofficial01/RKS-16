@@ -2,7 +2,7 @@
 - 16-bit
 - 12 instructions
 	- RISC architecture
-- 6 registers
+- 7 registers
 - 131 KB of RAM
 - 131 KB of Program Memory (PROM)
 - 128x128 px screen
@@ -37,6 +37,7 @@ NOTES:
 - 2 8-bit System Registers
 	- Flags (f)
 	- Stack Pointer (sp)
+- 16-Bit Program Counter
 
 ===== Memory Layout =====
 0x0000...0x3fff -> VRAM (Video Memory)
