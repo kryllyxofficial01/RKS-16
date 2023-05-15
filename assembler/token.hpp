@@ -1,7 +1,7 @@
 #ifndef TOKEN
 #define TOKEN
 
-#include <iostream>
+#include <string>
 
 enum TokenTypes {
 	MNEUMONIC,

@@ -1,8 +1,8 @@
 #ifndef CONSTANTS
 #define CONSTANTS
 
-#include <iostream>
 #include <vector>
+#include <string>
 
 #define WHITESPACE " \n\r\t\f\v"
 

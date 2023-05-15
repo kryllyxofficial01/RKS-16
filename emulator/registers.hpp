@@ -1,8 +1,6 @@
 #ifndef REGISTERS
 #define REGISTERS
 
-#include <iostream>
-
 class Registers {
     public:
         static u_int16_t A;

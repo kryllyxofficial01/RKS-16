@@ -1,7 +1,6 @@
 #ifndef ASSEMBLER
 #define ASSEMBLER
 
-#include <iostream>
 #include <vector>
 #include <algorithm>
 

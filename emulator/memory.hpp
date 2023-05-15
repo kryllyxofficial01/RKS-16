@@ -1,8 +1,8 @@
 #ifndef MEMORY
 #define MEMORY
 
-#include <iostream>
 #include <vector>
+#include <string>
 
 class Memory {
     public:
