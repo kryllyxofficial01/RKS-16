@@ -6,6 +6,8 @@
 
 #include "memory.hpp"
 #include "registers.hpp"
+#include "../common/utils.hpp"
+#include "../common/constants.hpp"
 
 void emulate();
 

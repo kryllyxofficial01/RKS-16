@@ -7,7 +7,9 @@
 #include "assembler.hpp"
 #include "token.hpp"
 #include "error.hpp"
-#include "utils.hpp"
+#include "asm_utils.hpp"
+#include "../common/constants.hpp"
+#include "../common/utils.hpp"
 
 using namespace std;
 
@@ -39,7 +41,7 @@ int main() {
 		vector<Token> tokens = lex(line.line);
 		Instruction instruction = assemble(tokens, error);
 
-		int opcode_len = lstrip(dectobin(INSTRUCTIONS.size(), 8), "0").length();
+		int opcode_len = lstrip(dectobin(MNEUMONICS.size(), 8), "0").length();
 
 		binfile << string(8, '0');
 		binfile << dectobin(

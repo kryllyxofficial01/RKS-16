@@ -6,9 +6,9 @@ Instruction assemble(std::vector<Token> tokens, Error error) {
     for (Token token: tokens) {
         switch (token.type) {
             case MNEUMONIC: {
-                auto index = std::find(INSTRUCTIONS.begin(), INSTRUCTIONS.end(), token.value);
-                if (index != INSTRUCTIONS.end()) {
-                    instruction.opcode = index - INSTRUCTIONS.begin();
+                auto index = std::find(MNEUMONICS.begin(), MNEUMONICS.end(), token.value);
+                if (index != MNEUMONICS.end()) {
+                    instruction.opcode = index - MNEUMONICS.begin();
                 }
                 else {
                     error.print_stacktrace(
@@ -21,11 +21,11 @@ Instruction assemble(std::vector<Token> tokens, Error error) {
             }
 
             case REGISTER: {
-                auto index = std::find(REGISTERS.begin(), REGISTERS.end(), token.value);
-                if (index != REGISTERS.end()) {
+                auto index = std::find(REGISTER_IDS.begin(), REGISTER_IDS.end(), token.value);
+                if (index != REGISTER_IDS.end()) {
                     instruction.args.push_back((Arg) {
                         .type = REG,
-                        .value = index - REGISTERS.begin()
+                        .value = index - REGISTER_IDS.begin()
                     });
                 }
                 else {

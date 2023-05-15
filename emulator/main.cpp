@@ -7,8 +7,8 @@
 
 using namespace std;
 
-vector<u_int16_t> Memory::main = vector<u_int16_t>(65536, 0);
-vector<string> Memory::program_rom = vector<string>(65536, "");
+vector<u_int16_t> Memory::main = vector<u_int16_t>(__UINT16_MAX__+1, 0);
+vector<string> Memory::program_rom = vector<string>(__UINT16_MAX__+1, "");
 
 u_int16_t Registers::A = 0;
 u_int16_t Registers::B = 0;
