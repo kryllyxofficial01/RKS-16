@@ -1,2 +1,4 @@
 mov @a 19
-mov @b @a
+
+stw 0xff @a
+ldw @b 0xff

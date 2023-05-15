@@ -6,19 +6,35 @@ void emulate() {
 
         int opcode_len = lstrip(dectobin(MNEUMONICS.size(), 8), "0").length();
         std::string opcode = binary.substr(8, opcode_len);
+        int type = binary.at(8+opcode_len) - '0';
+
+        std::string destination = Memory::program_rom.at(++Registers::PC);
+        std::string source = Memory::program_rom.at(++Registers::PC);
 
         switch (std::bitset<8>(opcode).to_ulong()) {
             case 0: break;
 
             case 1: {
-                int type = binary.at(8+opcode_len) - '0';
-
-                std::string destination = Memory::program_rom.at(++Registers::PC);
-                std::string source = Memory::program_rom.at(++Registers::PC);
-
                 updateRegister(
                     std::bitset<16>(destination).to_ulong(),
                     type ? std::bitset<16>(source).to_ulong() : getRegister(std::bitset<16>(source).to_ulong())
+                );
+
+                break;
+            }
+
+            case 2: {
+                Memory::main.at(std::bitset<16>(destination).to_ulong()) = type ?
+                    std::bitset<16>(source).to_ulong() :
+                    getRegister(std::bitset<16>(source).to_ulong());
+
+                break;
+            }
+
+            case 3: {
+                updateRegister(
+                    std::bitset<16>(destination).to_ulong(),
+                    Memory::main.at(type ? std::bitset<16>(source).to_ulong() : getRegister(std::bitset<16>(source).to_ulong()))
                 );
 
                 break;
@@ -29,6 +45,8 @@ void emulate() {
 
         Registers::PC++;
     }
+
+    std::cout << Registers::B << std::endl;
 }
 
 void updateRegister(int id, u_int16_t value) {

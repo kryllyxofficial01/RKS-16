@@ -11,7 +11,7 @@
 nop                       : No operation
 mov <reg> <imm16/reg>     : Move a value into a register
 stw <imm16> <imm16/reg>   : Store a value in memory
-ldw <reg> <imm16>         : Load a value from memory
+ldw <reg> <imm16/reg>     : Load a value from memory
 psh <imm16/reg>           : Push a value onto the stack
 pop <reg>                 : Pop a value off of the stack
 add <reg> <imm16/reg>     : Add two values together
