@@ -12,7 +12,7 @@ const inline std::vector<std::string> MNEUMONICS = {
 };
 
 const inline std::vector<std::string> REGISTER_IDS = {
-    "a", "b", "c", "d", "f", "sp", "pc"
+    "a", "b", "c", "d", "f", "sp"
 };
 
 #endif

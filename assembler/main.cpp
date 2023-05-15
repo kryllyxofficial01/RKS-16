@@ -42,7 +42,7 @@ int main() {
 		Instruction instruction = assemble(tokens, error);
 
 		int opcode_len = lstrip(dectobin(MNEUMONICS.size(), 8), "0").length();
-
+		
 		binfile << string(8, '0');
 		binfile << dectobin(
 			instruction.opcode,

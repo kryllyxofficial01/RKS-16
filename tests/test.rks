@@ -1,1 +1,2 @@
 mov @a 19
+mov @b @a
