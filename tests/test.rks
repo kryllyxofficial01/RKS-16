@@ -1,4 +1,4 @@
 mov @a 19
 
-stw 0xff @a
-ldw @b 0xff
+psh @a
+pop @b

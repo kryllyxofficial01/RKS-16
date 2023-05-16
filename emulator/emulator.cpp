@@ -8,13 +8,13 @@ void emulate() {
         std::string opcode = binary.substr(8, opcode_len);
         int type = binary.at(8+opcode_len) - '0';
 
-        std::string destination = Memory::program_rom.at(++Registers::PC);
-        std::string source = Memory::program_rom.at(++Registers::PC);
-
         switch (std::bitset<8>(opcode).to_ulong()) {
             case 0: break;
 
             case 1: {
+                std::string destination = Memory::program_rom.at(++Registers::PC);
+                std::string source = Memory::program_rom.at(++Registers::PC);
+
                 updateRegister(
                     std::bitset<16>(destination).to_ulong(),
                     type ? std::bitset<16>(source).to_ulong() : getRegister(std::bitset<16>(source).to_ulong())
@@ -24,18 +24,40 @@ void emulate() {
             }
 
             case 2: {
-                Memory::main.at(std::bitset<16>(destination).to_ulong()) = type ?
-                    std::bitset<16>(source).to_ulong() :
-                    getRegister(std::bitset<16>(source).to_ulong());
+                std::string destination = Memory::program_rom.at(++Registers::PC);
+                std::string source = Memory::program_rom.at(++Registers::PC);
+
+                Memory::main.at(std::bitset<16>(destination).to_ulong()) = type ? std::bitset<16>(source).to_ulong() : getRegister(std::bitset<16>(source).to_ulong());
 
                 break;
             }
 
             case 3: {
+                std::string destination = Memory::program_rom.at(++Registers::PC);
+                std::string source = Memory::program_rom.at(++Registers::PC);
+
                 updateRegister(
                     std::bitset<16>(destination).to_ulong(),
                     Memory::main.at(type ? std::bitset<16>(source).to_ulong() : getRegister(std::bitset<16>(source).to_ulong()))
                 );
+
+                break;
+            }
+
+            case 4: {
+                std::string source = type ? Memory::program_rom.at(++Registers::PC) : binary.substr(9+opcode_len);
+
+                Memory::main.at(Registers::SP + STACK_OFFSET) = type ? std::bitset<16>(source).to_ulong() : getRegister(std::bitset<16>(source).to_ulong());
+                Registers::SP--;
+
+                break;
+            }
+
+            case 5: {
+                std::string destination = binary.substr(9+opcode_len);
+
+                updateRegister(std::bitset<8>(destination).to_ulong(), Memory::main.at(++Registers::SP + STACK_OFFSET));
+                Memory::main.at(Registers::SP-1 + STACK_OFFSET) = 0;
 
                 break;
             }
@@ -45,8 +67,6 @@ void emulate() {
 
         Registers::PC++;
     }
-
-    std::cout << Registers::B << std::endl;
 }
 
 void updateRegister(int id, u_int16_t value) {

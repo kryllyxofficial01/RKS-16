@@ -15,7 +15,7 @@ u_int16_t Registers::B = 0;
 u_int16_t Registers::C = 0;
 u_int16_t Registers::D = 0;
 u_int8_t Registers::F = 0;
-u_int8_t Registers::SP = 0;
+u_int8_t Registers::SP = 0xff;
 u_int16_t Registers::PC = 0;
 
 int main() {
