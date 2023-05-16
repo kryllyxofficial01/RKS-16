@@ -115,6 +115,12 @@ void emulate() {
                 break;
             }
 
+            case 10: {
+                // TODO: Implement labels
+
+                break;
+            }
+
             case 11: std::exit(0); break;
         }
 
