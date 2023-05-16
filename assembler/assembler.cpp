@@ -77,3 +77,16 @@ Instruction assemble(std::vector<Token> tokens, Error error) {
 
     return instruction;
 }
+
+void handleLabels(std::vector<Line>* lines) {
+    std::vector<std::pair<std::string, int>> labels;
+
+    for (int i = 0; i < lines->size(); i++) {
+        if (lines->at(i).line.at(0) == '.') {
+            labels.push_back(
+                std::make_pair(lines->at(i).line.substr(1), i)
+            );
+            lines->erase(lines->begin()+i);
+        }
+    }
+}

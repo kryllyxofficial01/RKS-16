@@ -30,6 +30,8 @@ int main() {
 		}
 	}
 
+	handleLabels(&lines);
+
 	ofstream binfile(filepath.substr(0, filepath.find_last_of(".")) + ".bin");
 	for (Line line: lines) {
 		Error error(
@@ -42,7 +44,7 @@ int main() {
 		Instruction instruction = assemble(tokens, error);
 
 		int opcode_len = lstrip(dectobin(MNEUMONICS.size(), 8), "0").length();
-		
+
 		binfile << string(8, '0');
 		binfile << dectobin(
 			instruction.opcode,

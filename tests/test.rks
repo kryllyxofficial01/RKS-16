@@ -1,4 +1,6 @@
+.test
 mov @a 19
-mov @b 17
+psh @a
 
-not @a
+.tset
+nop

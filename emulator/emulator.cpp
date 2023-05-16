@@ -126,8 +126,6 @@ void emulate() {
 
         Registers::PC++;
     }
-
-    std::cout << Registers::A << std::endl;
 }
 
 void updateRegister(int id, u_int16_t value) {
