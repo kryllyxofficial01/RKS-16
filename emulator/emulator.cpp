@@ -62,11 +62,59 @@ void emulate() {
                 break;
             }
 
+            case 6: {
+                std::string a = Memory::program_rom.at(++Registers::PC);
+                std::string b = Memory::program_rom.at(++Registers::PC);
+
+                u_int16_t result = getRegister(std::bitset<16>(a).to_ulong()) + (
+                    type ? std::bitset<16>(b).to_ulong() : getRegister(std::bitset<16>(b).to_ulong())
+                );
+                updateRegister(std::bitset<16>(a).to_ulong(), result);
+
+                break;
+            }
+
+            case 7: {
+                std::string a = Memory::program_rom.at(++Registers::PC);
+                std::string b = Memory::program_rom.at(++Registers::PC);
+
+                u_int16_t result = getRegister(std::bitset<16>(a).to_ulong()) & (
+                    type ? std::bitset<16>(b).to_ulong() : getRegister(std::bitset<16>(b).to_ulong())
+                );
+                updateRegister(std::bitset<16>(a).to_ulong(), result);
+
+                break;
+            }
+
+            case 8: {
+                std::string a = Memory::program_rom.at(++Registers::PC);
+                std::string b = Memory::program_rom.at(++Registers::PC);
+
+                u_int16_t result = getRegister(std::bitset<16>(a).to_ulong()) | (
+                    type ? std::bitset<16>(b).to_ulong() : getRegister(std::bitset<16>(b).to_ulong())
+                );
+                updateRegister(std::bitset<16>(a).to_ulong(), result);
+
+                break;
+            }
+
+            case 9: {
+                std::string a = Memory::program_rom.at(++Registers::PC);
+                std::string b = Memory::program_rom.at(++Registers::PC);
+
+                u_int16_t result = ~getRegister(std::bitset<16>(a).to_ulong());
+                updateRegister(std::bitset<16>(a).to_ulong(), result);
+
+                break;
+            }
+
             case 11: std::exit(0); break;
         }
 
         Registers::PC++;
     }
+
+    std::cout << Registers::A << std::endl;
 }
 
 void updateRegister(int id, u_int16_t value) {
