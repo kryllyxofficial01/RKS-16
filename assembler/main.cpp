@@ -55,20 +55,7 @@ int main() {
 			binfile << string(8-opcode_len, '0');
 			binfile << "\n";
 		}
-		else if (instruction.args.size() == 1) {
-			if (instruction.args.front().type == REG) {
-				binfile << "0";
-				binfile << dectobin(instruction.args.front().value, 7-opcode_len);
-			}
-			else if (instruction.args.front().type == IMM) {
-				binfile << "1";
-				binfile << string(7-opcode_len, '0') << "\n";
-				binfile << dectobin(instruction.args.front().value, 16);
-			}
-
-			binfile << "\n";
-		}
-		else if (instruction.args.size() == 2) {
+		else if (instruction.args.size() == 1 || instruction.args.size() == 2) {
 			if (instruction.args.back().type == REG) {
 				binfile << "0";
 			}

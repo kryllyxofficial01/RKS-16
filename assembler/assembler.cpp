@@ -81,12 +81,24 @@ Instruction assemble(std::vector<Token> tokens, Error error) {
 void handleLabels(std::vector<Line>* lines) {
     std::vector<std::pair<std::string, int>> labels;
 
-    for (int i = 0; i < lines->size(); i++) {
-        if (lines->at(i).line.at(0) == '.') {
+    for (int lineno = 0; lineno < lines->size(); lineno++) {
+        if (lines->at(lineno).line.at(0) == '.') {
             labels.push_back(
-                std::make_pair(lines->at(i).line.substr(1), i)
+                std::make_pair(lines->at(lineno).line.substr(1), lineno)
             );
-            lines->erase(lines->begin()+i);
+            lines->erase(lines->begin()+lineno);
+            lineno--;
+        }
+    }
+
+    for (int lineno = 0; lineno < lines->size(); lineno++) {
+        std::string mneumonic = lines->at(lineno).line.substr(0, lines->at(lineno).line.find_first_of(" "));
+        int argc = ARG_COUNTS[std::find(MNEUMONICS.begin(), MNEUMONICS.end(), mneumonic) - MNEUMONICS.begin()];
+
+        for (int i = 0; i < labels.size(); i++) {
+            if (lineno - labels.at(i).second < 0) {
+                labels.at(i) = std::make_pair(labels.at(i).first, labels.at(i).second + argc);
+            }
         }
     }
 }

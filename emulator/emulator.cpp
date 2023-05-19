@@ -61,9 +61,9 @@ void emulate() {
             }
 
             case 5: {
-                std::string destination = binary.substr(9+opcode_len);
+                std::string destination = Memory::program_rom.at(++Registers::PC);
 
-                updateRegister(std::bitset<8>(destination).to_ulong(), Memory::main.at(++Registers::SP + STACK_OFFSET));
+                updateRegister(std::bitset<16>(destination).to_ulong(), Memory::main.at(++Registers::SP + STACK_OFFSET));
                 Memory::main.at(Registers::SP-1 + STACK_OFFSET) = 0;
 
                 break;
@@ -107,7 +107,6 @@ void emulate() {
 
             case 9: {
                 std::string a = Memory::program_rom.at(++Registers::PC);
-                std::string b = Memory::program_rom.at(++Registers::PC);
 
                 u_int16_t result = ~getRegister(std::bitset<16>(a).to_ulong());
                 updateRegister(std::bitset<16>(a).to_ulong(), result);
