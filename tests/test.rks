@@ -1,6 +1,4 @@
 .test
 mov @a 19
-psh @a
 
-.tset
-nop
+jnz test

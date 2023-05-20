@@ -101,4 +101,10 @@ void handleLabels(std::vector<Line>* lines) {
             }
         }
     }
+
+    for (int i = 0; i < lines->size(); i++) {
+        for (auto label: labels) {
+            lines->at(i).line = std::regex_replace(lines->at(i).line, std::regex(label.first), std::to_string(label.second));
+        }
+    }
 }
