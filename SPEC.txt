@@ -25,11 +25,11 @@ hlt                       : Halt the CPU
 Layout: AAAABCCC
 A -> Opcode
 B -> 0 for version one of the instruction, 1 for version two
-C -> Register ID
+C -> Padding Bits
 
 NOTES:
 - The first byte of an instruction is unused because immediates are placed in the bytes following the instruction.
-- Not all instructions utilize the B and C arguments.
+- Not all instructions utilize the B arguments.
 
 ===== Registers =====
 - 4 16-bit General Purpose Registers
