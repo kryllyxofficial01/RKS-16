@@ -1,11 +1,6 @@
 #include "emulator.hpp"
 
 void emulate(RKS16* machine) {
-    for (int i = 0; i < REGISTER_IDS.size(); i++) {
-        updateRegister(machine, i, 0);
-    }
-    machine->registers.PC = 0;
-
     while (machine->registers.PC <= __UINT16_MAX__ && machine->memory.program_rom.at(machine->registers.PC) != "") {
         std::string binary = machine->memory.program_rom.at(machine->registers.PC);
 
@@ -136,7 +131,9 @@ void emulate(RKS16* machine) {
 
             // jmp
             case 10: {
-                // TODO: Implement labels
+                std::string label = machine->memory.program_rom.at(++machine->registers.PC);
+
+                machine->registers.PC = std::bitset<16>(label).to_ulong()-1;
 
                 break;
             }
@@ -163,6 +160,16 @@ void emulate(RKS16* machine) {
     }
 
     std::cout << machine->registers.A << std::endl;
+}
+
+void setup(RKS16* machine) {
+    machine->memory.main = std::vector<u_int16_t>(__UINT16_MAX__+1, 0);
+    machine->memory.program_rom = std::vector<std::string>(__UINT16_MAX__+1, "");
+
+    for (int i = 0; i < REGISTER_IDS.size(); i++) {
+        updateRegister(machine, i, 0);
+    }
+    machine->registers.PC = 0;
 }
 
 u_int16_t getRegister(RKS16* machine, int id) {

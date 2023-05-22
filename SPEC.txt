@@ -1,10 +1,9 @@
 ===== Overview =====
 - 16-bit
-- 12 instructions
-	- RISC architecture
+- 14 instructions
 - 7 registers
 - 131 KB of RAM
-- 131 KB of Program Memory (PROM)
+- 131 KB of Program Memory (pROM)
 - 128x128 px screen
 
 ====== Instruction Set =====

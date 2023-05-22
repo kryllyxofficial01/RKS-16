@@ -9,8 +9,7 @@ using namespace std;
 int main() {
     RKS16 machine;
 
-    machine.memory.main = vector<u_int16_t>(__UINT16_MAX__+1, 0);
-    machine.memory.program_rom = vector<std::string>(__UINT16_MAX__+1, "");
+    setup(&machine);
 
     string filepath = "tests/test.bin";
     ifstream reader(filepath);

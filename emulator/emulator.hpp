@@ -29,6 +29,7 @@ struct RKS16 {
 };
 
 void emulate(RKS16* machine);
+void setup(RKS16* machine);
 u_int16_t getRegister(RKS16* machine, int id);
 void updateRegister(RKS16* machine, int id, u_int16_t value);
 

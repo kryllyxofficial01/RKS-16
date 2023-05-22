@@ -91,13 +91,22 @@ void handleLabels(std::vector<Line>* lines) {
         }
     }
 
+    std::vector<std::pair<std::string, int>> offsets;
     for (int lineno = 0; lineno < lines->size(); lineno++) {
-        std::string mneumonic = lines->at(lineno).line.substr(0, lines->at(lineno).line.find_first_of(" "));
+        for (int i = 0; i < labels.size(); i++) {
+            if (labels.at(i).second > lineno) {
+                offsets.push_back(std::make_pair(labels.at(i).first, lineno));
+            }
+        }
+    }
+
+    for (auto offset: offsets) {
+        std::string mneumonic = lines->at(offset.second).line.substr(0, lines->at(offset.second).line.find_first_of(" "));
         int argc = ARG_COUNTS[std::find(MNEUMONICS.begin(), MNEUMONICS.end(), mneumonic) - MNEUMONICS.begin()];
 
         for (int i = 0; i < labels.size(); i++) {
-            if (lineno - labels.at(i).second < 0) {
-                labels.at(i) = std::make_pair(labels.at(i).first, labels.at(i).second + argc);
+            if (labels.at(i).first == offset.first) {
+                labels.at(i) = std::make_pair(labels.at(i).first, labels.at(i).second+argc);
             }
         }
     }

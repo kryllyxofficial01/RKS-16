@@ -1,2 +1,9 @@
-@macro
-jmp imm16
+jmp test
+
+mov @a 0
+
+.main
+add @a 2
+
+.test
+add @a 1
