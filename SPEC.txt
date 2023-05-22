@@ -18,6 +18,7 @@ add <reg> <imm16/reg>     : Add two values together
 and <reg> <imm16/reg>     : Bitwise AND two values together
 or <reg> <imm16/reg>      : Bitwise OR two values together
 not <reg>                 : Bitwise NOT a value
+jmp <label>               : Unconditionally jump to a label
 jz <label>                : Jump to a label if the Zero flag is high
 jc <label>                : Jump to a label if the Carry flag is high
 hlt                       : Halt the CPU

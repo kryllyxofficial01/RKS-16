@@ -1,8 +1,2 @@
-.test
-mov @a 19
-mov @b 17
-
-not @b
-add @b 1
-
-add @a @b
+@macro
+jmp imm16

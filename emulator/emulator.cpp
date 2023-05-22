@@ -14,8 +14,10 @@ void emulate(RKS16* machine) {
         int type = binary.at(8+opcode_len) - '0';
 
         switch (std::bitset<8>(opcode).to_ulong()) {
+            // nop
             case 0: break;
 
+            // mov
             case 1: {
                 std::string destination = machine->memory.program_rom.at(++machine->registers.PC);
                 std::string source = machine->memory.program_rom.at(++machine->registers.PC);
@@ -29,6 +31,7 @@ void emulate(RKS16* machine) {
                 break;
             }
 
+            // stw
             case 2: {
                 std::string destination = machine->memory.program_rom.at(++machine->registers.PC);
                 std::string source = machine->memory.program_rom.at(++machine->registers.PC);
@@ -40,6 +43,7 @@ void emulate(RKS16* machine) {
                 break;
             }
 
+            // ldw
             case 3: {
                 std::string destination = machine->memory.program_rom.at(++machine->registers.PC);
                 std::string source = machine->memory.program_rom.at(++machine->registers.PC);
@@ -55,6 +59,7 @@ void emulate(RKS16* machine) {
                 break;
             }
 
+            // psh
             case 4: {
                 std::string source = type ? machine->memory.program_rom.at(++machine->registers.PC) : binary.substr(9+opcode_len);
 
@@ -66,6 +71,7 @@ void emulate(RKS16* machine) {
                 break;
             }
 
+            // pop
             case 5: {
                 std::string destination = machine->memory.program_rom.at(++machine->registers.PC);
 
@@ -79,6 +85,7 @@ void emulate(RKS16* machine) {
                 break;
             }
 
+            // add
             case 6: {
                 std::string a = machine->memory.program_rom.at(++machine->registers.PC);
                 std::string b = machine->memory.program_rom.at(++machine->registers.PC);
@@ -91,6 +98,7 @@ void emulate(RKS16* machine) {
                 break;
             }
 
+            // and
             case 7: {
                 std::string a = machine->memory.program_rom.at(++machine->registers.PC);
                 std::string b = machine->memory.program_rom.at(++machine->registers.PC);
@@ -103,6 +111,7 @@ void emulate(RKS16* machine) {
                 break;
             }
 
+            // or
             case 8: {
                 std::string a = machine->memory.program_rom.at(++machine->registers.PC);
                 std::string b = machine->memory.program_rom.at(++machine->registers.PC);
@@ -115,6 +124,7 @@ void emulate(RKS16* machine) {
                 break;
             }
 
+            // not
             case 9: {
                 std::string a = machine->memory.program_rom.at(++machine->registers.PC);
 
@@ -124,23 +134,35 @@ void emulate(RKS16* machine) {
                 break;
             }
 
+            // jmp
             case 10: {
                 // TODO: Implement labels
 
                 break;
             }
 
+            // jz
             case 11: {
                 // TODO: Implement labels
 
                 break;
             }
 
-            case 12: std::exit(0); break;
+            // jc
+            case 12 : {
+                // TODO: Implement labels
+
+                break;
+            }
+
+            // hlt
+            case 13: std::exit(0); break;
         }
 
         machine->registers.PC++;
     }
+
+    std::cout << machine->registers.A << std::endl;
 }
 
 u_int16_t getRegister(RKS16* machine, int id) {
