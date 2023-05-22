@@ -10,7 +10,7 @@
 
 const inline std::vector<std::string> MNEUMONICS = {
     "nop", "mov", "stw", "ldw", "psh", "pop",
-    "add", "and", "or", "not", "jnz", "hlt"
+    "add", "and", "or", "not", "jz", "jc", "hlt"
 };
 
 const inline std::vector<std::string> REGISTER_IDS = {

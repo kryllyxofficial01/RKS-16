@@ -18,7 +18,8 @@ add <reg> <imm16/reg>     : Add two values together
 and <reg> <imm16/reg>     : Bitwise AND two values together
 or <reg> <imm16/reg>      : Bitwise OR two values together
 not <reg>                 : Bitwise NOT a value
-jnz <label>               : Jump to a label if the Zero flag is high
+jz <label>                : Jump to a label if the Zero flag is high
+jc <label>                : Jump to a label if the Carry flag is high
 hlt                       : Halt the CPU
 
 ===== Instruction Layout =====
@@ -46,5 +47,4 @@ NOTES:
 
 ===== Flags =====
 1. Zero
-2. Negative
-3. Overflow
+2. Carry

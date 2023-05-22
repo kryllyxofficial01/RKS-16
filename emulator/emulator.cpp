@@ -130,7 +130,13 @@ void emulate(RKS16* machine) {
                 break;
             }
 
-            case 11: std::exit(0); break;
+            case 11: {
+                // TODO: Implement labels
+
+                break;
+            }
+
+            case 12: std::exit(0); break;
         }
 
         machine->registers.PC++;
