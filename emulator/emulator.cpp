@@ -85,10 +85,12 @@ void emulate(RKS16* machine) {
                 std::string a = machine->memory.program_rom.at(++machine->registers.PC);
                 std::string b = machine->memory.program_rom.at(++machine->registers.PC);
 
-                u_int16_t result = getRegister(machine, std::bitset<16>(a).to_ulong()) + (
+                int result = getRegister(machine, std::bitset<16>(a).to_ulong()) + (
                     type ? std::bitset<16>(b).to_ulong() : getRegister(machine, std::bitset<16>(b).to_ulong())
                 );
+
                 updateRegister(machine, std::bitset<16>(a).to_ulong(), result);
+				updateFlags(machine, result);
 
                 break;
             }
@@ -98,10 +100,11 @@ void emulate(RKS16* machine) {
                 std::string a = machine->memory.program_rom.at(++machine->registers.PC);
                 std::string b = machine->memory.program_rom.at(++machine->registers.PC);
 
-                u_int16_t result = getRegister(machine, std::bitset<16>(a).to_ulong()) & (
+                int result = getRegister(machine, std::bitset<16>(a).to_ulong()) & (
                     type ? std::bitset<16>(b).to_ulong() : getRegister(machine, std::bitset<16>(b).to_ulong())
                 );
                 updateRegister(machine, std::bitset<16>(a).to_ulong(), result);
+				updateFlags(machine, result);
 
                 break;
             }
@@ -111,10 +114,11 @@ void emulate(RKS16* machine) {
                 std::string a = machine->memory.program_rom.at(++machine->registers.PC);
                 std::string b = machine->memory.program_rom.at(++machine->registers.PC);
 
-                u_int16_t result = getRegister(machine, std::bitset<16>(a).to_ulong()) | (
+                int result = getRegister(machine, std::bitset<16>(a).to_ulong()) | (
                     type ? std::bitset<16>(b).to_ulong() : getRegister(machine, std::bitset<16>(b).to_ulong())
                 );
                 updateRegister(machine, std::bitset<16>(a).to_ulong(), result);
+				updateFlags(machine, result);
 
                 break;
             }
@@ -123,8 +127,9 @@ void emulate(RKS16* machine) {
             case 9: {
                 std::string a = machine->memory.program_rom.at(++machine->registers.PC);
 
-                u_int16_t result = ~getRegister(machine, std::bitset<16>(a).to_ulong());
+                int result = ~getRegister(machine, std::bitset<16>(a).to_ulong());
                 updateRegister(machine, std::bitset<16>(a).to_ulong(), result);
+				updateFlags(machine, result);
 
                 break;
             }
@@ -140,7 +145,9 @@ void emulate(RKS16* machine) {
 
             // jz
             case 11: {
-                // TODO: Implement labels
+				std::string label = machine->memory.program_rom.at(++machine->registers.PC);
+
+                std::cout << std::bitset<8>(machine->registers.F).to_string() << std::endl;
 
                 break;
             }
@@ -159,7 +166,7 @@ void emulate(RKS16* machine) {
         machine->registers.PC++;
     }
 
-    std::cout << machine->registers.A << std::endl;
+    std::cout << machine->registers.C << std::endl;
 }
 
 void setup(RKS16* machine) {
@@ -196,4 +203,13 @@ void updateRegister(RKS16* machine, int id, u_int16_t value) {
         case 4: machine->registers.F = value; break;
         case 5: machine->registers.SP = value; break;
     }
+}
+
+void updateFlags(RKS16* machine, int value) {
+	std::string flags = std::bitset<8>(machine->registers.F).to_string();
+
+	flags.at(flags.size()-2) = value == 0 ? '1' : '0';
+	flags.at(flags.size()-1) = value > __UINT16_MAX__ ? '1' : '0';
+
+	updateRegister(machine, 4, std::bitset<8>(flags).to_ulong());
 }

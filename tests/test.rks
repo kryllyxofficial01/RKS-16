@@ -1,9 +1,14 @@
-jmp test
+mov @a 19
+mov @b 19
 
-mov @a 0
+not @b
+add @b 1
 
-.main
-add @a 2
+add @a @b
 
-.test
-add @a 1
+jz greater_than_or_equal
+
+mov @c 1
+
+.greater_than_or_equal
+mov @c 2
