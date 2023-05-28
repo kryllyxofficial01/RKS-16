@@ -3,6 +3,7 @@
 std::vector<Token> lex(std::string line) {
 	std::vector<Token> tokens;
 
+	// Get the instruction name
 	std::string mneumonic;
 	int i = 0;
 	while (!(i == line.length() || line.at(i) == ' ')) {
@@ -15,6 +16,7 @@ std::vector<Token> lex(std::string line) {
 		.value = mneumonic
 	});
 
+	// Get all of the arguments
 	std::vector<std::string> args;
 	for (i = i; i < line.length(); i++) {
 		if (line.at(i) != ' ') {
@@ -25,6 +27,7 @@ std::vector<Token> lex(std::string line) {
 		}
 	}
 
+	// Attempt to figure out the arguments' type
 	for (std::string arg: args) {
 		if (arg.at(0) == '@') {
 			tokens.push_back((Token) {

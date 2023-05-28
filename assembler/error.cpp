@@ -7,9 +7,9 @@ Error::Error(std::string line, int lineno, std::string filepath) {
 }
 
 void Error::print_stacktrace(std::string error_name, std::string reason) {
-    std::cout << "\x1b[31mError - at line " << this->lineno << " in <" << this->filepath << ">" << std::endl;;
-    std::cout << "\t" << this->line << std::endl;
-    std::cout << error_name << ": " << reason << "\x1b[0m" <<std::endl;
+    printf("\x1b[31mError - at line %i in <%s>\n", this->lineno, this->filepath.c_str());
+    printf("\t%s\n", this->line.c_str());
+    printf("%s: %s\x1b[0m\n", error_name.c_str(), reason.c_str());
 
     std::exit(-1);
 }

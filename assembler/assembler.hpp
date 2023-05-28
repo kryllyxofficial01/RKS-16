@@ -12,7 +12,10 @@
 #include "../common/constants.hpp"
 #include "../common/utils.hpp"
 
+// Assemble an instruction
 Instruction assemble(std::vector<Token> tokens, Error error);
+
+// Handles all label declarations and usages
 void handleLabels(std::vector<Line>* lines);
 
 #endif

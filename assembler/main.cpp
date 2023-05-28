@@ -17,6 +17,7 @@ int main() {
 	string filepath = "tests/test.rks";
 	vector<Line> lines;
 
+	// Read all of the lines from the source file into a vector of Lines
 	ifstream reader(filepath);
 	string line;
 	int lineno = 1;
@@ -32,7 +33,13 @@ int main() {
 
 	handleLabels(&lines);
 
-	ofstream binfile(filepath.substr(0, filepath.find_last_of(".")) + ".bin");
+	// Lex and assemble each line
+	ofstream binfile(
+		filepath.substr(
+			0, filepath.find_last_of(".")
+		) + ".bin"
+	);
+
 	for (Line line: lines) {
 		Error error(
 			line.line,
@@ -43,7 +50,10 @@ int main() {
 		vector<Token> tokens = lex(line.line);
 		Instruction instruction = assemble(tokens, error);
 
-		int opcode_len = lstrip(dectobin(MNEUMONICS.size(), 8), "0").length();
+		// Write the instruction opcode
+		int opcode_len = lstrip(
+			dectobin(MNEUMONICS.size(), 8), "0"
+		).length();
 
 		binfile << string(8, '0');
 		binfile << dectobin(
@@ -51,6 +61,7 @@ int main() {
 			opcode_len
 		);
 
+		// Write the binary for each argument
 		if (instruction.args.size() == 0) {
 			binfile << string(8-opcode_len, '0');
 			binfile << "\n";
