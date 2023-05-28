@@ -154,7 +154,7 @@ void emulate(RKS16* machine) {
 
             // jc
             case 12 : {
-                // TODO: Implement labels
+                std::string label = machine->memory.program_rom.at(++machine->registers.PC);
 
                 break;
             }
@@ -166,7 +166,7 @@ void emulate(RKS16* machine) {
         machine->registers.PC++;
     }
 
-    std::cout << machine->registers.C << std::endl;
+    std::cout << machine->registers.A << std::endl;
 }
 
 void setup(RKS16* machine) {
@@ -208,8 +208,10 @@ void updateRegister(RKS16* machine, int id, u_int16_t value) {
 void updateFlags(RKS16* machine, int value) {
 	std::string flags = std::bitset<8>(machine->registers.F).to_string();
 
-	flags.at(flags.size()-2) = value == 0 ? '1' : '0';
-	flags.at(flags.size()-1) = value > __UINT16_MAX__ ? '1' : '0';
+    if (value < 0) value = (u_int16_t)value;
+
+    flags[flags.size()-2] = (value == 0 || value == __UINT16_MAX__+1) ? '1' : '0';
+	flags[flags.size()-1] = (value > __UINT16_MAX__) ? '1' : '0';
 
 	updateRegister(machine, 4, std::bitset<8>(flags).to_ulong());
 }
