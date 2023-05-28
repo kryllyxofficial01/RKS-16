@@ -146,8 +146,9 @@ void emulate(RKS16* machine) {
             // jz
             case 11: {
 				std::string label = machine->memory.program_rom.at(++machine->registers.PC);
+                std::string flags = std::bitset<8>(machine->registers.F).to_string();
 
-                std::cout << std::bitset<8>(machine->registers.F).to_string() << std::endl;
+                machine->registers.PC = (flags[flags.size()-2] == '1') ? std::bitset<16>(label).to_ulong()-1 : machine->registers.PC;
 
                 break;
             }
@@ -155,18 +156,22 @@ void emulate(RKS16* machine) {
             // jc
             case 12 : {
                 std::string label = machine->memory.program_rom.at(++machine->registers.PC);
+                std::string flags = std::bitset<8>(machine->registers.F).to_string();
+
+                machine->registers.PC = (flags.back() == '1') ? std::bitset<16>(label).to_ulong()-1 : machine->registers.PC;
 
                 break;
             }
 
             // hlt
-            case 13: std::exit(0); break;
+            case 13: goto end;
         }
 
         machine->registers.PC++;
     }
 
-    std::cout << machine->registers.A << std::endl;
+    end:
+        std::cout << machine->registers.A << std::endl;
 }
 
 void setup(RKS16* machine) {

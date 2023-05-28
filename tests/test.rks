@@ -1,10 +1,17 @@
-.test
-mov @a 17
-mov @b 19
+mov @a 19
+mov @b 17
 
 not @b
 add @b 1
 
 add @a @b
 
-jz test
+jz greater_than
+jmp end
+
+.greater_than
+add @a 2
+hlt
+
+.end
+add @a 1
