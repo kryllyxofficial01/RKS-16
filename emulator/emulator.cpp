@@ -164,14 +164,13 @@ void emulate(RKS16* machine) {
             }
 
             // hlt
-            case 13: goto end;
+            case 13: goto done;
         }
 
         machine->registers.PC++;
     }
 
-    end:
-        std::cout << machine->registers.A << std::endl;
+    done: return;
 }
 
 void setup(RKS16* machine) {
