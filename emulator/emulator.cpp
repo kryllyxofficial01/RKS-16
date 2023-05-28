@@ -148,7 +148,9 @@ void emulate(RKS16* machine) {
 				std::string label = machine->memory.program_rom.at(++machine->registers.PC);
                 std::string flags = std::bitset<8>(machine->registers.F).to_string();
 
-                machine->registers.PC = (flags[flags.size()-2] == '1') ? std::bitset<16>(label).to_ulong()-1 : machine->registers.PC;
+                machine->registers.PC = (
+                    (flags[flags.size()-2] == '1') ? std::bitset<16>(label).to_ulong()-1 : machine->registers.PC
+                );
 
                 break;
             }
@@ -158,7 +160,9 @@ void emulate(RKS16* machine) {
                 std::string label = machine->memory.program_rom.at(++machine->registers.PC);
                 std::string flags = std::bitset<8>(machine->registers.F).to_string();
 
-                machine->registers.PC = (flags.back() == '1') ? std::bitset<16>(label).to_ulong()-1 : machine->registers.PC;
+                machine->registers.PC = (
+                    (flags.back() == '1') ? std::bitset<16>(label).to_ulong()-1 : machine->registers.PC
+                );
 
                 break;
             }
@@ -170,7 +174,8 @@ void emulate(RKS16* machine) {
         machine->registers.PC++;
     }
 
-    done: return;
+    done:
+        return;
 }
 
 void setup(RKS16* machine) {
@@ -214,7 +219,7 @@ void updateFlags(RKS16* machine, int value) {
 
     if (value < 0) value = (u_int16_t)value;
 
-    flags[flags.size()-2] = (value == 0 || value == __UINT16_MAX__+1) ? '1' : '0';
+    flags[flags.size()-2] = ((u_int16_t)value == 0) ? '1' : '0';
 	flags[flags.size()-1] = (value > __UINT16_MAX__) ? '1' : '0';
 
 	updateRegister(machine, 4, std::bitset<8>(flags).to_ulong());
