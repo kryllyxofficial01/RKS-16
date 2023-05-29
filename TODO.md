@@ -1,0 +1,5 @@
+- Directives
+    - [x] Define
+    - [ ] Include
+- [ ] Macros
+- [ ] Implement video memory

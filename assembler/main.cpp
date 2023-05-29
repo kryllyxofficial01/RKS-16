@@ -31,6 +31,7 @@ int main() {
 		}
 	}
 
+	handleDirectives(&lines);
 	handleLabels(&lines);
 
 	// Lex and assemble each line

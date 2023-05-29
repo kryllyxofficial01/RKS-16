@@ -101,6 +101,77 @@ Instruction assemble(std::vector<Token> tokens, Error error) {
     return instruction;
 }
 
+void handleDirectives(std::vector<Line>* lines) {
+    std::vector<std::pair<std::string, int>> defines;
+
+    // Iterate through each line and check if it is a directive
+    for (int lineno = 0; lineno < lines->size(); lineno++) {
+        if (lines->at(lineno).line.at(0) == '#') {
+            // Get the name of the directive
+            std::string directive = lines->at(lineno).line.substr(
+                1, lines->at(lineno).line.find_first_of(" ")-1
+            );
+
+            // Get the arguments
+            std::stringstream stream(
+                lines->at(lineno).line.substr(
+                    lines->at(lineno).line.find_first_of(" ")+1
+                )
+            );
+
+            std::string arg;
+            std::vector<std::string> args;
+
+            while(std::getline(stream, arg, ' ')) {
+                args.push_back(arg);
+            }
+
+            // Check the directive name
+            if (directive == "define") {
+                char* ptr;
+                int immediate = std::strtol(
+                    args.at(1).c_str(), &ptr, 0
+                );
+
+                // Check if it is a valid number
+                if (!(*ptr)) {
+                    defines.push_back(
+                        std::make_pair(
+                            args.at(0),
+                            (u_int16_t)immediate
+                        )
+                    );
+                }
+                else {
+                    Error::print_stacktrace(
+                        lines->at(lineno).line,
+                        lines->at(lineno).lineno,
+                        lines->at(lineno).file,
+                        "ArgError",
+                        "Invalid immediate '" + args.at(1) + "'"
+                    );
+                }
+            }
+
+            lines->erase(lines->begin()+lineno);
+            lineno--;
+        }
+    }
+
+    // Find all occurences of defines and replace their names with their values
+    if (defines.size() > 0) {
+        for (int i = 0; i < lines->size(); i++) {
+            for (auto define: defines) {
+                lines->at(i).line = std::regex_replace(
+                    lines->at(i).line,
+                    std::regex("\\$" + define.first), // dear god what is this
+                    std::to_string(define.second)
+                );
+            }
+        }
+    }
+}
+
 void handleLabels(std::vector<Line>* lines) {
     std::vector<std::pair<std::string, int>> labels;
 
@@ -158,13 +229,15 @@ void handleLabels(std::vector<Line>* lines) {
     }
 
     // Replace all occurences of a label name with its location
-    for (int i = 0; i < lines->size(); i++) {
-        for (auto label: labels) {
-            lines->at(i).line = std::regex_replace(
-                lines->at(i).line,
-                std::regex(label.first),
-                std::to_string(label.second)
-            );
+    if (labels.size() > 0) {
+        for (int i = 0; i < lines->size(); i++) {
+            for (auto label: labels) {
+                lines->at(i).line = std::regex_replace(
+                    lines->at(i).line,
+                    std::regex(label.first),
+                    std::to_string(label.second)
+                );
+            }
         }
     }
 }
