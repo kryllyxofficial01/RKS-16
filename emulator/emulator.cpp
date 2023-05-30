@@ -210,9 +210,7 @@ void emulate(RKS16* machine) {
     }
 
     // Ending point of the emulation loop
-    done:
-        std::cout << machine->registers.A << std::endl;
-        return;
+    done: return;
 }
 
 void setup(RKS16* machine) {

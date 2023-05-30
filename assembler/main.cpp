@@ -13,8 +13,8 @@
 
 using namespace std;
 
-int main() {
-	string filepath = "tests/test.rks";
+int main(int argc, char* argv[]) {
+	string filepath = argv[1];
 	vector<Line> lines;
 
 	// Read all of the lines from the source file into a vector of Lines

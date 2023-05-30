@@ -5,7 +5,6 @@ Instruction assemble(std::vector<Token> tokens, Error error) {
 
     // Iterate through each token
     for (Token token: tokens) {
-        // Check the type of a token
         switch (token.type) {
             // If the type is an instruction name...
             case MNEUMONIC: {
@@ -164,7 +163,7 @@ void handleDirectives(std::vector<Line>* lines) {
             for (auto define: defines) {
                 lines->at(i).line = std::regex_replace(
                     lines->at(i).line,
-                    std::regex("\\$" + define.first), // dear god what is this
+                    std::regex("\\$" + define.first), // regexes are weird
                     std::to_string(define.second)
                 );
             }
@@ -183,6 +182,7 @@ void handleIncludes(std::vector<Line>* lines) {
 
             // Check if the directive is an include
             if (directive == "include") {
+                // Read from the included file
                 std::vector<Line> _lines = include(
                     lines->at(lineno),
                     lines->at(lineno).line.substr(
@@ -192,6 +192,7 @@ void handleIncludes(std::vector<Line>* lines) {
 
                 lines->erase(lines->begin()+lineno);
 
+                // Insert the included lines
                 for (Line line: _lines) {
                     lines->insert(lines->begin()+(lineno+line.lineno), line);
                 }
@@ -229,7 +230,7 @@ void handleLabels(std::vector<Line>* lines) {
                 offsets.push_back(
                     std::make_pair(
                         labels.at(i).first, lineno
-                    )
+                    ) // Screw never-nesters
                 );
             }
         }
@@ -244,10 +245,11 @@ void handleLabels(std::vector<Line>* lines) {
             MNEUMONICS.begin(),
             MNEUMONICS.end(),
             mneumonic
-        ) - MNEUMONICS.begin();
+        ) - MNEUMONICS.begin(); // I'm not sure if the word "mneumonic" has been typed enough times
 
         int argc = ARG_COUNTS[index];
 
+        // Update the label location
         for (int i = 0; i < labels.size(); i++) {
             if (labels.at(i).first == offset.first) {
                 labels.at(i) = std::make_pair(
@@ -280,12 +282,14 @@ std::vector<Line> include(Line line, std::string file) {
         file = file.substr(1, file.size()-2);
         std::string source_dir = std::filesystem::path(line.file).parent_path().string();
 
+        // Add the path separator based on what OS the user is on
         #ifdef __linux__
         source_dir += "/";
         #elif _WIN32 || _WIN64
         source_dir += "\\";
         #endif
 
+        // Read from the included file
         std::string filepath = source_dir + file;
         std::ifstream reader(filepath);
         std::string line;
@@ -310,7 +314,7 @@ std::vector<Line> include(Line line, std::string file) {
             line.file,
             "ArgError",
             "Missing quotation mark(s)"
-        );
+        ); // Static method calls go brr
     }
 
     return lines;
