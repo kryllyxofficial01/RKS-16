@@ -1,25 +1,36 @@
-#!/bin/bash
+GXX=g++
+GXX_FLAGS=-std=c++17 # Won't compile without this for some reason
 
-set -o errexit
-echo -n "Enter filepath: "
-read filepath
+BUILD=build
+
+ASSEMBLER=$(find ./assembler -type f -name "*.cpp")
+EMULATOR=$(find ./emulator -type f -name "*.cpp")
+UTILS=$(find ./common -type f -name "*.cpp")
 
 assemble() {
-    python rks/main.py $filepath
+	mkdir -p $BUILD/assembler
+
+	$GXX $GXX_FLAGS $UTILS $ASSEMBLER -o $BUILD/assembler/main
+	./$BUILD/assembler/main $1
 }
 
 emulate() {
-    rom=${filepath%""."$(echo $filepath | awk -F "." '{print $NF}')"}
-    g++ -std=c++17 -o rks-16/build/main rks-16/main.cpp
-    rks-16/build/main $rom
+	mkdir -p $BUILD/emulator
+
+	$GXX $GXX_FLAGS $UTILS $EMULATOR -o $BUILD/emulator/main
+	./$BUILD/emulator/main $1
 }
 
 clean() {
-    if [ ! -d "rks-16/build" ]; then mkdir build; fi
-	find "rks-16/build/" -mindepth 1 -delete
+	rm -rf $BUILD/*
 }
 
-assemble
+set -e
+mkdir -p $BUILD
+
+echo -n "Enter filepath: "
+read filepath
+
 clean
-echo -e "\n========================================\n"
-emulate
+assemble $filepath
+emulate $filepath
