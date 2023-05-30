@@ -8,9 +8,10 @@ class Error {
     public:
         Error(std::string line, int lineno, std::string filepath);
 
-        // Prints an error message
-        void print_stacktrace(std::string error_name, std::string reason);
+        // Print an error message
+        void print_stacktrace(std::string error_name, std::string reason) const;
 
+        // Print an error message
         static void print_stacktrace(
             std::string line,
             int lineno,

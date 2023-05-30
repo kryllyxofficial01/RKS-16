@@ -158,7 +158,7 @@ void handleDirectives(std::vector<Line>* lines) {
         }
     }
 
-    // Find all occurences of defines and replace their names with their values
+    // Find all usages of defines and replace their names with their values
     if (defines.size() > 0) {
         for (int i = 0; i < lines->size(); i++) {
             for (auto define: defines) {
@@ -167,6 +167,36 @@ void handleDirectives(std::vector<Line>* lines) {
                     std::regex("\\$" + define.first), // dear god what is this
                     std::to_string(define.second)
                 );
+            }
+        }
+    }
+}
+
+void handleIncludes(std::vector<Line>* lines) {
+    // Iterate through each line and check if it is a directive
+    for (int lineno = 0; lineno < lines->size(); lineno++) {
+        if (lines->at(lineno).line.at(0) == '#') {
+            // Get the name of the directive
+            std::string directive = lines->at(lineno).line.substr(
+                1, lines->at(lineno).line.find_first_of(" ")-1
+            );
+
+            // Check if the directive is an include
+            if (directive == "include") {
+                std::vector<Line> _lines = include(
+                    lines->at(lineno),
+                    lines->at(lineno).line.substr(
+                        lines->at(lineno).line.find_first_of(" ")+1
+                    )
+                );
+
+                lines->erase(lines->begin()+lineno);
+
+                for (Line line: _lines) {
+                    lines->insert(lines->begin()+(lineno+line.lineno), line);
+                }
+
+                lineno--;
             }
         }
     }
@@ -240,4 +270,48 @@ void handleLabels(std::vector<Line>* lines) {
             }
         }
     }
+}
+
+std::vector<Line> include(Line line, std::string file) {
+    std::vector<Line> lines;
+
+    // Verify there are quotation marks
+    if (file.at(0) == '"' && file.at(file.size()-1) == '"') {
+        file = file.substr(1, file.size()-2);
+        std::string source_dir = std::filesystem::path(line.file).parent_path().string();
+
+        #ifdef __linux__
+        source_dir += "/";
+        #elif _WIN32 || _WIN64
+        source_dir += "\\";
+        #endif
+
+        std::string filepath = source_dir + file;
+        std::ifstream reader(filepath);
+        std::string line;
+
+        int lineno = 1;
+        while (getline(reader, line)) {
+            if (line != "" && line.front() != ';') {
+                lines.push_back((Line) {
+                    .line = trim(line),
+                    .lineno = lineno,
+                    .file = filepath
+                });
+            }
+
+            lineno++;
+        }
+    }
+    else {
+        Error::print_stacktrace(
+            line.line,
+            line.lineno,
+            line.file,
+            "ArgError",
+            "Missing quotation mark(s)"
+        );
+    }
+
+    return lines;
 }

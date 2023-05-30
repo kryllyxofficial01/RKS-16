@@ -29,8 +29,12 @@ int main() {
 				.file = filesystem::absolute(filepath)
 			});
 		}
+
+		lineno++;
 	}
 
+	// Format the source code so all that is left is just the basic instructions
+	handleIncludes(&lines);
 	handleDirectives(&lines);
 	handleLabels(&lines);
 
