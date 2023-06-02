@@ -29,7 +29,7 @@ C -> Padding Bits
 
 NOTES:
 - The first byte of an instruction is unused because immediates are placed in the bytes following the instruction.
-- Not all instructions utilize the B arguments.
+- Not all instructions utilize the B argument.
 
 ===== Registers =====
 - 4 16-bit General Purpose Registers
