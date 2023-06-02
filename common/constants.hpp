@@ -4,9 +4,6 @@
 #include <vector>
 #include <string>
 
-// The starting location of the stack
-#define STACK_OFFSET 0x4000
-
 // Whitespace characters
 #define WHITESPACE " \n\r\t\f\v"
 

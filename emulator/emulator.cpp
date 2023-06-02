@@ -72,7 +72,7 @@ void emulate(RKS16* machine) {
                 std::string source = machine->memory.program_rom.at(++machine->registers.PC);
 
                 // Push a value onto the stack
-                machine->memory.main.at(machine->registers.SP + STACK_OFFSET) = (
+                machine->memory.main.at(machine->registers.SP) = (
                     version ? std::bitset<16>(source).to_ulong() : getRegister(
                         machine, std::bitset<16>(source).to_ulong()
                     )
@@ -90,9 +90,9 @@ void emulate(RKS16* machine) {
                 updateRegister(
                     machine,
                     std::bitset<16>(destination).to_ulong(),
-                    machine->memory.main.at(++machine->registers.SP + STACK_OFFSET)
+                    machine->memory.main.at(++machine->registers.SP)
                 );
-                machine->memory.main.at(machine->registers.SP-1 + STACK_OFFSET) = 0;
+                machine->memory.main.at(machine->registers.SP-1) = 0;
 
                 break;
             }
@@ -210,7 +210,9 @@ void emulate(RKS16* machine) {
     }
 
     // Ending point of the emulation loop
-    done: return;
+    done:
+        std::cout << machine->registers.B << std::endl;
+        return;
 }
 
 void setup(RKS16* machine) {

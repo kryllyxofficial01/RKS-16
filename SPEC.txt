@@ -23,9 +23,9 @@ jc <label>                : Jump to a label if the Carry flag is high
 hlt                       : Halt the CPU
 
 ===== Instruction Layout =====
-Layout: AAAABCCC
+Layout: CCCCCCCCAAAABCCC
 A -> Opcode
-B -> 0 for version one of the instruction, 1 for version two
+B -> Variation of the instruction
 C -> Padding Bits
 
 NOTES:
@@ -41,9 +41,9 @@ NOTES:
 - 16-Bit Program Counter
 
 ===== Memory Layout =====
-0x0000...0x3fff -> VRAM (Video Memory)
-0x4000...0x40ff -> Stack
-0x4100...0xffff -> General Use
+0x0000...0x00ff -> Stack
+0x0100...0xfff5 -> General Use
+0xfff6...0xffff -> Memory-Mapped Ports
 
 ===== Flags =====
 1. Zero
