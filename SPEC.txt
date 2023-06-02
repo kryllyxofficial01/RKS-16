@@ -48,3 +48,7 @@ NOTES:
 ===== Flags =====
 1. Zero
 2. Carry
+
+===== Ports =====
+0xfff6 -> Output the stored value as an integer
+0xfff7 -> Output the stored value as a character

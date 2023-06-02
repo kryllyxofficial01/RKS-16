@@ -46,4 +46,6 @@ void updateRegister(RKS16* machine, int id, u_int16_t value);
 // Update the flags register based on a value
 void updateFlags(RKS16* machine, int value);
 
+void updatePorts(RKS16* machine, u_int16_t port);
+
 #endif

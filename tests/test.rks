@@ -1,3 +1,2 @@
 mov @a 1
-psh @a
-pop @b
+stw 0xfff6 @a

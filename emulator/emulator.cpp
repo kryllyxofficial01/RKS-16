@@ -45,6 +45,8 @@ void emulate(RKS16* machine) {
                     )
                 );
 
+                updatePorts(machine, std::bitset<16>(destination).to_ulong());
+
                 break;
             }
 
@@ -210,9 +212,7 @@ void emulate(RKS16* machine) {
     }
 
     // Ending point of the emulation loop
-    done:
-        std::cout << machine->registers.B << std::endl;
-        return;
+    done: return;
 }
 
 void setup(RKS16* machine) {
@@ -221,10 +221,9 @@ void setup(RKS16* machine) {
     machine->memory.program_rom = std::vector<std::string>(__UINT16_MAX__+1, "");
 
     // Set each register to its starting value
-    for (int i = 0; i < REGISTER_IDS.size()-1; i++) {
+    for (int i = 0; i < REGISTER_IDS.size(); i++) {
         updateRegister(machine, i, 0);
     }
-    machine->registers.SP = 0xff;
     machine->registers.PC = 0;
 }
 
@@ -266,4 +265,11 @@ void updateFlags(RKS16* machine, int value) {
 	flags[flags.size()-1] = (value > __UINT16_MAX__) ? '1' : '0'; // Check if there is an overflow
 
 	updateRegister(machine, 4, std::bitset<8>(flags).to_ulong());
+}
+
+void updatePorts(RKS16* machine, u_int16_t port) {
+    switch (port) {
+        case 0xfff6: printf("%i", machine->memory.main.at(port)); break;
+        case 0xfff7: putchar(machine->memory.main.at(port)); break;
+    }
 }
