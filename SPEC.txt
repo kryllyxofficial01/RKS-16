@@ -4,7 +4,6 @@
 - 7 registers
 - 131 KB of RAM
 - 131 KB of Program Memory (pROM)
-- 128x128 px screen
 
 ====== Instruction Set =====
 nop                       : No operation
