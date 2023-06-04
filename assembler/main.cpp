@@ -39,13 +39,13 @@ int main(int argc, char* argv[]) {
 	handleMacros(&lines);
 	handleLabels(&lines);
 
-	// Lex and assemble each line
 	ofstream binfile(
 		filepath.substr(
 			0, filepath.find_last_of(".")
 		) + ".bin"
 	);
 
+	// Lex and assemble each line
 	for (Line line: lines) {
 		Error error(
 			line.line,

@@ -1,6 +1,16 @@
-@macro putchar reg1
-stw 0xfff7 %reg1
+@macro sub reg1 reg2
+psh %reg2
+
+not %reg2
+add %reg2 1
+add %reg1 %reg2
+
+pop %reg2
 @endmacro
 
-mov @a 97
-putchar @a
+mov @a 19
+mov @b 17
+
+sub @a @b
+
+stw 0xfff6 @a

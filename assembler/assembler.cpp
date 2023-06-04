@@ -72,7 +72,7 @@ Instruction assemble(std::vector<Token> tokens, Error error) {
                 else {
                     error.print_stacktrace(
                         "ArgError",
-                        "Invalid immediate '" + token.value + "'"
+                        "Invalid argument '" + token.value + "'"
                     );
                 }
             }
@@ -163,7 +163,7 @@ void handleDirectives(std::vector<Line>* lines) {
             for (auto define: defines) {
                 lines->at(i).line = std::regex_replace(
                     lines->at(i).line,
-                    std::regex("\\$" + define.first), // regexes are weird
+                    std::regex("\\$" + define.first),
                     std::to_string(define.second)
                 );
             }
@@ -265,7 +265,48 @@ void handleMacros(std::vector<Line>* lines) {
         }
     }
 
+    for (int lineno = 0; lineno < lines->size(); lineno++) {
+        std::string instruction = lines->at(lineno).line.substr(
+            0, lines->at(lineno).line.find_first_of(" ")
+        );
 
+        for (std::tuple macro: macros) {
+            if (instruction == std::get<0>(macro)) {
+                std::stringstream stream(
+                    lines->at(lineno).line.substr(
+                        lines->at(lineno).line.find_first_of(" ")+1
+                    )
+                );
+
+                std::vector<std::string> args;
+                std::string arg;
+                while(std::getline(stream, arg, ' ')) {
+                    args.push_back(arg);
+                }
+
+                lines->erase(lines->begin()+lineno);
+
+                size_t i = 0;
+                for (Line line: std::get<2>(macro)) {
+                    size_t index = lineno + i;
+
+                    lines->insert(lines->begin()+index, line);
+
+                    for (int arg_idx = 0; arg_idx < args.size(); arg_idx++) {
+                        lines->at(index).line = std::regex_replace(
+                            lines->at(index).line,
+                            std::regex("\\%" + std::get<1>(macro).at(arg_idx)),
+                            args.at(arg_idx)
+                        );
+                    }
+
+                    i++;
+                }
+
+                lineno--;
+            }
+        }
+    }
 }
 
 void handleLabels(std::vector<Line>* lines) {

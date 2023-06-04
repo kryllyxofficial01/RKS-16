@@ -94,7 +94,6 @@ void emulate(RKS16* machine) {
                     std::bitset<16>(destination).to_ulong(),
                     machine->memory.main.at(++machine->registers.SP)
                 );
-                machine->memory.main.at(machine->registers.SP-1) = 0;
 
                 break;
             }
