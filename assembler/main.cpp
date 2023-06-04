@@ -33,6 +33,22 @@ int main(int argc, char* argv[]) {
 		lineno++;
 	}
 
+	std::string std = filesystem::absolute("./assembler/std.rks");
+	ifstream std_reader(std);
+	line = "";
+	lineno = 1;
+	while (getline(std_reader, line)) {
+		if (line != "" && line.front() != ';') {
+			lines.push_back((Line) {
+				.line = trim(line),
+				.lineno = lineno,
+				.file = std
+			});
+		}
+
+		lineno++;
+	}
+
 	// Format the source code so all that is left is just the basic instructions
 	handleIncludes(&lines);
 	handleDirectives(&lines);

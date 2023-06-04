@@ -1,0 +1,9 @@
+@macro sub reg1 reg2
+psh %reg2
+
+not %reg2
+add %reg2 1
+add %reg1 %reg2
+
+pop %reg2
+@endmacro
