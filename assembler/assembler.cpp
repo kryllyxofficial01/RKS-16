@@ -206,14 +206,17 @@ void handleIncludes(std::vector<Line>* lines) {
 void handleMacros(std::vector<Line>* lines) {
     std::vector<std::tuple<std::string, std::vector<std::string>, std::vector<Line>>> macros;
 
+    // Look for macro declarations
     bool inMacro = false;
     for (int lineno = 0; lineno < lines->size(); lineno++) {
         if (lines->at(lineno).line.at(0) == '@') {
+            // Get the macro information
             std::string macro_type = lines->at(lineno).line.substr(1, lines->at(lineno).line.find_first_of(" ")-1);
 
             if (macro_type == "macro" && !inMacro) {
                 inMacro = true;
 
+                // Store all of the macro parameters
                 std::vector<std::string> params;
                 std::string param;
 
@@ -230,6 +233,7 @@ void handleMacros(std::vector<Line>* lines) {
                 std::string macro = params.at(0);
                 params.erase(params.begin()+0);
 
+                // Save all the macro information
                 macros.push_back(
                     std::make_tuple(
                         macro,
@@ -265,6 +269,7 @@ void handleMacros(std::vector<Line>* lines) {
         }
     }
 
+    // Expand macros
     for (int lineno = 0; lineno < lines->size(); lineno++) {
         std::string instruction = lines->at(lineno).line.substr(
             0, lines->at(lineno).line.find_first_of(" ")
@@ -278,6 +283,7 @@ void handleMacros(std::vector<Line>* lines) {
                     )
                 );
 
+                // Replace all parameter usages with the arguments passed to the macro
                 std::vector<std::string> args;
                 std::string arg;
                 while(std::getline(stream, arg, ' ')) {
@@ -286,6 +292,7 @@ void handleMacros(std::vector<Line>* lines) {
 
                 lines->erase(lines->begin()+lineno);
 
+                // Insert the macro's contents
                 size_t i = 0;
                 for (Line line: std::get<2>(macro)) {
                     size_t index = lineno + i;

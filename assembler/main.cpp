@@ -33,7 +33,8 @@ int main(int argc, char* argv[]) {
 		lineno++;
 	}
 
-	std::string std = filesystem::absolute("./assembler/std.rks");
+	// Import standard macros
+	std::string std = filesystem::absolute("assembler/std.rks");
 	ifstream std_reader(std);
 	line = "";
 	lineno = 1;

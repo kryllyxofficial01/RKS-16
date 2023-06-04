@@ -1,3 +1,4 @@
+; Subtract one register from another
 @macro sub reg1 reg2
 psh %reg2
 
