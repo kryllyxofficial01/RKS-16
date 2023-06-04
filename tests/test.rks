@@ -1,2 +1,6 @@
-mov @a 1
-stw 0xfff6 @a
+@macro putchar reg1
+stw 0xfff7 %reg1
+@endmacro
+
+mov @a 97
+putchar @a

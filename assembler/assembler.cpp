@@ -111,15 +111,15 @@ void handleDirectives(std::vector<Line>* lines) {
                 1, lines->at(lineno).line.find_first_of(" ")-1
             );
 
+            std::string arg;
+            std::vector<std::string> args;
+
             // Get the arguments
             std::stringstream stream(
                 lines->at(lineno).line.substr(
                     lines->at(lineno).line.find_first_of(" ")+1
                 )
             );
-
-            std::string arg;
-            std::vector<std::string> args;
 
             while(std::getline(stream, arg, ' ')) {
                 args.push_back(arg);
@@ -203,6 +203,71 @@ void handleIncludes(std::vector<Line>* lines) {
     }
 }
 
+void handleMacros(std::vector<Line>* lines) {
+    std::vector<std::tuple<std::string, std::vector<std::string>, std::vector<Line>>> macros;
+
+    bool inMacro = false;
+    for (int lineno = 0; lineno < lines->size(); lineno++) {
+        if (lines->at(lineno).line.at(0) == '@') {
+            std::string macro_type = lines->at(lineno).line.substr(1, lines->at(lineno).line.find_first_of(" ")-1);
+
+            if (macro_type == "macro" && !inMacro) {
+                inMacro = true;
+
+                std::vector<std::string> params;
+                std::string param;
+
+                std::stringstream stream(
+                    lines->at(lineno).line.substr(
+                        lines->at(lineno).line.find_first_of(" ")+1
+                    )
+                );
+
+                while(std::getline(stream, param, ' ')) {
+                    params.push_back(param);
+                }
+
+                std::string macro = params.at(0);
+                params.erase(params.begin()+0);
+
+                macros.push_back(
+                    std::make_tuple(
+                        macro,
+                        params,
+                        std::vector<Line>()
+                    )
+                );
+
+                lines->erase(lines->begin()+lineno);
+                lineno--;
+            }
+            else if (macro_type == "macro" && inMacro) {
+                Error::print_stacktrace(
+                    lines->at(lineno).line,
+                    lines->at(lineno).lineno,
+                    lines->at(lineno).file,
+                    "MacroError",
+                    "Unterminated macro '" + std::get<0>(macros.back()) + "'"
+                );
+            }
+            else if (macro_type == "endmacro") {
+                inMacro = false;
+
+                lines->erase(lines->begin()+lineno);
+                lineno--;
+            }
+        }
+        else if (inMacro) {
+            std::get<2>(macros.back()).push_back(lines->at(lineno));
+
+            lines->erase(lines->begin()+lineno);
+            lineno--;
+        }
+    }
+
+
+}
+
 void handleLabels(std::vector<Line>* lines) {
     std::vector<std::pair<std::string, int>> labels;
 
@@ -245,7 +310,7 @@ void handleLabels(std::vector<Line>* lines) {
             MNEUMONICS.begin(),
             MNEUMONICS.end(),
             mneumonic
-        ) - MNEUMONICS.begin(); // I'm not sure if the word "mneumonic" has been typed enough times
+        ) - MNEUMONICS.begin(); // I'm not sure if the word "mneumonic" has been used enough times
 
         int argc = ARG_COUNTS[index];
 

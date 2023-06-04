@@ -8,6 +8,7 @@
 #include <sstream>
 #include <filesystem>
 #include <fstream>
+#include <tuple>
 
 #include "token.hpp"
 #include "error.hpp"
@@ -18,11 +19,14 @@
 // Assemble an instruction
 Instruction assemble(std::vector<Token> tokens, Error error);
 
-// Handle directives and variable usages
+// Handle directives
 void handleDirectives(std::vector<Line>* lines);
 
 // Handle all includes
 void handleIncludes(std::vector<Line>* lines);
+
+// Handle macro definitions
+void handleMacros(std::vector<Line>* lines);
 
 // Handles all label declarations and usages
 void handleLabels(std::vector<Line>* lines);

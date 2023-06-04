@@ -36,6 +36,7 @@ int main(int argc, char* argv[]) {
 	// Format the source code so all that is left is just the basic instructions
 	handleIncludes(&lines);
 	handleDirectives(&lines);
+	handleMacros(&lines);
 	handleLabels(&lines);
 
 	// Lex and assemble each line
