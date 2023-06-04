@@ -1,5 +1,5 @@
 - Directives
     - [x] Define
     - [x] Include
-- [ ] Macros
-- [ ] Implement video memory
+- [x] Macros
+- [ ] Create the standard library of macros
