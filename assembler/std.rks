@@ -1,3 +1,6 @@
+#define INT_PORT 0xfff6
+#define CHAR_PORT 0xfff7
+
 ; Subtract one register from another
 @macro sub reg1 reg2
 psh %reg2
@@ -7,4 +10,28 @@ add %reg2 1
 add %reg1 %reg2
 
 pop %reg2
+@endmacro
+
+@macro inc reg1
+add %reg1 1
+@endmacro
+
+; Decrement a register
+@macro dec reg1
+psh @a
+
+mov @a 1
+sub %reg1 @a
+
+pop @a
+@endmacro
+
+; Print an integer
+@macro puti val
+stw $INT_PORT %val
+@endmacro
+
+; Print a character
+@macro putc val
+stw $CHAR_PORT %val
 @endmacro

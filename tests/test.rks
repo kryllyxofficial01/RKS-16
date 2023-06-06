@@ -1,6 +1,4 @@
-mov @a 19
-mov @b 17
+mov @a 2
+mov @b 3
 
-sub @a @b
-
-stw 0xfff6 @a
+mul @a @b
