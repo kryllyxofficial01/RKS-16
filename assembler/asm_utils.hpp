@@ -20,7 +20,7 @@ enum ArgTypes {
 // Holds details about an instruction argument
 struct Arg {
     ArgTypes type;
-    long value;
+    long long value;
 };
 
 // Holds details about an instruction

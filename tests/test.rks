@@ -1,4 +1,6 @@
 mov @a 2
 mov @b 3
 
-mul @a @b
+sub @b @a
+
+puti @b

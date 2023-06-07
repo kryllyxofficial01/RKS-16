@@ -16,6 +16,10 @@
 #include "../common/constants.hpp"
 #include "../common/utils.hpp"
 
+#if defined(_WIN32) || defined(_WIN64)
+typedef uint16_t u_int16_t;
+#endif
+
 // Assemble an instruction
 Instruction assemble(std::vector<Token> tokens, Error error);
 

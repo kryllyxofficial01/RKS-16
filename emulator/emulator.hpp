@@ -8,6 +8,11 @@
 #include "../common/utils.hpp"
 #include "../common/constants.hpp"
 
+#if defined(_WIN32) || defined(_WIN64)
+typedef uint8_t u_int8_t;
+typedef uint16_t u_int16_t;
+#endif
+
 // Container for the registers
 struct Registers {
     u_int16_t A;

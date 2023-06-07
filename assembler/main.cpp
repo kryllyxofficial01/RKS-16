@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
 			lines.push_back((Line) {
 				.line = trim(line),
 				.lineno = lineno,
-				.file = filesystem::absolute(filepath)
+				.file = filesystem::absolute(filepath).string()
 			});
 		}
 
@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	// Import standard macros
-	std::string std = filesystem::absolute("assembler/std.rks");
+	std::string std = filesystem::absolute("assembler/std.rks").string();
 	ifstream std_reader(std);
 	line = "";
 	lineno = 1;
